@@ -1,8 +1,262 @@
 {
     "project": {},
-    "files": {},
+    "files": {
+        "lib/application.js": {
+            "name": "lib/application.js",
+            "modules": {},
+            "classes": {
+                "Application": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/controller.js": {
+            "name": "lib/controller.js",
+            "modules": {},
+            "classes": {
+                "Controller": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/jskit.js": {
+            "name": "lib/jskit.js",
+            "modules": {},
+            "classes": {
+                "JSKit": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/polyfill.js": {
+            "name": "lib/polyfill.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
     "modules": {},
-    "classes": {},
-    "classitems": [],
+    "classes": {
+        "Application": {
+            "name": "Application",
+            "shortname": "Application",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/application.js",
+            "line": 7,
+            "description": "Application object which serves as a namespace\nand interface to create and interact with controllers."
+        },
+        "Controller": {
+            "name": "Controller",
+            "shortname": "Controller",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/controller.js",
+            "line": 2,
+            "description": "Object which contains actions to be triggered by\nthe global dispatcher."
+        },
+        "JSKit": {
+            "name": "JSKit",
+            "shortname": "JSKit",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/jskit.js",
+            "line": 2,
+            "description": "Global object to interface with JSKit."
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib/application.js",
+            "line": 14,
+            "description": "Controllers namespace that contains\ncontroller instances.",
+            "itemtype": "property",
+            "name": "Controllers",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "Application"
+        },
+        {
+            "file": "lib/application.js",
+            "line": 23,
+            "description": "Global dispatcher to handle communication\nbetween components of the application.",
+            "itemtype": "property",
+            "name": "Dispatcher",
+            "class": "Application"
+        },
+        {
+            "file": "lib/application.js",
+            "line": 32,
+            "description": "Create a new controller with the given attributes\nand return a new instance.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "createControllerInstance",
+            "params": [
+                {
+                    "name": "attributes",
+                    "description": "Attributes to assign to the new Controller",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "new Controller instance",
+                "type": "Controller"
+            },
+            "class": "Application"
+        },
+        {
+            "file": "lib/application.js",
+            "line": 49,
+            "description": "Register each action with the Dispatcher.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "registerControllerActions",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "Controller whose actions you wish to register.",
+                    "type": "Controller"
+                },
+                {
+                    "name": "actions",
+                    "description": "Actions you wish to register.",
+                    "type": "Array"
+                },
+                {
+                    "name": "name",
+                    "description": "Name of the controller to namespace the event.",
+                    "type": "String"
+                }
+            ],
+            "class": "Application"
+        },
+        {
+            "file": "lib/application.js",
+            "line": 67,
+            "description": "Create a new controller instance on the\nControllers namespace with the given name\nand attributes. Register all the controller's\nactions with the Dispatcher.",
+            "itemtype": "method",
+            "name": "createController",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name of the controller",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Controller"
+            },
+            "class": "Application"
+        },
+        {
+            "file": "lib/controller.js",
+            "line": 12,
+            "description": "By default initialize commits no operation.\nThis method is a post-instantiation hook\nthat will be called to do any setup needed\nfor the controller.",
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "Controller"
+        },
+        {
+            "file": "lib/controller.js",
+            "line": 22,
+            "description": "Array of methods on this controller that shoul\nfire when action events are triggered.",
+            "itemtype": "property",
+            "name": "actions",
+            "type": "{Array}",
+            "default": "[]",
+            "class": "Controller"
+        },
+        {
+            "file": "lib/jskit.js",
+            "line": 8,
+            "description": "Create a controller and wire up it's actions.",
+            "itemtype": "method",
+            "name": "createApplication",
+            "return": {
+                "description": "Application object",
+                "type": "Application"
+            },
+            "class": "JSKit"
+        },
+        {
+            "file": "lib/polyfill.js",
+            "line": 42,
+            "description": "Return the given property or a default value.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "setDefault",
+            "params": [
+                {
+                    "name": "property",
+                    "description": "Variable to return unless it's undefined",
+                    "type": "*"
+                },
+                {
+                    "name": "defaultValue",
+                    "description": "Value to return if property is undefined",
+                    "type": "*"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib/polyfill.js",
+            "line": 59,
+            "description": "Define a property on a given constructor's prototype\nwith the given name and value. You can optionally set\nthe writeable, configurable, and enumerable values.",
+            "itemtype": "method",
+            "name": "def",
+            "params": [
+                {
+                    "name": "constructor",
+                    "description": "Constructor to define a property on",
+                    "type": "Object"
+                },
+                {
+                    "name": "propertyName",
+                    "description": "Name of the property to define",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "Value of the property",
+                    "type": "*"
+                },
+                {
+                    "name": "writeable",
+                    "description": "override the default writeable value (false)",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "configurable",
+                    "description": "override the default configurable value (false)",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "enumerable",
+                    "description": "override the default enumerable value (false)",
+                    "type": "Boolean"
+                }
+            ],
+            "class": ""
+        }
+    ],
     "warnings": []
 }
