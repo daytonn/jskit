@@ -1,0 +1,19 @@
+{
+  "name": "jskit",
+  "version": "0.0.1",
+  "description": "A simple answer to jQuery soup",
+  "main": "dist/jskit.js",
+  "scripts": {
+    "test": "mocha spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:daytonn/jskit.git"
+  },
+  "author": "Dayton Nolan",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/daytonn/jskit/issues"
+  },
+  "homepage": "https://github.com/daytonn/jskit"
+}
