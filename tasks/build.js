@@ -1,8 +1,9 @@
-var gulp = require('gulp');
-var browserify = require('gulp-browserify');
+var gulp = require("gulp");
+var browserify = require("gulp-browserify");
 
-gulp.task('build', function() {
-  gulp.src('lib/jskit.js')
+gulp.task("build", function() {
+  gulp.src("lib/jskit.js")
     .pipe(browserify({ insertGlobals: true }))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest("dist")
+    .pipe(gulp.dest("example")));
 });
