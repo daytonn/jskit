@@ -55,5 +55,17 @@ describe("Application", function() {
         }).to.throw("'Test' Controller has an action 'index' defined with no corresponding method");
       });
     });
+
+    describe("with namespace", function() {
+      it("wires up the actions with the namespace", function() {
+        controller = subject.createController("Test", {
+          actions: ["index"],
+          namespace: "admin",
+          index: function() { this.indexCalled = true; }
+        });
+        subject.Dispatcher.trigger("controller:admin:test:index");
+        expect(controller.indexCalled).to.equal(true);
+      });
+    });
   });
 });
