@@ -57,12 +57,14 @@ function createControllerInstance(attributes) {
   @param actions {Array} Actions you wish to register.
   @param name {String} Name of the controller to namespace the event.
 */
-function registerControllerActions(controller, actions, name) {
+function registerControllerActions(controller, actions, name, namespace) {
   _(actions).each(function(action) {
     if (!controller[action] || !_.isFunction(controller[action])) {
       throw new Error("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method");
     }
-    this.Dispatcher.on('controller:' + name.toLowerCase() + ':' + action, controller[action], controller);
+
+    var eventName = _([namespace, 'controller', name.toLowerCase(), action]).compact().join(":");
+    this.Dispatcher.on(eventName, controller[action], controller);
   }, this);
 }
 
@@ -79,7 +81,7 @@ function registerControllerActions(controller, actions, name) {
 def(Application, 'createController', function(name, attributes) {
   var controller = createControllerInstance(attributes);
   _.bindAll.apply(controller, [controller].concat(_.functions(controller)));
-  registerControllerActions.call(this, controller, attributes.actions, name);
+  registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
   return this.Controllers[name] = controller;
 });
 
@@ -142,7 +144,7 @@ global.JSKit = {
   }
 };
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_c7684d1.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_81842914.js","/")
 },{"./application":1,"1YiZ5S":10,"buffer":7}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // ES5 15.2.3.5 Object.create ( O [, Properties] )

@@ -59,11 +59,11 @@ describe("Application", function() {
     describe("with namespace", function() {
       it("wires up the actions with the namespace", function() {
         controller = subject.createController("Test", {
-          actions: ["index"],
           namespace: "admin",
+          actions: ["index"],
           index: function() { this.indexCalled = true; }
         });
-        subject.Dispatcher.trigger("controller:admin:test:index");
+        subject.Dispatcher.trigger("admin:controller:test:index");
         expect(controller.indexCalled).to.equal(true);
       });
     });

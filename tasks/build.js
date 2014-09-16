@@ -7,8 +7,7 @@ var rename = require("gulp-rename");
 gulp.task('compile', function() {
   return gulp.src("lib/jskit.js")
     .pipe(browserify({ insertGlobals: true }))
-    .pipe(gulp.dest("dist")
-    .pipe(gulp.dest("example")));
+    .pipe(gulp.dest("dist"));
 });
 
 gulp.task('minify', ['compile'], function() {
@@ -18,4 +17,9 @@ gulp.task('minify', ['compile'], function() {
     .pipe(gulp.dest("dist"));
 });
 
-gulp.task("build", ["minify"]);
+gulp.task("example", ["minify"], function() {
+  gulp.src(["dist/jskit.js"])
+    .pipe(gulp.dest("example"));
+});
+
+gulp.task("build", ["example"]);
