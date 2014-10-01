@@ -7,7 +7,10 @@ Getting Started
 ---------------
 
 ### Download
-Download the latest version here: [https://github.com/daytonn/jskit/releases](https://github.com/daytonn/jskit/releases).
+Download the latest version
+
+[jskit.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.js).
+[jskit.min.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.min.js)
 
 ### Include Script
 Simply include the `dist/jskit.js` file in your application:
