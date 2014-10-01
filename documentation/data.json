@@ -138,13 +138,40 @@
                     "name": "name",
                     "description": "Name of the controller to namespace the event.",
                     "type": "String"
+                },
+                {
+                    "name": "namespace",
+                    "description": "Namespace of the event",
+                    "type": "String"
                 }
             ],
             "class": "Application"
         },
         {
             "file": "lib/application.js",
-            "line": 67,
+            "line": 70,
+            "description": "Register application controller actions with the Dispatcher.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "registerApplicationControllerActions",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "Controller whose actions you wish to register.",
+                    "type": "Controller"
+                },
+                {
+                    "name": "namespace",
+                    "description": "Namespace of the event",
+                    "type": "String"
+                }
+            ],
+            "class": "Application"
+        },
+        {
+            "file": "lib/application.js",
+            "line": 84,
             "description": "Create a new controller instance on the\nControllers namespace with the given name\nand attributes. Register all the controller's\nactions with the Dispatcher.",
             "itemtype": "method",
             "name": "createController",

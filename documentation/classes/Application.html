@@ -165,6 +165,13 @@ and interface to create and interact with controllers.</p>
                 </li>
             
                 <li class="index-item method private">
+                    <a href="#method_registerApplicationControllerActions">registerApplicationControllerActions</a>
+
+                    
+                    
+                </li>
+            
+                <li class="index-item method private">
                     <a href="#method_registerControllerActions">registerControllerActions</a>
 
                     
@@ -356,7 +363,7 @@ between components of the application.</p>
             
         
         
-        <a href="../files/lib_application.js.html#l67"><code>lib&#x2F;application.js:67</code></a>
+        <a href="../files/lib_application.js.html#l84"><code>lib&#x2F;application.js:84</code></a>
         
         </p>
 
@@ -537,6 +544,125 @@ and return a new instance.</p>
 </div>
 
         
+            <a name="method_registerApplicationControllerActions" class="anchor-link"></a>
+<div class="method item private">
+    <h3 class="name"><code>registerApplicationControllerActions</code>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>controller</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>namespace</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/lib_application.js.html#l70"><code>lib&#x2F;application.js:70</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="extended-detail">
+
+        <div class="description">
+            <p>Register application controller actions with the Dispatcher.</p>
+
+        </div>
+
+        
+            <div class="params">
+                <h4>Parameters:</h4>
+
+                <ul class="params-list">
+                
+                    <li class="param">
+                        
+                            <code class="param-name">controller</code>
+                            <span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        
+
+                        
+
+                        <div class="param-description">
+                            <p>Controller whose actions you wish to register.</p>
+
+                        </div>
+
+                        
+                    </li>
+                
+                    <li class="param">
+                        
+                            <code class="param-name">namespace</code>
+                            <span class="type">String</span>
+                        
+
+                        
+
+                        <div class="param-description">
+                            <p>Namespace of the event</p>
+
+                        </div>
+
+                        
+                    </li>
+                
+                </ul>
+            </div>
+        
+
+        
+
+        
+    </div>
+</div>
+
+        
             <a name="method_registerControllerActions" class="anchor-link"></a>
 <div class="method item private">
     <h3 class="name"><code>registerControllerActions</code>
@@ -560,6 +686,12 @@ and return a new instance.</p>
                 <li class="arg">
                     
                         <code>name</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>namespace</code>
                     
                 </li>
             
@@ -661,6 +793,22 @@ and return a new instance.</p>
 
                         <div class="param-description">
                             <p>Name of the controller to namespace the event.</p>
+
+                        </div>
+
+                        
+                    </li>
+                
+                    <li class="param">
+                        
+                            <code class="param-name">namespace</code>
+                            <span class="type">String</span>
+                        
+
+                        
+
+                        <div class="param-description">
+                            <p>Namespace of the event</p>
 
                         </div>
 

@@ -120,14 +120,31 @@ function createControllerInstance(attributes) {
   @param controller {Controller} Controller whose actions you wish to register.
   @param actions {Array} Actions you wish to register.
   @param name {String} Name of the controller to namespace the event.
+  @param namespace {String} Namespace of the event
 */
-function registerControllerActions(controller, actions, name) {
+function registerControllerActions(controller, actions, name, namespace) {
   _(actions).each(function(action) {
     if (!controller[action] || !_.isFunction(controller[action])) {
       throw new Error(&quot;&#x27;&quot; + name + &quot;&#x27; Controller has an action &#x27;&quot; + action + &quot;&#x27; defined with no corresponding method&quot;);
     }
-    this.Dispatcher.on(&#x27;controller:&#x27; + name.toLowerCase() + &#x27;:&#x27; + action, controller[action], controller);
+
+    var eventName = _([namespace, &quot;controller&quot;, name.toLowerCase(), action]).compact().join(&quot;:&quot;);
+    this.Dispatcher.on(eventName, controller[action], controller);
   }, this);
+}
+
+/**
+  Register application controller actions with the Dispatcher.
+
+  @private
+  @method registerApplicationControllerActions
+  @param controller {Controller} Controller whose actions you wish to register.
+  @param namespace {String} Namespace of the event
+*/
+function registerApplicationControllerActions(controller, namespace) {
+  if (!controller.init) throw new Error(&quot;&#x27;Application&#x27; Controller: init is undefined&quot;);
+  var eventName = _([namespace, &quot;controller&quot;, &quot;all&quot;]).compact().join(&quot;:&quot;);
+  this.Dispatcher.on(eventName, controller.init, controller);
 }
 
 /**
@@ -143,7 +160,8 @@ function registerControllerActions(controller, actions, name) {
 def(Application, &#x27;createController&#x27;, function(name, attributes) {
   var controller = createControllerInstance(attributes);
   _.bindAll.apply(controller, [controller].concat(_.functions(controller)));
-  registerControllerActions.call(this, controller, attributes.actions, name);
+  registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
+  if (name.match(/^Application$/i)) registerApplicationControllerActions.call(this, controller, attributes.namespace);
   return this.Controllers[name] = controller;
 });
 
