@@ -9,7 +9,8 @@ Getting Started
 ### Download
 Download the latest version
 
-[jskit.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.js).
+[jskit.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.js)
+
 [jskit.min.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.min.js)
 
 ### Include Script
