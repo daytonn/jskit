@@ -23,7 +23,7 @@ Create the application object:
 var App = JSKit.createApplication();
 ```
 
-### Make A Controller
+### Define A Controller
 A Controller object generally controlls a group of related actions/pages via triggered events on the Application's Dispatcher.
 
 ```js
@@ -66,3 +66,24 @@ describe("SomeController", function() {
 	});
 });
 ```
+
+### Application Controller
+Sometimes you need a bit of javascript to run on every page of your site. While this can be accomplished by just slapping a script on the page and calling it a day, It'd be nice to wrap it up into a nice testable JSKit controller. That's where the `Application` controller comes in.
+
+The `Application` controller is special in that by nature of it's name, it is treated slightly differently by the `createController` method. When you name a controller `Application`, it is assumed that this will define functionality to be triggered globally. No actions need to be defined on the application controller. You simply need an `init` method. This method will be wired up to the `controller:all` event. A vanilla `Application` controller looks like this:
+
+```js
+App.createController("Application", {
+  init: function() {
+    // do stuff on every page
+  }
+});
+```
+
+Now when the `controller:all` event is triggered, your `Application` controller's `init` method will fire:
+
+```js
+App.Dispatcher.trigger("controller:all");
+```
+
+This is a nice replacement for the old jQuery `document.ready` nonsense.
