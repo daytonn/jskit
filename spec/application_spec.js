@@ -49,6 +49,10 @@ describe("Application", function() {
         expect(controller.indexCalled).to.equal(true);
       });
 
+      it("saves a reference to the controller constructor", function() {
+        expect(subject.TestController).to.be.defined;
+      });
+
       describe("with missing action methods", function() {
         it("throws an error when an action is missing it's method", function() {
           expect(function() {

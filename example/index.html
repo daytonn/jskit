@@ -18,16 +18,7 @@
       }
     });
 
-
-    = JSKit.trigger
-      var data = <%= payload.to_json %>;
-      App.Dispatcher.trigger("controller:#{controller_name}:#{action_name}", data);
+    App.Dispatcher.trigger("controller:home:index", "World");
   </script>
 </body>
 </html>
-
-
-def index
-  ...
-  JSHint.payload(@user, @team) # => { user: @user.to_json, team: @team.to_json }
-end
