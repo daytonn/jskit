@@ -117,7 +117,7 @@
         },
         {
             "file": "lib/application.js",
-            "line": 51,
+            "line": 50,
             "description": "Register each action with the Dispatcher.",
             "access": "private",
             "tagname": "",
@@ -149,7 +149,7 @@
         },
         {
             "file": "lib/application.js",
-            "line": 72,
+            "line": 75,
             "description": "Register application controller actions with the Dispatcher.",
             "access": "private",
             "tagname": "",
@@ -171,7 +171,7 @@
         },
         {
             "file": "lib/application.js",
-            "line": 86,
+            "line": 89,
             "description": "Create a new controller instance on the\nControllers namespace with the given name\nand attributes. Register all the controller's\nactions with the Dispatcher.",
             "itemtype": "method",
             "name": "createController",

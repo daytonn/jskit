@@ -104,13 +104,12 @@ function Application() {
   @param attributes {Object} Attributes to assign to the new Controller
   @return {Controller} new Controller instance
 */
-function createControllerInstance(attributes) {
+function createControllerInstance(attributes, name) {
   function Controller() { BaseController.call(this); }
   Controller.prototype = Object.create(BaseController.prototype);
   Controller.prototype.constructor = Controller;
   _.extend(Controller.prototype, attributes);
-  de
-  this[attributes.name + &quot;Controller&quot;] = Controller;
+  this[name + &quot;Controller&quot;] = Controller;
   return new Controller;
 }
 
@@ -130,9 +129,13 @@ function registerControllerActions(controller, actions, name, namespace) {
       throw new Error(&quot;&#x27;&quot; + name + &quot;&#x27; Controller has an action &#x27;&quot; + action + &quot;&#x27; defined with no corresponding method&quot;);
     }
 
-    var eventName = _([namespace, &quot;controller&quot;, name.toLowerCase(), action]).compact().join(&quot;:&quot;);
+    var eventName = _([namespace, &quot;controller&quot;, underscoreName(name), action]).compact().join(&quot;:&quot;);
     this.Dispatcher.on(eventName, controller[action], controller);
   }, this);
+}
+
+function underscoreName(name) {
+  return name.replace(/([A-Z])/g, &quot; $1&quot;).replace(/^\s?/, &#x27;&#x27;).replace(/-|\s/g, &quot;_&quot;).toLowerCase();
 }
 
 /**
@@ -160,7 +163,7 @@ function registerApplicationControllerActions(controller, namespace) {
   @return {Controller}
 */
 def(Application, &#x27;createController&#x27;, function(name, attributes) {
-  var controller = createControllerInstance.call(this, attributes);
+  var controller = createControllerInstance.call(this, attributes, name);
   _.bindAll.apply(controller, [controller].concat(_.functions(controller)));
   registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
   if (name.match(/^Application$/i)) registerApplicationControllerActions.call(this, controller, attributes.namespace);

@@ -74,7 +74,7 @@ describe("Application", function() {
       });
     });
 
-    describe("application controller", function() {
+    describe("Application controller", function() {
       beforeEach(function() {
         controller = subject.createController("Application", {
           init: function() { this.initCalled = true }
@@ -84,6 +84,21 @@ describe("Application", function() {
       it("wires init to the controller:all event", function() {
         subject.Dispatcher.trigger("controller:all");
         expect(controller.initCalled).to.equal(true);
+      });
+    });
+
+    describe("CamelCase controllers", function() {
+      beforeEach(function() {
+        controller = subject.createController("CamelCase", {
+          actions: ["index"],
+
+          index: function() { this.indexCalled = true }
+        });
+      });
+
+      it("lowercases the controller name with underscores", function() {
+        subject.Dispatcher.trigger("controller:camel_case:index");
+        expect(controller.indexCalled).to.equal(true);
       });
     });
   });
