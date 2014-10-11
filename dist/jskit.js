@@ -1,10 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-require('./polyfill');
-var def = require('./polyfill');
-var _ = require('lodash');
-var BaseController = require('./controller');
-var Dispatcher = require('backbone-events-standalone');
+var def = require("./polyfill");
+var _ = require("lodash");
+var BaseController = require("./controller");
+var Dispatcher = require("backbone-events-standalone");
 
 /**
   Application object which serves as a namespace
@@ -71,7 +70,7 @@ function registerControllerActions(controller, actions, name, namespace) {
 }
 
 function underscoreName(name) {
-  return name.replace(/([A-Z])/g, " $1").replace(/^\s?/, '').replace(/-|\s/g, "_").toLowerCase();
+  return name.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
 }
 
 /**
@@ -98,9 +97,8 @@ function registerApplicationControllerActions(controller, namespace) {
   @param name {String} Name of the controller
   @return {Controller}
 */
-def(Application, 'createController', function(name, attributes) {
+def(Application, "createController", function(name, attributes) {
   var controller = createControllerInstance.call(this, attributes, name);
-  _.bindAll.apply(controller, [controller].concat(_.functions(controller)));
   registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
   if (name.match(/^Application$/i)) registerApplicationControllerActions.call(this, controller, attributes.namespace);
   return this.Controllers[name] = controller;
@@ -111,7 +109,8 @@ module.exports = Application;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/application.js","/")
 },{"./controller":2,"./polyfill":4,"1YiZ5S":10,"backbone-events-standalone":6,"buffer":7,"lodash":11}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var def = require('./polyfill');
+var def = require("./polyfill");
+var _ = require("lodash");
 /**
   Object which contains actions to be triggered by
   the global dispatcher.
@@ -120,6 +119,7 @@ var def = require('./polyfill');
 */
 function Controller() {
   this.initialize();
+  _.bindAll.apply(this, [this].concat(_.functions(this)));
 }
 
 /**
@@ -145,7 +145,7 @@ def(Controller, 'actions', [], true, true, true);
 module.exports = Controller;
 
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
-},{"./polyfill":4,"1YiZ5S":10,"buffer":7}],3:[function(require,module,exports){
+},{"./polyfill":4,"1YiZ5S":10,"buffer":7,"lodash":11}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Application = require("./application");
 /**
@@ -165,7 +165,7 @@ global.JSKit = {
   }
 };
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_adfdad7f.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_4dad25c4.js","/")
 },{"./application":1,"1YiZ5S":10,"buffer":7}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // ES5 15.2.3.5 Object.create ( O [, Properties] )
@@ -288,7 +288,18 @@ module.exports = function(constructor, propertyName, value, writeable, configura
   // by Backbone.Events
   function miniscore() {
     return {
-      keys: Object.keys,
+      keys: Object.keys || function (obj) {
+        if (typeof obj !== "object" && typeof obj !== "function" || obj === null) {
+          throw new TypeError("keys() called on a non-object");
+        }
+        var key, keys = [];
+        for (key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            keys[keys.length] = key;
+          }
+        }
+        return keys;
+      },
 
       uniqueId: function(prefix) {
         var id = ++idCounter + '';
