@@ -1,6 +1,7 @@
-require("./spec_helper");
-require("../lib/jskit");
-var Application = require("../lib/application");
+/* jshint esnext: true */
+import { expect, spyOn, stub } from "./spec_helper";
+import globals from "../lib/jskit";
+import Application from "../lib/application";
 
 describe("JSKit", function() {
   var subject;

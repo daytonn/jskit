@@ -1,260 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var def = require("./polyfill");
-var _ = require("lodash");
-var BaseController = require("./controller");
-var Dispatcher = require("backbone-events-standalone");
-
-/**
-  Application object which serves as a namespace
-  and interface to create and interact with controllers.
-
-  @class Application
-*/
-function Application() {
-  /**
-    Controllers namespace that contains
-    controller instances.
-
-    @property Controllers
-    @type {Object}
-    @default {}
-  */
-  this.Controllers = {};
-  /**
-    Global dispatcher to handle communication
-    between components of the application.
-
-    @property Dispatcher
-  */
-  this.Dispatcher = Dispatcher;
-}
-
-/**
-  Create a new controller with the given attributes
-  and return a new instance.
-
-  @private
-  @method createControllerInstance
-  @param attributes {Object} Attributes to assign to the new Controller
-  @return {Controller} new Controller instance
-*/
-function createControllerInstance(attributes, name) {
-  function Controller() { BaseController.call(this); }
-  Controller.prototype = Object.create(BaseController.prototype);
-  Controller.prototype.constructor = Controller;
-  _.extend(Controller.prototype, attributes);
-  this[name + "Controller"] = Controller;
-  return new Controller;
-}
-
-/**
-  Register each action with the Dispatcher.
-
-  @private
-  @method registerControllerActions
-  @param controller {Controller} Controller whose actions you wish to register.
-  @param actions {Array} Actions you wish to register.
-  @param name {String} Name of the controller to namespace the event.
-  @param namespace {String} Namespace of the event
-*/
-function registerControllerActions(controller, actions, name, namespace) {
-  _(actions).each(function(action) {
-    if (!controller[action] || !_.isFunction(controller[action])) {
-      throw new Error("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method");
-    }
-
-    var eventName = _([namespace, "controller", underscoreName(name), action]).compact().join(":");
-    this.Dispatcher.on(eventName, controller[action], controller);
-  }, this);
-}
-
-function underscoreName(name) {
-  return name.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
-}
-
-/**
-  Register application controller actions with the Dispatcher.
-
-  @private
-  @method registerApplicationControllerActions
-  @param controller {Controller} Controller whose actions you wish to register.
-  @param namespace {String} Namespace of the event
-*/
-function registerApplicationControllerActions(controller, namespace) {
-  if (!controller.init) throw new Error("'Application' Controller: init is undefined");
-  var eventName = _([namespace, "controller", "all"]).compact().join(":");
-  this.Dispatcher.on(eventName, controller.init, controller);
-}
-
-/**
-  Create a new controller instance on the
-  Controllers namespace with the given name
-  and attributes. Register all the controller's
-  actions with the Dispatcher.
-
-  @method createController
-  @param name {String} Name of the controller
-  @return {Controller}
-*/
-def(Application, "createController", function(name, attributes) {
-  var controller = createControllerInstance.call(this, attributes, name);
-  registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
-  if (name.match(/^Application$/i)) registerApplicationControllerActions.call(this, controller, attributes.namespace);
-  return this.Controllers[name] = controller;
-});
-
-module.exports = Application;
-
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/application.js","/")
-},{"./controller":2,"./polyfill":4,"1YiZ5S":10,"backbone-events-standalone":6,"buffer":7,"lodash":11}],2:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var def = require("./polyfill");
-var _ = require("lodash");
-/**
-  Object which contains actions to be triggered by
-  the global dispatcher.
-
-  @class Controller
-*/
-function Controller() {
-  this.initialize();
-  _.bindAll.apply(this, [this].concat(_.functions(this)));
-}
-
-/**
-  By default initialize commits no operation.
-  This method is a post-instantiation hook
-  that will be called to do any setup needed
-  for the controller.
-
-  @method initialize
-*/
-def(Controller, "initialize", function() {});
-
-/**
-  Array of methods on this controller that shoul
-  fire when action events are triggered.
-
-  @property actions
-  @type {Array}
-  @default []
-*/
-def(Controller, 'actions', [], true, true, true);
-
-module.exports = Controller;
-
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
-},{"./polyfill":4,"1YiZ5S":10,"buffer":7,"lodash":11}],3:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var Application = require("./application");
-/**
-  Global object to interface with JSKit.
-
-  @class JSKit
-*/
-global.JSKit = {
-  /**
-   Create a controller and wire up it's actions.
-
-   @method createApplication
-   @return {Application} Application object
-  */
-  createApplication: function() {
-    return new Application;
-  }
-};
-
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_48c770cd.js","/")
-},{"./application":1,"1YiZ5S":10,"buffer":7}],4:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-// ES5 15.2.3.5 Object.create ( O [, Properties] )
-if (typeof Object.create !== "function") {
-  Object.create = function (prototype, properties) {
-    if (typeof prototype !== "object") { throw new Error("Object.create(prototype, properties): prototype is not an Object"); }
-    function Ctor() {}
-    Ctor.prototype = prototype;
-    var o = new Ctor();
-    if (prototype) { o.constructor = Ctor; }
-    if (properties !== undefined) {
-      if (properties !== Object(properties)) { throw new Error("Object.create(prototype, properties): properties is not an Object"); }
-      Object.defineProperties(o, properties);
-    }
-    return o;
-  };
-}
-
-// ES 15.2.3.6 Object.defineProperty ( O, P, Attributes )
-// Partial support for most common case - getters, setters, and values
-(function() {
-  if (!Object.defineProperty ||
-      !(function () { try { Object.defineProperty({}, "x", {}); return true; } catch (e) { return false; } } ())) {
-    var orig = Object.defineProperty;
-    Object.defineProperty = function (o, prop, desc) {
-      // In IE8 try built-in implementation for defining properties on DOM prototypes.
-      if (orig) { try { return orig(o, prop, desc); } catch (e) {} }
-
-      if (o !== Object(o)) { throw new Error("Object.defineProperty called on non-object"); }
-      if (Object.prototype.__defineGetter__ && ("get" in desc)) {
-        Object.prototype.__defineGetter__.call(o, prop, desc.get);
-      }
-      if (Object.prototype.__defineSetter__ && ("set" in desc)) {
-        Object.prototype.__defineSetter__.call(o, prop, desc.set);
-      }
-      if ("value" in desc) {
-        o[prop] = desc.value;
-      }
-      return o;
-    };
-  }
-}());
-
-/**
-  Return the given property or a default value.
-
-  @private
-  @method setDefault
-  @param property {*} Variable to return unless it's undefined
-  @param defaultValue {*} Value to return if property is undefined
-  @return {*}
-*/
-function setDefault(property, defaultValue) {
-  if (typeof property === "undefined") {
-    return defaultValue;
-  } else {
-    return property;
-  }
-}
-
-/**
-  Define a property on a given constructor's prototype
-  with the given name and value. You can optionally set
-  the writeable, configurable, and enumerable values.
-
-  @method def
-  @param constructor {Object} Constructor to define a property on
-  @param propertyName {String} Name of the property to define
-  @param value {*} Value of the property
-  @param writeable {Boolean} override the default writeable value (false)
-  @param configurable {Boolean} override the default configurable value (false)
-  @param enumerable {Boolean} override the default enumerable value (false)
-*/
-module.exports = function(constructor, propertyName, value, writeable, configurable, enumerable) {
-  writeable = setDefault(writeable, false);
-  configurable = setDefault(configurable, false);
-  enumerable = setDefault(enumerable, false);
-
-  Object.defineProperty(constructor.prototype, propertyName, {
-    writeable: writeable,
-    configurable: configurable,
-    enumerable: enumerable,
-    value: value
-  });
-};
-
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/polyfill.js","/")
-},{"1YiZ5S":10,"buffer":7}],5:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -533,13 +278,13 @@ module.exports = function(constructor, propertyName, value, writeable, configura
   }
 })(this);
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/backbone-events-standalone/backbone-events-standalone.js","/../node_modules/backbone-events-standalone")
-},{"1YiZ5S":10,"buffer":7}],6:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone-events-standalone/backbone-events-standalone.js","/../../node_modules/backbone-events-standalone")
+},{"buffer":3,"oMfpAn":6}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 module.exports = require('./backbone-events-standalone');
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/backbone-events-standalone/index.js","/../node_modules/backbone-events-standalone")
-},{"./backbone-events-standalone":5,"1YiZ5S":10,"buffer":7}],7:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone-events-standalone/index.js","/../../node_modules/backbone-events-standalone")
+},{"./backbone-events-standalone":1,"buffer":3,"oMfpAn":6}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1651,8 +1396,8 @@ function assert (test, message) {
   if (!test) throw new Error(message || 'Failed assertion')
 }
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
-},{"1YiZ5S":10,"base64-js":8,"buffer":7,"ieee754":9}],8:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
+},{"base64-js":4,"buffer":3,"ieee754":5,"oMfpAn":6}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -1775,8 +1520,8 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
-},{"1YiZ5S":10,"buffer":7}],9:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
+},{"buffer":3,"oMfpAn":6}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
@@ -1863,8 +1608,8 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128;
 };
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
-},{"1YiZ5S":10,"buffer":7}],10:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
+},{"buffer":3,"oMfpAn":6}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -1930,8 +1675,8 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
-},{"1YiZ5S":10,"buffer":7}],11:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
+},{"buffer":3,"oMfpAn":6}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * @license
@@ -8719,5 +8464,125 @@ process.chdir = function (dir) {
   }
 }.call(this));
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../node_modules/lodash/dist/lodash.js","/../node_modules/lodash/dist")
-},{"1YiZ5S":10,"buffer":7}]},{},[3])
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/lodash/dist/lodash.js","/../../node_modules/lodash/dist")
+},{"buffer":3,"oMfpAn":6}],8:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+"use strict";
+Object.defineProperties(exports, {
+  default: {get: function() {
+      return $__default;
+    }},
+  __esModule: {value: true}
+});
+var $__lodash__,
+    $__backbone_45_events_45_standalone__,
+    $__controller__,
+    $__def__;
+var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
+var Dispatcher = ($__backbone_45_events_45_standalone__ = require("backbone-events-standalone"), $__backbone_45_events_45_standalone__ && $__backbone_45_events_45_standalone__.__esModule && $__backbone_45_events_45_standalone__ || {default: $__backbone_45_events_45_standalone__}).default;
+var BaseController = ($__controller__ = require("./controller"), $__controller__ && $__controller__.__esModule && $__controller__ || {default: $__controller__}).default;
+var def = ($__def__ = require("./def"), $__def__ && $__def__.__esModule && $__def__ || {default: $__def__}).default;
+function createControllerInstance(attributes, name) {
+  function Controller() {
+    BaseController.call(this);
+  }
+  Controller.prototype = Object.create(BaseController.prototype);
+  Controller.prototype.constructor = Controller;
+  _.extend(Controller.prototype, attributes);
+  this[name + "Controller"] = Controller;
+  return new Controller;
+}
+function underscoreName(name) {
+  return name.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
+}
+function registerControllerActions(controller, actions, name, namespace) {
+  _(actions).each(function(action) {
+    if (!controller[action] || !_.isFunction(controller[action])) {
+      throw new Error("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method");
+    }
+    var eventName = _([namespace, "controller", underscoreName(name), action]).compact().join(":");
+    this.Dispatcher.on(eventName, controller[action], controller);
+  }, this);
+}
+function registerApplicationControllerActions(controller, namespace) {
+  if (!controller.init)
+    throw new Error("'Application' Controller: init is undefined");
+  var eventName = _([namespace, "controller", "all"]).compact().join(":");
+  this.Dispatcher.on(eventName, controller.init, controller);
+}
+function Application() {
+  this.Controllers = {};
+  this.Dispatcher = Dispatcher;
+}
+def(Application, "createController", function(name, attributes) {
+  var controller = createControllerInstance.call(this, attributes, name);
+  registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
+  if (name.match(/^Application$/i))
+    registerApplicationControllerActions.call(this, controller, attributes.namespace);
+  return this.Controllers[name] = controller;
+});
+var $__default = Application;
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/application.js","/")
+},{"./controller":9,"./def":10,"backbone-events-standalone":2,"buffer":3,"lodash":7,"oMfpAn":6}],9:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+"use strict";
+Object.defineProperties(exports, {
+  default: {get: function() {
+      return $__default;
+    }},
+  __esModule: {value: true}
+});
+var $__lodash__,
+    $__def__;
+var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
+var def = ($__def__ = require("./def"), $__def__ && $__def__.__esModule && $__def__ || {default: $__def__}).default;
+function Controller() {
+  this.initialize();
+  _.bindAll.apply(this, [this].concat(_.functions(this)));
+}
+def(Controller, "initialize", function() {});
+def(Controller, "actions", [], true, true, true);
+var $__default = Controller;
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
+},{"./def":10,"buffer":3,"lodash":7,"oMfpAn":6}],10:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+"use strict";
+Object.defineProperties(exports, {
+  default: {get: function() {
+      return $__default;
+    }},
+  __esModule: {value: true}
+});
+function setDefault(property, defaultValue) {
+  if (typeof property === "undefined") {
+    return defaultValue;
+  } else {
+    return property;
+  }
+}
+var $__default = function(constructor, propertyName, value, writeable, configurable, enumerable) {
+  writeable = setDefault(writeable, false);
+  configurable = setDefault(configurable, false);
+  enumerable = setDefault(enumerable, false);
+  Object.defineProperty(constructor.prototype, propertyName, {
+    writeable: writeable,
+    configurable: configurable,
+    enumerable: enumerable,
+    value: value
+  });
+};
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/def.js","/")
+},{"buffer":3,"oMfpAn":6}],11:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+"use strict";
+var $__application__;
+var Application = ($__application__ = require("./application"), $__application__ && $__application__.__esModule && $__application__ || {default: $__application__}).default;
+(global || window).JSKit = {createApplication: function() {
+    return new Application;
+  }};
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ed067bf9.js","/")
+},{"./application":8,"buffer":3,"oMfpAn":6}]},{},[11])

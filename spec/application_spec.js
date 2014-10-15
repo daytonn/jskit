@@ -1,6 +1,7 @@
-require("./spec_helper");
-var Application = require("../lib/application");
-var Controller = require("../lib/controller");
+/* jshint esnext: true */
+import { expect, spyOn, stub } from "./spec_helper";
+import Application from "../lib/application";
+import Controller from "../lib/controller";
 
 describe("Application", function() {
   var subject;
