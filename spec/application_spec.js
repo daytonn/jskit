@@ -73,6 +73,26 @@ describe("Application", () => {
           expect(controller.indexCalled).to.equal(true);
         });
       });
+
+      describe("with object action map", () => {
+        beforeEach(() => {
+          controller = subject.createController("Test", {
+            actions: ["index", { foo: "bar" }],
+            index: function() { this.indexCalled = true; },
+            bar: function() { this.barCalled = true; }
+          });
+        });
+
+        it("wires up mapped actions", function() {
+          subject.Dispatcher.trigger("controller:test:foo");
+          expect(controller.barCalled).to.equal(true);
+        });
+
+        it("wires up normal actions", function() {
+          subject.Dispatcher.trigger("controller:test:index");
+          expect(controller.indexCalled).to.equal(true);
+        });
+      });
     });
 
     describe("Application controller", () => {
