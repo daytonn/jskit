@@ -8483,11 +8483,11 @@ var Dispatcher = ($__backbone_45_events_45_standalone__ = require("backbone-even
 var BaseController = ($__controller__ = require("./controller"), $__controller__ && $__controller__.__esModule && $__controller__ || {default: $__controller__}).default;
 var def = ($__def__ = require("./def"), $__def__ && $__def__.__esModule && $__def__ || {default: $__def__}).default;
 function createControllerInstance(attributes, name) {
-  function Controller() {
-    BaseController.call(this);
-  }
-  Controller.prototype = Object.create(BaseController.prototype);
-  Controller.prototype.constructor = Controller;
+  var Controller = function Controller() {
+    $traceurRuntime.defaultSuperCall(this, $Controller.prototype, arguments);
+  };
+  var $Controller = Controller;
+  ($traceurRuntime.createClass)(Controller, {}, {}, BaseController);
   _.extend(Controller.prototype, attributes);
   this[name + "Controller"] = Controller;
   return new Controller;
@@ -8495,14 +8495,26 @@ function createControllerInstance(attributes, name) {
 function underscoreName(name) {
   return name.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
 }
+function ensureActionIsDefined(controller, action, method, name) {
+  if (!controller[method] || !_.isFunction(controller[method])) {
+    throw new Error("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method");
+  }
+}
+function registerControllerEvent(controller, action, method, name, namespace) {
+  var eventName = _([namespace, "controller", underscoreName(name), action]).compact().join(":");
+  this.Dispatcher.on(eventName, controller[method], controller);
+}
 function registerControllerActions(controller, actions, name, namespace) {
-  _(actions).each(function(action) {
-    if (!controller[action] || !_.isFunction(controller[action])) {
-      throw new Error("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method");
+  var $__4 = this;
+  actions && actions.forEach((function(action) {
+    var method = action;
+    if (_.isObject(action)) {
+      method = _(action).values().first();
+      action = _(action).keys().first();
     }
-    var eventName = _([namespace, "controller", underscoreName(name), action]).compact().join(":");
-    this.Dispatcher.on(eventName, controller[action], controller);
-  }, this);
+    ensureActionIsDefined(controller, action, method, name);
+    registerControllerEvent.call($__4, controller, action, method, name, namespace);
+  }), this);
 }
 function registerApplicationControllerActions(controller, namespace) {
   if (!controller.init)
@@ -8517,8 +8529,9 @@ function Application() {
 def(Application, "createController", function(name, attributes) {
   var controller = createControllerInstance.call(this, attributes, name);
   registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
-  if (name.match(/^Application$/i))
+  if (name.match(/^Application$/i)) {
     registerApplicationControllerActions.call(this, controller, attributes.namespace);
+  }
   return this.Controllers[name] = controller;
 });
 var $__default = Application;
@@ -8537,12 +8550,12 @@ var $__lodash__,
     $__def__;
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
 var def = ($__def__ = require("./def"), $__def__ && $__def__.__esModule && $__def__ || {default: $__def__}).default;
-function Controller() {
-  this.initialize();
+var Controller = function Controller() {
   _.bindAll.apply(this, [this].concat(_.functions(this)));
-}
-def(Controller, "initialize", function() {});
-def(Controller, "actions", [], true, true, true);
+  this.actions = [];
+  this.initialize();
+};
+($traceurRuntime.createClass)(Controller, {initialize: function() {}}, {});
 var $__default = Controller;
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
@@ -8555,17 +8568,10 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-function setDefault(property, defaultValue) {
-  if (typeof property === "undefined") {
-    return defaultValue;
-  } else {
-    return property;
-  }
-}
-var $__default = function(constructor, propertyName, value, writeable, configurable, enumerable) {
-  writeable = setDefault(writeable, false);
-  configurable = setDefault(configurable, false);
-  enumerable = setDefault(enumerable, false);
+var $__default = function(constructor, propertyName, value) {
+  var writeable = arguments[3] !== (void 0) ? arguments[3] : true;
+  var configurable = arguments[4] !== (void 0) ? arguments[4] : true;
+  var enumerable = arguments[5] !== (void 0) ? arguments[5] : true;
   Object.defineProperty(constructor.prototype, propertyName, {
     writeable: writeable,
     configurable: configurable,
@@ -8584,5 +8590,5 @@ var Application = ($__application__ = require("./application"), $__application__
     return new Application;
   }};
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ed067bf9.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_51cb3cf6.js","/")
 },{"./application":8,"buffer":3,"oMfpAn":6}]},{},[11])
