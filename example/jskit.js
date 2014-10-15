@@ -2477,18 +2477,7 @@ System.get("traceur-runtime@0.0.67/src/runtime/polyfills/polyfills" + '');
   // by Backbone.Events
   function miniscore() {
     return {
-      keys: Object.keys || function (obj) {
-        if (typeof obj !== "object" && typeof obj !== "function" || obj === null) {
-          throw new TypeError("keys() called on a non-object");
-        }
-        var key, keys = [];
-        for (key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            keys[keys.length] = key;
-          }
-        }
-        return keys;
-      },
+      keys: Object.keys,
 
       uniqueId: function(prefix) {
         var id = ++idCounter + '';
@@ -10920,12 +10909,10 @@ Object.defineProperties(exports, {
 });
 var $__lodash__,
     $__backbone_45_events_45_standalone__,
-    $__controller__,
-    $__def__;
+    $__controller__;
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
 var Dispatcher = ($__backbone_45_events_45_standalone__ = require("backbone-events-standalone"), $__backbone_45_events_45_standalone__ && $__backbone_45_events_45_standalone__.__esModule && $__backbone_45_events_45_standalone__ || {default: $__backbone_45_events_45_standalone__}).default;
 var BaseController = ($__controller__ = require("./controller"), $__controller__ && $__controller__.__esModule && $__controller__ || {default: $__controller__}).default;
-var def = ($__def__ = require("./def"), $__def__ && $__def__.__esModule && $__def__ || {default: $__def__}).default;
 function createControllerInstance(attributes, name) {
   var Controller = function Controller() {
     $traceurRuntime.defaultSuperCall(this, $Controller.prototype, arguments);
@@ -10949,7 +10936,7 @@ function registerControllerEvent(controller, action, method, name, namespace) {
   this.Dispatcher.on(eventName, controller[method], controller);
 }
 function registerControllerActions(controller, actions, name, namespace) {
-  var $__4 = this;
+  var $__3 = this;
   actions && actions.forEach((function(action) {
     var method = action;
     if (_.isObject(action)) {
@@ -10957,7 +10944,7 @@ function registerControllerActions(controller, actions, name, namespace) {
       action = _(action).keys().first();
     }
     ensureActionIsDefined(controller, action, method, name);
-    registerControllerEvent.call($__4, controller, action, method, name, namespace);
+    registerControllerEvent.call($__3, controller, action, method, name, namespace);
   }), this);
 }
 function registerApplicationControllerActions(controller, namespace) {
@@ -10966,22 +10953,22 @@ function registerApplicationControllerActions(controller, namespace) {
   var eventName = _([namespace, "controller", "all"]).compact().join(":");
   this.Dispatcher.on(eventName, controller.init, controller);
 }
-function Application() {
+var Application = function Application() {
   this.Controllers = {};
   this.Dispatcher = Dispatcher;
-}
-def(Application, "createController", function(name, attributes) {
-  var controller = createControllerInstance.call(this, attributes, name);
-  registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
-  if (name.match(/^Application$/i)) {
-    registerApplicationControllerActions.call(this, controller, attributes.namespace);
-  }
-  return this.Controllers[name] = controller;
-});
+};
+($traceurRuntime.createClass)(Application, {createController: function(name, attributes) {
+    var controller = createControllerInstance.call(this, attributes, name);
+    registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
+    if (name.match(/^Application$/i)) {
+      registerApplicationControllerActions.call(this, controller, attributes.namespace);
+    }
+    return this.Controllers[name] = controller;
+  }}, {});
 var $__default = Application;
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/application.js","/")
-},{"./controller":9,"./def":10,"backbone-events-standalone":2,"buffer":3,"lodash":7,"oMfpAn":6}],9:[function(require,module,exports){
+},{"./controller":9,"backbone-events-standalone":2,"buffer":3,"lodash":7,"oMfpAn":6}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 Object.defineProperties(exports, {
@@ -10990,10 +10977,8 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var $__lodash__,
-    $__def__;
+var $__lodash__;
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
-var def = ($__def__ = require("./def"), $__def__ && $__def__.__esModule && $__def__ || {default: $__def__}).default;
 var Controller = function Controller() {
   _.bindAll.apply(this, [this].concat(_.functions(this)));
   this.actions = [];
@@ -11003,29 +10988,7 @@ var Controller = function Controller() {
 var $__default = Controller;
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
-},{"./def":10,"buffer":3,"lodash":7,"oMfpAn":6}],10:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-"use strict";
-Object.defineProperties(exports, {
-  default: {get: function() {
-      return $__default;
-    }},
-  __esModule: {value: true}
-});
-var $__default = function(constructor, propertyName, value) {
-  var writeable = arguments[3] !== (void 0) ? arguments[3] : true;
-  var configurable = arguments[4] !== (void 0) ? arguments[4] : true;
-  var enumerable = arguments[5] !== (void 0) ? arguments[5] : true;
-  Object.defineProperty(constructor.prototype, propertyName, {
-    writeable: writeable,
-    configurable: configurable,
-    enumerable: enumerable,
-    value: value
-  });
-};
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/def.js","/")
-},{"buffer":3,"oMfpAn":6}],11:[function(require,module,exports){
+},{"buffer":3,"lodash":7,"oMfpAn":6}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var $__application__;
@@ -11034,5 +10997,5 @@ var Application = ($__application__ = require("./application"), $__application__
     return new Application;
   }};
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_6f71f192.js","/")
-},{"./application":8,"buffer":3,"oMfpAn":6}]},{},[11])
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_3be8df81.js","/")
+},{"./application":8,"buffer":3,"oMfpAn":6}]},{},[10])
