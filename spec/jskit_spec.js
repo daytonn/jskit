@@ -1,20 +1,21 @@
-require("./spec_helper");
-require("../lib/jskit");
-var Application = require("../lib/application");
+/* jshint esnext: true */
+import { expect, spyOn, stub } from "./spec_helper";
+import globals from "../lib/jskit";
+import Application from "../lib/application";
 
-describe("JSKit", function() {
+describe("JSKit", () => {
   var subject;
-  beforeEach(function() {
+  beforeEach(() => {
     subject = JSKit;
   });
 
-  describe("createApplication", function() {
+  describe("createApplication", () => {
     var app;
-    beforeEach(function() {
+    beforeEach(() => {
       app = subject.createApplication();
     });
 
-    it("creates an application", function() {
+    it("creates an application", () => {
       expect(app).to.be.an.instanceof(Application);
     });
   });

@@ -1,13 +1,14 @@
-require("./spec_helper");
-var Controller = require("../lib/controller");
+/* jshint esnext: true */
+import { expect, spyOn, stub } from "./spec_helper";
+import Controller from "../lib/controller";
 
-describe("Controller", function() {
+describe("Controller", () => {
   var subject;
-  beforeEach(function() {
+  beforeEach(() => {
     subject = new Controller;
   });
 
-  it("exists", function() {
+  it("exists", () => {
     expect(subject).to.be.an.instanceof(Controller);
   });
 

@@ -4,10 +4,17 @@
   <title>JSKit Example</title>
 </head>
 <body>
+  <div id="application-controller"></div>
   <div id="example"></div>
   <script src="jskit.js"></script>
   <script>
     var App = JSKit.createApplication();
+
+    App.createController("Application", {
+      init: function(message) {
+        document.getElementById("application-controller").innerHTML = message;
+      }
+    });
 
     App.createController("Home", {
       actions: ["index"],
@@ -18,7 +25,8 @@
       }
     });
 
-    App.Dispatcher.trigger("controller:home:index", "World");
+    App.Dispatcher.trigger("controller:all", "Application Controller");
+    App.Dispatcher.trigger("controller:home:index", "JSKit");
   </script>
 </body>
 </html>
