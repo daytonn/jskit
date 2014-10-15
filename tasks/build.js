@@ -25,6 +25,7 @@ gulp.task("compile", ["transpile"], function() {
 
 gulp.task("concat", ["compile"], function() {
   return gulp.src([
+    "node_modules/traceur/bin/traceur-runtime.js",
     "tmp/compiled/**/*.js",
     ])
     .pipe(concat("jskit.js"))
