@@ -56,7 +56,7 @@ App.Dispatcher.trigger("controller:tasks:index", data);
 
 This pattern allows us to be explicit without tightly coupling our backend to the client-side code. All the backend needs to know is that there is an `App` global with a `Dispatcher` that can emit events with the form of `"controller:[name]:[action]"`. The event triggerer does not need to know anything about the controller(s) which responds to the event or even if anything does respond to the event. Your client side code can hapilly change and grow without needing to affect your templates.
 
-*Note: CamelCase controller names will be seperated with an underscore (ie. CamelCase -> controller:camel_case:action)*
+*Note: CamelCase controller names will be mapped to an event name seperated with an underscore (ie. CamelCase -> controller:camel_case:action)*
 
 Not only that, but this pattern is infinitely more testable than your run of the mill `$(document).ready` soup:
 
