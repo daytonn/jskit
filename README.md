@@ -56,6 +56,8 @@ App.Dispatcher.trigger("controller:tasks:index", data);
 
 This pattern allows us to be explicit without tightly coupling our backend to the client-side code. All the backend needs to know is that there is an `App` global with a `Dispatcher` that can emit events with the form of `"controller:[name]:[action]"`. The event triggerer does not need to know anything about the controller(s) which responds to the event or even if anything does respond to the event. Your client side code can hapilly change and grow without needing to affect your templates.
 
+*Note: CamelCase controller names will be seperated with an underscore (ie. CamelCase -> controller:camel_case:action)*
+
 Not only that, but this pattern is infinitely more testable than your run of the mill `$(document).ready` soup:
 
 ```
@@ -70,6 +72,26 @@ describe("SomeController", function() {
 	});
 });
 ```
+
+#### Mapped Events
+
+Sometimes you may not want to map an action directly to the corresponding method. You may also want multiple actions to trigger the same method. To do this, you simply provide an object instead of a string for the action. Consider the following:
+
+```js
+App.createController("Tasks", {
+  actions: ["index", { new: "setupForm" }, { edit: "setupForm" }],
+  
+  index: function() {
+    // index stuff
+  },
+  
+  setupForm: function() {
+    // do stuff on every page
+  }
+});
+```
+
+This will allow `setupForm` to be called when both the `controller:tasks:new` and `controller:tasks:edit` events are triggered.
 
 ### Application Controller
 Sometimes you need a bit of javascript to run on every page of your site. While this can be accomplished by just slapping a script on the page and calling it a day, It'd be nice to wrap it up into a nice testable JSKit controller. That's where the `Application` controller comes in.
