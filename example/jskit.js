@@ -10948,7 +10948,7 @@ function registerControllerEvent(controller, action, method, name, namespace) {
 }
 function registerControllerActions(controller, actions, name, namespace) {
   var $__3 = this;
-  actions && actions.forEach((function(action) {
+  actions.forEach((function(action) {
     var method = action;
     if (_.isObject(action)) {
       method = _(action).values().first();
@@ -11010,5 +11010,5 @@ var Application = ($__application__ = require("./application"), $__application__
     return new Application;
   }};
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_40cb3963.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_b474282c.js","/")
 },{"./application":8,"buffer":3,"oMfpAn":6}]},{},[10])
