@@ -15,8 +15,4 @@ describe("Controller", () => {
   it("has a default initialize method", function() {
     expect(subject.initialize).to.be.a("function");
   });
-
-  it("has a default actions array", function() {
-    expect(subject.actions).to.be.an("array");
-  });
 });

@@ -54,6 +54,10 @@ describe("Application", () => {
         expect(subject.TestController).to.be.defined;
       });
 
+      it("copies the actions to the controller's constructor", function() {
+        expect(controller.actions).to.contain("index");
+      });
+
       describe("with missing action methods", () => {
         it("throws an error when an action is missing it's method", () => {
           expect(() => {

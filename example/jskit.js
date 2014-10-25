@@ -2477,7 +2477,18 @@ System.get("traceur-runtime@0.0.67/src/runtime/polyfills/polyfills" + '');
   // by Backbone.Events
   function miniscore() {
     return {
-      keys: Object.keys,
+      keys: Object.keys || function (obj) {
+        if (typeof obj !== "object" && typeof obj !== "function" || obj === null) {
+          throw new TypeError("keys() called on a non-object");
+        }
+        var key, keys = [];
+        for (key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            keys[keys.length] = key;
+          }
+        }
+        return keys;
+      },
 
       uniqueId: function(prefix) {
         var id = ++idCounter + '';
@@ -10920,7 +10931,7 @@ function createControllerInstance(attributes, name) {
   var $Controller = Controller;
   ($traceurRuntime.createClass)(Controller, {}, {}, BaseController);
   _.extend(Controller.prototype, attributes);
-  this[name + "Controller"] = Controller;
+  this[(name + "Controller")] = Controller;
   return new Controller;
 }
 function underscoreName(name) {
@@ -10928,11 +10939,11 @@ function underscoreName(name) {
 }
 function ensureActionIsDefined(controller, action, method, name) {
   if (!controller[method] || !_.isFunction(controller[method])) {
-    throw new Error("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method");
+    throw new Error(("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method"));
   }
 }
 function registerControllerEvent(controller, action, method, name, namespace) {
-  var eventName = _([namespace, "controller", underscoreName(name), action]).compact().join(":");
+  var eventName = (namespace + "controller:" + underscoreName(name) + ":" + action);
   this.Dispatcher.on(eventName, controller[method], controller);
 }
 function registerControllerActions(controller, actions, name, namespace) {
@@ -10948,9 +10959,10 @@ function registerControllerActions(controller, actions, name, namespace) {
   }), this);
 }
 function registerApplicationControllerActions(controller, namespace) {
-  if (!controller.init)
+  if (!controller.init && !_.isFunction(controller.init)) {
     throw new Error("'Application' Controller: init is undefined");
-  var eventName = _([namespace, "controller", "all"]).compact().join(":");
+  }
+  var eventName = (namespace + "controller:all");
   this.Dispatcher.on(eventName, controller.init, controller);
 }
 var Application = function Application() {
@@ -10958,10 +10970,12 @@ var Application = function Application() {
   this.Dispatcher = Dispatcher;
 };
 ($traceurRuntime.createClass)(Application, {createController: function(name, attributes) {
+    attributes.actions = attributes.actions || [];
     var controller = createControllerInstance.call(this, attributes, name);
-    registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
+    var namespace = attributes.namespace ? (attributes.namespace + ":") : "";
+    registerControllerActions.call(this, controller, attributes.actions, name, namespace);
     if (name.match(/^Application$/i)) {
-      registerApplicationControllerActions.call(this, controller, attributes.namespace);
+      registerApplicationControllerActions.call(this, controller, namespace);
     }
     return this.Controllers[name] = controller;
   }}, {});
@@ -10981,7 +10995,6 @@ var $__lodash__;
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
 var Controller = function Controller() {
   _.bindAll.apply(this, [this].concat(_.functions(this)));
-  this.actions = [];
   this.initialize();
 };
 ($traceurRuntime.createClass)(Controller, {initialize: function() {}}, {});
@@ -10997,5 +11010,5 @@ var Application = ($__application__ = require("./application"), $__application__
     return new Application;
   }};
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_3be8df81.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_40cb3963.js","/")
 },{"./application":8,"buffer":3,"oMfpAn":6}]},{},[10])
