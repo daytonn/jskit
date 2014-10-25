@@ -1,9 +1,12 @@
 /* jshint esnext: true */
 import { expect, spyOn, stub } from "./spec_helper";
-import Application from "../lib/application";
 import Controller from "../lib/controller";
+import ApplicationController from "../lib/application_controller";
+import Application from "../lib/application";
+import Events from "backbone-events-standalone";
+import _ from "lodash";
 
-describe("Application", () => {
+describe("Application", function() {
   var subject;
   beforeEach(function() {
     subject = new Application;
@@ -23,10 +26,11 @@ describe("Application", () => {
     expect(subject.Dispatcher.listenToOnce).to.be.a("function");
   });
 
-  describe("createController", () => {
+  describe("createController", function() {
     var controller;
-    describe("regular controllers", () => {
-      beforeEach(() => {
+
+    describe("BaseController", function() {
+      beforeEach(function() {
         controller = subject.createController("Test", {
           actions: ["index"],
           index: function() { this.indexCalled = true; }
@@ -40,90 +44,47 @@ describe("Application", () => {
       it("returns the controller", () => {
         expect(controller).to.be.an.instanceof(Controller);
       });
-
-      it("extends the new controller's prototype with the attributes", () => {
-        expect(controller.index).to.be.a("function");
-      });
-
-      it("wires up the actions to the dispatcher", () => {
-        subject.Dispatcher.trigger("controller:test:index");
-        expect(controller.indexCalled).to.equal(true);
-      });
-
-      it("saves a reference to the controller constructor", () => {
-        expect(subject.TestController).to.be.defined;
-      });
-
-      it("copies the actions to the controller's constructor", function() {
-        expect(controller.actions).to.contain("index");
-      });
-
-      describe("with missing action methods", () => {
-        it("throws an error when an action is missing it's method", () => {
-          expect(() => {
-            subject.createController("Test", { actions: ["index"] });
-          }).to.throw("'Test' Controller has an action 'index' defined with no corresponding method");
-        });
-      });
-
-      describe("with namespace", () => {
-        it("wires up the actions with the namespace", () => {
-          controller = subject.createController("Test", {
-            namespace: "admin",
-            actions: ["index"],
-            index: function() { this.indexCalled = true; }
-          });
-          subject.Dispatcher.trigger("admin:controller:test:index");
-          expect(controller.indexCalled).to.equal(true);
-        });
-      });
-
-      describe("with object action map", () => {
-        beforeEach(() => {
-          controller = subject.createController("Test", {
-            actions: ["index", { foo: "bar" }],
-            index: function() { this.indexCalled = true; },
-            bar: function() { this.barCalled = true; }
-          });
-        });
-
-        it("wires up mapped actions", function() {
-          subject.Dispatcher.trigger("controller:test:foo");
-          expect(controller.barCalled).to.equal(true);
-        });
-
-        it("wires up normal actions", function() {
-          subject.Dispatcher.trigger("controller:test:index");
-          expect(controller.indexCalled).to.equal(true);
-        });
-      });
     });
 
-    describe("Application controller", () => {
-      beforeEach(() => {
+    describe("ApplicationController", function() {
+      beforeEach(function() {
         controller = subject.createController("Application", {
-          init: function() { this.initCalled = true }
+          init: function() { this.initCalled = true; }
         });
       });
 
-      it("wires init to the controller:all event", () => {
-        subject.Dispatcher.trigger("controller:all");
-        expect(controller.initCalled).to.equal(true);
+      it("creates a controller instance on the Controler's namespace", () => {
+        expect(subject.Controllers.Application).to.be.an.instanceof(ApplicationController);
+      });
+
+      it("returns the controller", () => {
+        expect(controller).to.be.an.instanceof(ApplicationController);
       });
     });
 
-    describe("CamelCase controllers", () => {
-      beforeEach(() => {
-        controller = subject.createController("CamelCase", {
-          actions: ["index"],
-
-          index: function() { this.indexCalled = true }
-        });
+    describe("constantizing controller name", function() {
+      it("constantizes underscored names", function() {
+        controller = subject.createController("underscored_name");
+        expect(subject.Controllers.UnderscoredName).to.be.an.instanceof(Controller);
+        expect(subject.UnderscoredNameControllers).to.be.defined;
       });
 
-      it("lowercases the controller name with underscores", () => {
-        subject.Dispatcher.trigger("controller:camel_case:index");
-        expect(controller.indexCalled).to.equal(true);
+      it("constantizes names with spaces", function() {
+        controller = subject.createController("name with spaces");
+        expect(subject.Controllers.NameWithSpaces).to.be.an.instanceof(Controller);
+        expect(subject.NameWithSpacesControllers).to.be.defined;
+      });
+
+      it("constantizes names with dashes", function() {
+        controller = subject.createController("dashed-name");
+        expect(subject.Controllers.DashedName).to.be.an.instanceof(Controller);
+        expect(subject.DashedNameControllers).to.be.defined;
+      });
+
+      it("constantizes names with mized characters", function() {
+        controller = subject.createController("name with-mixed_characters");
+        expect(subject.Controllers.NameWithMixedCharacters).to.be.an.instanceof(Controller);
+        expect(subject.NameWithMixedCharactersControllers).to.be.defined;
       });
     });
   });
