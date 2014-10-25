@@ -1,2 +1,4 @@
 .DS_Store
 node_modules
+.tags
+.tags_sorted_by_file

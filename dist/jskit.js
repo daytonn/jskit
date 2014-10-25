@@ -10918,71 +10918,140 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var $__lodash__,
-    $__backbone_45_events_45_standalone__,
-    $__controller__;
+var $__backbone_45_events_45_standalone__,
+    $__lodash__,
+    $__string__,
+    $__controller__,
+    $__application_95_controller__;
+var Events = ($__backbone_45_events_45_standalone__ = require("backbone-events-standalone"), $__backbone_45_events_45_standalone__ && $__backbone_45_events_45_standalone__.__esModule && $__backbone_45_events_45_standalone__ || {default: $__backbone_45_events_45_standalone__}).default;
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
-var Dispatcher = ($__backbone_45_events_45_standalone__ = require("backbone-events-standalone"), $__backbone_45_events_45_standalone__ && $__backbone_45_events_45_standalone__.__esModule && $__backbone_45_events_45_standalone__ || {default: $__backbone_45_events_45_standalone__}).default;
+var s = ($__string__ = require("./string"), $__string__ && $__string__.__esModule && $__string__ || {default: $__string__}).default;
 var BaseController = ($__controller__ = require("./controller"), $__controller__ && $__controller__.__esModule && $__controller__ || {default: $__controller__}).default;
-function createControllerInstance(attributes, name) {
-  var Controller = function Controller() {
-    $traceurRuntime.defaultSuperCall(this, $Controller.prototype, arguments);
-  };
-  var $Controller = Controller;
-  ($traceurRuntime.createClass)(Controller, {}, {}, BaseController);
-  _.extend(Controller.prototype, attributes);
-  this[(name + "Controller")] = Controller;
-  return new Controller;
-}
-function underscoreName(name) {
-  return name.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
-}
-function ensureActionIsDefined(controller, action, method, name) {
-  if (!controller[method] || !_.isFunction(controller[method])) {
-    throw new Error(("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method"));
-  }
-}
-function registerControllerEvent(controller, action, method, name, namespace) {
-  var eventName = (namespace + "controller:" + underscoreName(name) + ":" + action);
-  this.Dispatcher.on(eventName, controller[method], controller);
-}
-function registerControllerActions(controller, actions, name, namespace) {
-  var $__3 = this;
-  actions.forEach((function(action) {
-    var method = action;
-    if (_.isObject(action)) {
-      method = _(action).values().first();
-      action = _(action).keys().first();
-    }
-    ensureActionIsDefined(controller, action, method, name);
-    registerControllerEvent.call($__3, controller, action, method, name, namespace);
-  }), this);
-}
-function registerApplicationControllerActions(controller, namespace) {
-  if (!controller.init && !_.isFunction(controller.init)) {
-    throw new Error("'Application' Controller: init is undefined");
-  }
-  var eventName = (namespace + "controller:all");
-  this.Dispatcher.on(eventName, controller.init, controller);
-}
+var BaseApplicationController = ($__application_95_controller__ = require("./application_controller"), $__application_95_controller__ && $__application_95_controller__.__esModule && $__application_95_controller__ || {default: $__application_95_controller__}).default;
 var Application = function Application() {
   this.Controllers = {};
-  this.Dispatcher = Dispatcher;
+  this.Dispatcher = _.clone(Events);
 };
-($traceurRuntime.createClass)(Application, {createController: function(name, attributes) {
-    attributes.actions = attributes.actions || [];
-    var controller = createControllerInstance.call(this, attributes, name);
-    var namespace = attributes.namespace ? (attributes.namespace + ":") : "";
-    registerControllerActions.call(this, controller, attributes.actions, name, namespace);
-    if (name.match(/^Application$/i)) {
-      registerApplicationControllerActions.call(this, controller, namespace);
-    }
-    return this.Controllers[name] = controller;
-  }}, {});
+($traceurRuntime.createClass)(Application, {
+  createController: function(name) {
+    var attributes = arguments[1] !== (void 0) ? arguments[1] : {};
+    name = s.constantize(name);
+    attributes = _.extend(attributes, {name: name});
+    var controllerType = name.match(/^Application/) ? "Application" : "Base";
+    this.Controllers[name] = this[("create" + controllerType + "Controller")](attributes);
+    return this.Controllers[name];
+  },
+  createBaseController: function(attributes) {
+    var Controller = function Controller() {
+      $traceurRuntime.defaultSuperCall(this, $Controller.prototype, arguments);
+    };
+    var $Controller = Controller;
+    ($traceurRuntime.createClass)(Controller, {}, {}, BaseController);
+    _.extend(Controller.prototype, attributes);
+    this[(attributes.name + "Controller")] = Controller;
+    return new Controller(this.Dispatcher);
+  },
+  createApplicationController: function(attributes) {
+    var ApplicationController = function ApplicationController() {
+      $traceurRuntime.defaultSuperCall(this, $ApplicationController.prototype, arguments);
+    };
+    var $ApplicationController = ApplicationController;
+    ($traceurRuntime.createClass)(ApplicationController, {}, {}, BaseApplicationController);
+    _.extend(ApplicationController.prototype, attributes);
+    this.ApplicationController = ApplicationController;
+    return new ApplicationController(this.Dispatcher);
+  }
+}, {});
 var $__default = Application;
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/application.js","/")
-},{"./controller":9,"backbone-events-standalone":2,"buffer":3,"lodash":7,"oMfpAn":6}],9:[function(require,module,exports){
+},{"./application_controller":9,"./controller":10,"./string":12,"backbone-events-standalone":2,"buffer":3,"lodash":7,"oMfpAn":6}],9:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+"use strict";
+Object.defineProperties(exports, {
+  default: {get: function() {
+      return $__default;
+    }},
+  __esModule: {value: true}
+});
+var $__lodash__,
+    $__controller__;
+var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
+var Controller = ($__controller__ = require("./controller"), $__controller__ && $__controller__.__esModule && $__controller__ || {default: $__controller__}).default;
+var ApplicationController = function ApplicationController(dispatcher) {
+  this.name = "";
+  this.actions = [{all: "init"}];
+  $traceurRuntime.superCall(this, $ApplicationController.prototype, "constructor", [dispatcher]);
+};
+var $ApplicationController = ApplicationController;
+($traceurRuntime.createClass)(ApplicationController, {}, {}, Controller);
+var $__default = ApplicationController;
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/application_controller.js","/")
+},{"./controller":10,"buffer":3,"lodash":7,"oMfpAn":6}],10:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+"use strict";
+Object.defineProperties(exports, {
+  default: {get: function() {
+      return $__default;
+    }},
+  __esModule: {value: true}
+});
+var $__backbone_45_events_45_standalone__,
+    $__lodash__,
+    $__string__;
+var Events = ($__backbone_45_events_45_standalone__ = require("backbone-events-standalone"), $__backbone_45_events_45_standalone__ && $__backbone_45_events_45_standalone__.__esModule && $__backbone_45_events_45_standalone__ || {default: $__backbone_45_events_45_standalone__}).default;
+var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
+var s = ($__string__ = require("./string"), $__string__ && $__string__.__esModule && $__string__ || {default: $__string__}).default;
+function eventNamespace(action) {
+  return _.compact([this.namespace, this.channel, this.name, action]).join(":");
+}
+function ensureActionIsDefined(actionMap) {
+  if (!_.isFunction(this[actionMap.method]))
+    throw new Error((this.controllerName + " action \"" + actionMap.name + ":" + actionMap.method + "\" method is undefined"));
+}
+function mapAction(action) {
+  var isMappedAction = _.isObject(action);
+  var method = isMappedAction ? _(action).values().first() : action;
+  var name = isMappedAction ? _(action).keys().first() : action;
+  return {
+    name: name,
+    method: method
+  };
+}
+function registerActions(Dispatcher) {
+  var $__3 = this;
+  _.each(this.actions, (function(action) {
+    var actionMap = mapAction(action);
+    ensureActionIsDefined.call($__3, actionMap);
+    Dispatcher.on(eventNamespace.call($__3, actionMap.name), $__3[actionMap.method]);
+  }), this);
+}
+var Controller = function Controller(Dispatcher) {
+  _.bindAll.apply(this, [this].concat(_.functions(this)));
+  this.actions = this.actions || [];
+  this.channel = this.channel || "controller";
+  this.name = s.underscore(this.name);
+  this.controllerName = (s.constantize(this.name) + "Controller");
+  Dispatcher = Dispatcher || _.clone(Events);
+  registerActions.call(this, Dispatcher);
+  this.initialize();
+};
+($traceurRuntime.createClass)(Controller, {initialize: function() {}}, {});
+var $__default = Controller;
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
+},{"./string":12,"backbone-events-standalone":2,"buffer":3,"lodash":7,"oMfpAn":6}],11:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+"use strict";
+var $__application__;
+var Application = ($__application__ = require("./application"), $__application__ && $__application__.__esModule && $__application__ || {default: $__application__}).default;
+(global || window).JSKit = {createApplication: function() {
+    return new Application;
+  }};
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_4f82472e.js","/")
+},{"./application":8,"buffer":3,"oMfpAn":6}],12:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 Object.defineProperties(exports, {
@@ -10993,22 +11062,149 @@ Object.defineProperties(exports, {
 });
 var $__lodash__;
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
-var Controller = function Controller() {
-  _.bindAll.apply(this, [this].concat(_.functions(this)));
-  this.initialize();
+var $__default = {
+  camelize: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return _(string.split(/_|-|\s/g)).map(function(part, i) {
+      return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
+    }).join("");
+  },
+  capitalize: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  },
+  chunk: function(string, chunkSize) {
+    string = string || "";
+    chunkSize = chunkSize ? chunkSize : string.length;
+    return string.match(new RegExp(".{1," + chunkSize + "}", "g"));
+  },
+  compact: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/\s/g, "");
+  },
+  constantize: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    if (string.match(/_|-|\s/)) {
+      var s = _(string.split(/_|-|\s/g)).map(function(part, i) {
+        return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
+      }).join("");
+      string = s;
+    } else {
+      string = string.toString();
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  },
+  dasherize: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/_/g, "-").toLowerCase();
+  },
+  humanize: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    var s = string.replace(/_/g, " ").replace(/^\s?/, "").toLowerCase();
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  },
+  hyphenate: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/([A-Z])/g, " $1").toLowerCase().replace(/\s|_/g, "-").toLowerCase();
+  },
+  isBlank: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return (/^(\s?)+$/).test(this);
+  },
+  isEmpty: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.length === 0;
+  },
+  isNotEmpty: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.length > 0;
+  },
+  isPresent: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return !(/^(\s?)+$/).test(this);
+  },
+  lstrip: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/^\s+/, "");
+  },
+  ltrim: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/^\s+/, "");
+  },
+  stripTags: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/<\w+(\s+("[^"]*"|"[^"]*"|[^>])+)?>|<\/\w+>/gi, "");
+  },
+  strip: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/^\s+(.+)\s+$/, "$1");
+  },
+  swapCase: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/[A-Za-z]/g, function(s) {
+      return (/[A-Z]/).test(s) ? s.toLowerCase() : s.toUpperCase();
+    });
+  },
+  titleCase: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return _(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/)).map(function(s) {
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }).join(" ");
+  },
+  titleize: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return _(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/)).map(function(s) {
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }).join(" ");
+  },
+  toBoolean: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    var truthyStrings = ["true", "yes", "on", "y"];
+    var falseyStrings = ["false", "no", "off", "n"];
+    if (_(truthyStrings).contains(string.toLowerCase())) {
+      return true;
+    } else if (_(falseyStrings).contains(string.toLowerCase())) {
+      return false;
+    } else {
+      return string.length > 0 ? true : false;
+    }
+  },
+  toNumber: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return this * 1 || 0;
+  },
+  trim: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/^\s+(.+)\s+$/, "$1");
+  },
+  truncate: function(string, length) {
+    string = string || "";
+    return (string.length > length) ? string.substring(0, length) + "..." : this;
+  },
+  underscore: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return string.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
+  },
+  unescape: function() {
+    var string = arguments[0] !== (void 0) ? arguments[0] : "";
+    return _.unescape.apply(this, [this].concat(_.toArray(arguments)));
+  },
+  unwrap: function(string, wrapper) {
+    string = string || "";
+    return string.replace(new RegExp("^" + wrapper + "(.+)" + wrapper + "$"), "$1");
+  },
+  wordCount: function(string, word) {
+    string = string || "";
+    var matches;
+    string = string.stripTags();
+    matches = (word) ? string.match(new RegExp(word, "g")) : string.match(/\b[A-Za-z_]+\b/g);
+    return matches ? matches.length : 0;
+  },
+  wrap: function(string, wrapper) {
+    string = string || "";
+    return wrapper.concat(this, wrapper);
+  }
 };
-($traceurRuntime.createClass)(Controller, {initialize: function() {}}, {});
-var $__default = Controller;
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
-},{"buffer":3,"lodash":7,"oMfpAn":6}],10:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-"use strict";
-var $__application__;
-var Application = ($__application__ = require("./application"), $__application__ && $__application__.__esModule && $__application__ || {default: $__application__}).default;
-(global || window).JSKit = {createApplication: function() {
-    return new Application;
-  }};
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_b474282c.js","/")
-},{"./application":8,"buffer":3,"oMfpAn":6}]},{},[10])
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/string.js","/")
+},{"buffer":3,"lodash":7,"oMfpAn":6}]},{},[11])
