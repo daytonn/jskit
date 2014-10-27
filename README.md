@@ -302,9 +302,11 @@ Contributing
 1. [Fork it](https://github.com/daytonn/jskit/fork)
 2. Clone it locally
 3. Set the upstream remote (`git remote add upstream git@github.com:daytonn/jskit.git`)
-4. Run the specs with `npm test`
-5. Create your feature branch (`git checkout -b my-new-feature`)
-6. Commit your changes (`git commit -am 'Add some feature'`)
-7. Rebase from upstream (`git rebase upstream master`)
-8. Push to the branch (`git push origin my-new-feature`)
-9. Create new Pull Request
+4. Install the dependencies with npm (`npm install`)
+5. Run the specs with `npm test`
+6. Run the example app with `npm start`
+7. Create your feature branch (`git checkout -b my-new-feature`)
+8. Commit your changes (`git commit -am 'Add some feature'`)
+9. Rebase from upstream (`git rebase upstream master`)
+10. Push to the branch (`git push origin my-new-feature`)
+11. Create new Pull Request
