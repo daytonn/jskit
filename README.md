@@ -21,7 +21,7 @@ Installation
   * [jskit.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.js)
   * [jskit.min.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.min.js)
 * Include Script
-  * include the `dist/jskit.js` file in your application
+  * include the `jskit.js` file in your application
 
 
 ```html
