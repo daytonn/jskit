@@ -1,7 +1,8 @@
 /* jshint esnext: true */
-import { expect, spyOn, stub } from "./spec_helper";
+import { expect } from "./spec_helper";
 import Controller from "../lib/controller";
 import ApplicationController from "../lib/application_controller";
+import TestDispatcher from "../lib/test_dispatcher";
 import Application from "../lib/application";
 import Events from "backbone-events-standalone";
 import _ from "lodash";
@@ -28,6 +29,12 @@ describe("Application", function() {
 
   describe("createController", function() {
     var controller;
+
+    it("accepts an alternate Dispatcher", function() {
+      var dispatcher = new TestDispatcher;
+      controller = subject.createController("Test", {}, dispatcher);
+      expect(controller.dispatcher).to.equal(dispatcher);
+    });
 
     describe("BaseController", function() {
       beforeEach(function() {

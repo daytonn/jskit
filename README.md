@@ -1,115 +1,310 @@
 JSKit
 =====
 
-JSKit is a tiny library to end the problem of jQuery soup and `$(document).ready()` mess. JSKit introduces a simple, clean, and easily testable way to architect basic javascript enhanced web pages.
+JSKit is a tiny library to end the problem of jQuery soup and `$(document).ready()` mess. JSKit introduces a simple, clean, and easily testable way to architect basic javascript enhanced web pages. Based on a simple event system, JSKit allows your back-end application seamlessly integrate your javacsript code with minimal coupling.
 
-Getting Started
+Table of Contents
+-----------------
+1. [Installation](#installation)
+2. [Basic Usage](#basic-usage)
+3. [Dispatcher](#dispatcher)
+4. [Controllers](#controllers)
+5. [Testing](#testing)
+6. [Contributing](#contributing)
+
+
+Installation
 ---------------
 
 ### Download
-Download the latest version
+* Download the latest version
+  * [jskit.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.js)
+  * [jskit.min.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.min.js)
+* Include Script
+  * include the `dist/jskit.js` file in your application
 
-[jskit.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.js)
-
-[jskit.min.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.min.js)
-
-### Include Script
-Simply include the `dist/jskit.js` file in your application:
 
 ```html
 <script type="text/javascript" src="path/to/jskit.js"></script>
 ```
 
-### Create Application
-Create the application object:
+
+Basic Usage
+-----------
+The `Application` is the interface to your JSKit components. To create an application you simply call `createApplication`:
 
 ```js
 var App = JSKit.createApplication();
 ```
 
-### Define A Controller
-A Controller object generally controlls a group of related actions/pages via triggered events on the Application's Dispatcher.
+### Dispatcher
+
+Every application has a `Dispatcher` that allows registry and triggering of events throughout your JSKit application. In fact, JSKit is basically a thin wrapper around the `Dispatcher` that allows you to coordinate your javascript with minimal friction.
 
 ```js
-App.createController("Tasks", {
-	actions: ["index", "edit", "new"],
-	
-	index: function(data) {
-		// index page functionality
-	},
-	
-	edit: function() {
-		// edit page functionality
-	},
-	
-	new: function() {
-		// new page functionality
-	}
+App.Dispatcher.on("some-event-name", function() {
+    // handle some-event-name
 });
+
+App.Dispatcher.trigger("some-event-name");
 ```
 
-With this contrived Task Controller we can manage all the pages that deal with tasks. We simply have to trigger the action on the page when it loads. This can typically be done programatically from the back-end.
+Generally you will not have to manually register for events (`App.Dispatcher.on`) since JSKit `Controllers` register their own actions automatically.
+
+### Creating Controllers
+
+The basic component of a JSKit application is a Controller. Controllers are basically objects that map actions to events. To create a controller, call `createController`:
 
 ```js
-App.Dispatcher.trigger("controller:tasks:index", data);
-```
+App.createController("Posts", {
+  actions: ["index", "show", "new", "edit"],
 
-This pattern allows us to be explicit without tightly coupling our backend to the client-side code. All the backend needs to know is that there is an `App` global with a `Dispatcher` that can emit events with the form of `"controller:[name]:[action]"`. The event triggerer does not need to know anything about the controller(s) which responds to the event or even if anything does respond to the event. Your client side code can hapilly change and grow without needing to affect your templates.
-
-*Note: CamelCase controller names will be mapped to an event name seperated with an underscore (ie. CamelCase -> controller:camel_case:action)*
-
-Not only that, but this pattern is infinitely more testable than your run of the mill `$(document).ready` soup:
-
-```
-describe("SomeController", function() {
-	var subject;
-	beforeEach(function() {
-		subject = App.Controller.SomeController;
-	});
-	
-	it("does some cool stuff", function() {
-		expect(subject.doCoolStuff()).to.be("Cool");
-	});
-});
-```
-
-#### Mapped Events
-
-Sometimes you may not want to map an action directly to the corresponding method. You may also want multiple actions to trigger the same method. To do this, you simply provide an object instead of a string for the action. Consider the following:
-
-```js
-App.createController("Tasks", {
-  actions: ["index", { new: "setupForm" }, { edit: "setupForm" }],
-  
   index: function() {
-    // index stuff
+    // handle index action
   },
+
+  show: function() {
+    // handle show action
+  }
+
+  new: function() {
+    // handle new action
+  }
+
+  edit: function() {
+    // handle edit action
+  }
+})
+```
+
+When the `Application` creates a controller, it handles injecting the Controller with it's `Dispatcher`, creating the Controller's constructor, and instantiating an instance of the controller.
+
+Controller instances are stored in `Application.Controllers` by name. Looking at the "Post" controller example above we know that there is an instance of a "Post" Controller in
+
+```js
+App.Controllers.Post
+```
+
+Controller constructors are stored on the `Application` object itself with the suffix "Controller".
+and the `PostController` class constructor is at
+
+```js
+App.PostController
+```
+
+The Controller instance is what `Application` will use at runtime. The Controller's constructor is simply a convenience for creating clean states for testing.
+
+<!-- TODO document name munging -->
+
+Controllers
+-----------
+Controllers are the main component of a JSKit `Application`. Controllers accpet a single argument of a Dispatcher. The Dispatcher is passed automatically when a controller is created with the `Application.createController` method. Generally, you will only instantiate `Controller`s in your tests. Having the Dispatcher injected makes testing them in isolation much easier.
+
+### Actions
+
+Actions define which events your controller responds to. The `Controller` uses the `actions` array to map it's methods to the Dispatcher's events. Actions are automatically mapped to the Dispatcher when the `Controller` is instantiate. There are two ways to define an action mapping in your `Controller`s:
+
+#### Named Actions
+
+To map an action by name, simply provide the method name as a string in the actions array:
+
+```js
+App.createController("Posts", {
+  actions: ["foo"],
+  
+  foo: function() {
+    // handle "controller:posts:foo" event
+  }
+});
+```
+
+#### Mapped Actions
+
+Sometimes you may want to map an action to a specific method, or you may want to bind two actions to the same method, to do so simply provide an object keyed by the action name with value of the method name:
+
+```js
+App.createController("Posts", {
+  actions: [{ new: "setupForm" }, { edit: "setupForm" }],
   
   setupForm: function() {
-    // do stuff on every page
+    // handle "controller:posts:new" and "controller:posts:edit" events
   }
 });
 ```
 
-This will allow `setupForm` to be called when both the `controller:tasks:new` and `controller:tasks:edit` events are triggered.
+### Action Mapping
 
-### Application Controller
-Sometimes you need a bit of javascript to run on every page of your site. While this can be accomplished by just slapping a script on the page and calling it a day, It'd be nice to wrap it up into a nice testable JSKit controller. That's where the `Application` controller comes in.
+When an action is mapped, it will be registered on the dispatcher for a specific event. The event that is registered depends on a few properties of the `Controller`: `namspace`, `channel`, `name`, and `action`. The default values for these are:
 
-The `Application` controller is special in that by nature of it's name, it is treated slightly differently by the `createController` method. When you name a controller `Application`, it is assumed that this will define functionality to be triggered globally. No actions need to be defined on the application controller. You simply need an `init` method. This method will be wired up to the `controller:all` event. A vanilla `Application` controller looks like this:
+    namespace = ""
+    channel = "controller"
+    controllerEventName = "<Controller.name>" (lowercase and underscored)
+    action = "<action>
+    eventSeperator = ":"
+
+So using the above examples, the event maps for the `PostsController` are:
+
+    controller:posts:foo  -> Controller.foo
+    controller:posts:new  -> Controller.setupForm
+    controller:posts:edit -> Controller.setupForm
+    
+*Note: undefined/empty values effectively removes that segment from the event name*
+    
+      
+#### namespace
+
+By default `Controller`s have an empty namespace. If you wish to prefix the events the `Controller` registers for with an namespace, set this property:
 
 ```js
-App.createController("Application", {
-  init: function() {
-    // do stuff on every page
-  }
+App.createController("Posts", {
+  namespace: "admin"
+  ...
 });
 ```
 
-Now when the `controller:all` event is triggered, your `Application` controller's `init` method will fire:
+This will register all events with the `namespace` prefix:
+
+    admin:controller:posts:foo  -> Controller.foo
+    admin:controller:posts:new  -> Controller.setupForm
+    admin:controller:posts:edit -> Controller.setupForm
+
+#### channel
+
+The default channel for a `Controller` is `controller`. To change this simply set the channel:
 
 ```js
-App.Dispatcher.trigger("controller:all");
+App.createController("Posts", {
+  channel: "pages"
+  ...
+});
 ```
 
-This is a nice replacement for the old jQuery `document.ready` nonsense.
+This will register all events with the `channel`:
+
+    pages:posts:foo  -> Controller.foo
+    pages:posts:new  -> Controller.setupForm
+    pages:posts:edit -> Controller.setupForm
+    
+#### controllerEventName
+
+The `Controller` is given a `name` property by the `Application.createController(name, attributes)` method. The `controllerEventName` is automatically createds by lowercasing and underscoring the `name` to normalize event names. The `PostsController` example has the `name` "Posts" and a `controllerEventName` of "posts". CamelCased names will have underscores between each uppercased word:
+
+```js
+App.createController("CamelCase");
+```
+
+This would register all events with the controller `controllerEventName` of `camel_case`:
+
+    controller:camel_case:<action> -> Controller.<action>
+    
+#### eventSeperator
+
+The `eventSeperator` property defines how the `namespace`, `channel`, `name`, and `action` will be joined to create an event name. You can change this by setting the `eventSeperator` on the `Controller`:
+
+```js
+App.createController("Posts", {
+  eventSeperator: "."
+  ...
+});
+```
+
+This would register all events using "." as a seperator:
+
+    controller.posts.foo  -> Controller.foo
+    controller.posts.new  -> Controller.setupForm
+    controller.posts.edit -> Controller.edit
+    
+### actionEventName
+
+The `actionEventName` method allows you to get the full event name of a given action. It returns the `namespace`, `channel`, `controllerEventName`, and the `action` joined by the `eventSeperator`:
+
+```js
+var controller = App.createController("Posts");
+controller.actionEventName("index"); // controller:posts:index
+controller.actionEventName("show"); // controller:posts:show
+controller.actionEventName("new"); // controller:posts:new
+controller.actionEventName("edit"); // controller:posts:edit
+controller.actionEventName(); // controller:posts
+```
+
+### className
+
+Every Controller has a `className`. The `className` property is generated by capitalizing the `name` and adding the suffix "Controller". This property is used to display the Controller's constructor name in error output. Given the "Posts" Controller, the `controllerName` would be: `PostsController`.
+
+Testing
+-------
+
+JSKit is all about making testing javascript easier. JSKit itself comes with some handy tools for testing JSKit applications. When you create a controller with the `Application.createController` method. The created Controller's constructor will be available on the `Application` object using the Controller's `className`. Using the "Posts" controller example:
+
+```js
+App.PostsController
+```
+
+**_ALWAYS_** use the provided constructors when testing your Controllers to ensure you don't pollute your tests with mutated state.
+
+### TestDispatcher
+
+The `TestDispatcher` is used to help test JSKit Controllers. You should always use the `TestDispatcher` when testing Controllers. To create a controller with the `TestDispatcher` simply pass it to the Controller:
+
+```js
+describe("PostsController", function() {
+  var subject;
+  var dispatcher;
+  
+  beforeEach() {
+    dispatcher = new JSKit.TestDispatcher;
+    subject = new App.PostsController(dispatcher);
+  }
+  ...  
+};
+```
+
+#### spies
+
+When your Controller registers events on the `TestDispatcher`, your Controller's action methods will be enhanced with properties to determine if and how they were called:
+
+```js
+...
+it("calls index when the index event is triggered", function() {
+  dispatcher.trigger(controller.actionEventName("index"));
+  
+  expect(controller.index.called).to.equal(true);
+  expect(controller.index.callCount).to.equal(1);
+  expect(controller.index.calls[0].args).to.be.an("Array");
+  expect(controller.index.calls[0].args).to.be.empty();
+});
+...   
+};
+```
+
+### hasAction
+
+Most of the time, you will not need the extra functionality provided by spies and you simply want to see if a Controller's actions are wired up correctly. You can do this simply by calling `hasAction` with the controller and action you wish to test:
+
+```js
+...
+var subject;
+var dispatcher;
+  
+beforeEach() {
+  dispatcher = new JSKit.TestDispatcher;
+  subject = new App.PostsController(dispatcher);
+}
+  
+it("has an index action", function() {
+  expect(dispatcher.hasAction(subject, "index")).to.equal(true);
+});
+...
+```
+
+Contributing
+------------
+1. [Fork it](https://github.com/daytonn/jskit/fork)
+2. Clone it locally
+3. Set the upstream remote (`git remote add upstream git@github.com:daytonn/jskit.git`)
+4. Run the specs with `npm test`
+5. Create your feature branch (`git checkout -b my-new-feature`)
+6. Commit your changes (`git commit -am 'Add some feature'`)
+7. Rebase from upstream (`git rebase upstream master`)
+8. Push to the branch (`git push origin my-new-feature`)
+9. Create new Pull Request

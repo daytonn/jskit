@@ -1,5 +1,5 @@
 /* jshint esnext: true */
-import { expect, spyOn, stub } from "./spec_helper";
+import { expect } from "./spec_helper";
 import ApplicationController from "../lib/application_controller";
 import Events from "backbone-events-standalone";
 import _ from "lodash";
@@ -8,15 +8,16 @@ describe("ApplicationController", () => {
   var Dispatcher;
   var initCalled;
   var subject;
+  class TestController extends ApplicationController {}
 
   beforeEach(function() {
     initCalled = false;
     Dispatcher = Events;
-    class TestController extends ApplicationController {
-      init() {
+    _.extend(TestController.prototype, {
+      init: function() {
         initCalled = true;
       }
-    }
+    });
     subject = new TestController(Dispatcher);
   });
 
@@ -27,7 +28,7 @@ describe("ApplicationController", () => {
 
   it("has a default init method", function() {
     class TestController extends ApplicationController {}
-    subject = new TestController;
+    subject = new TestController(Dispatcher);
     expect(subject.init).to.be.a("Function");
   });
 
