@@ -1,0 +1,371 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jskit by daytonn</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Jskit</h1>
+        <p>Deterministically execute javascript in your web application with minimum coupling to your server side</p>
+
+        <p class="view"><a href="https://github.com/daytonn/jskit">View the Project on GitHub <small>daytonn/jskit</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/daytonn/jskit/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/daytonn/jskit/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/daytonn/jskit">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="jskit" class="anchor" href="#jskit"><span class="octicon octicon-link"></span></a>JSKit</h1>
+
+<p>JSKit is a tiny library to end the problem of jQuery soup and <code>$(document).ready()</code> mess. JSKit introduces a simple, clean, and easily testable way to architect basic javascript enhanced web pages. Based on a simple event system, JSKit allows your back-end application seamlessly integrate your javacsript code with minimal coupling.</p>
+
+<h2>
+<a name="table-of-contents" class="anchor" href="#table-of-contents"><span class="octicon octicon-link"></span></a>Table of Contents</h2>
+
+<ol>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#basic-usage">Basic Usage</a></li>
+<li><a href="#dispatcher">Dispatcher</a></li>
+<li><a href="#controllers">Controllers</a></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#contributing">Contributing</a></li>
+</ol>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a name="download" class="anchor" href="#download"><span class="octicon octicon-link"></span></a>Download</h3>
+
+<ul>
+<li>Download the latest version
+
+<ul>
+<li><a href="https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.js">jskit.js</a></li>
+<li><a href="https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.min.js">jskit.min.js</a></li>
+</ul>
+</li>
+<li>Include Script
+
+<ul>
+<li>include the <code>dist/jskit.js</code> file in your application</li>
+</ul>
+</li>
+</ul>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"path/to/jskit.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<h2>
+<a name="basic-usage" class="anchor" href="#basic-usage"><span class="octicon octicon-link"></span></a>Basic Usage</h2>
+
+<p>The <code>Application</code> is the interface to your JSKit components. To create an application you simply call <code>createApplication</code>:</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">App</span> <span class="o">=</span> <span class="nx">JSKit</span><span class="p">.</span><span class="nx">createApplication</span><span class="p">();</span>
+</pre></div>
+
+<h3>
+<a name="dispatcher" class="anchor" href="#dispatcher"><span class="octicon octicon-link"></span></a>Dispatcher</h3>
+
+<p>Every application has a <code>Dispatcher</code> that allows registry and triggering of events throughout your JSKit application. In fact, JSKit is basically a thin wrapper around the <code>Dispatcher</code> that allows you to coordinate your javascript with minimal friction.</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">Dispatcher</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"some-event-name"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// handle some-event-name</span>
+<span class="p">});</span>
+
+<span class="nx">App</span><span class="p">.</span><span class="nx">Dispatcher</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">"some-event-name"</span><span class="p">);</span>
+</pre></div>
+
+<p>Generally you will not have to manually register for events (<code>App.Dispatcher.on</code>) since JSKit <code>Controllers</code> register their own actions automatically.</p>
+
+<h3>
+<a name="creating-controllers" class="anchor" href="#creating-controllers"><span class="octicon octicon-link"></span></a>Creating Controllers</h3>
+
+<p>The basic component of a JSKit application is a Controller. Controllers are basically objects that map actions to events. To create a controller, call <code>createController</code>:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">createController</span><span class="p">(</span><span class="s2">"Posts"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">actions</span><span class="o">:</span> <span class="p">[</span><span class="s2">"index"</span><span class="p">,</span> <span class="s2">"show"</span><span class="p">,</span> <span class="s2">"new"</span><span class="p">,</span> <span class="s2">"edit"</span><span class="p">],</span>
+
+  <span class="nx">index</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// handle index action</span>
+  <span class="p">},</span>
+
+  <span class="nx">show</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// handle show action</span>
+  <span class="p">}</span>
+
+  <span class="k">new</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// handle new action</span>
+  <span class="p">}</span>
+
+  <span class="nx">edit</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// handle edit action</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+
+<p>When the <code>Application</code> creates a controller, it handles injecting the Controller with it's <code>Dispatcher</code>, creating the Controller's constructor, and instantiating an instance of the controller.</p>
+
+<p>Controller instances are stored in <code>Application.Controllers</code> by name. Looking at the "Post" controller example above we know that there is an instance of a "Post" Controller in</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">Controllers</span><span class="p">.</span><span class="nx">Post</span>
+</pre></div>
+
+<p>Controller constructors are stored on the <code>Application</code> object itself with the suffix "Controller".
+and the <code>PostController</code> class constructor is at</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">PostController</span>
+</pre></div>
+
+<p>The Controller instance is what <code>Application</code> will use at runtime. The Controller's constructor is simply a convenience for creating clean states for testing.</p>
+
+
+
+<h2>
+<a name="controllers" class="anchor" href="#controllers"><span class="octicon octicon-link"></span></a>Controllers</h2>
+
+<p>Controllers are the main component of a JSKit <code>Application</code>. Controllers accpet a single argument of a Dispatcher. The Dispatcher is passed automatically when a controller is created with the <code>Application.createController</code> method. Generally, you will only instantiate <code>Controller</code>s in your tests. Having the Dispatcher injected makes testing them in isolation much easier.</p>
+
+<h3>
+<a name="actions" class="anchor" href="#actions"><span class="octicon octicon-link"></span></a>Actions</h3>
+
+<p>Actions define which events your controller responds to. The <code>Controller</code> uses the <code>actions</code> array to map it's methods to the Dispatcher's events. Actions are automatically mapped to the Dispatcher when the <code>Controller</code> is instantiate. There are two ways to define an action mapping in your <code>Controller</code>s:</p>
+
+<h4>
+<a name="named-actions" class="anchor" href="#named-actions"><span class="octicon octicon-link"></span></a>Named Actions</h4>
+
+<p>To map an action by name, simply provide the method name as a string in the actions array:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">createController</span><span class="p">(</span><span class="s2">"Posts"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">actions</span><span class="o">:</span> <span class="p">[</span><span class="s2">"foo"</span><span class="p">],</span>
+
+  <span class="nx">foo</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// handle "controller:posts:foo" event</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="mapped-actions" class="anchor" href="#mapped-actions"><span class="octicon octicon-link"></span></a>Mapped Actions</h4>
+
+<p>Sometimes you may want to map an action to a specific method, or you may want to bind two actions to the same method, to do so simply provide an object keyed by the action name with value of the method name:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">createController</span><span class="p">(</span><span class="s2">"Posts"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">actions</span><span class="o">:</span> <span class="p">[{</span> <span class="k">new</span><span class="o">:</span> <span class="s2">"setupForm"</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">edit</span><span class="o">:</span> <span class="s2">"setupForm"</span> <span class="p">}],</span>
+
+  <span class="nx">setupForm</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// handle "controller:posts:new" and "controller:posts:edit" events</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="action-mapping" class="anchor" href="#action-mapping"><span class="octicon octicon-link"></span></a>Action Mapping</h3>
+
+<p>When an action is mapped, it will be registered on the dispatcher for a specific event. The event that is registered depends on a few properties of the <code>Controller</code>: <code>namspace</code>, <code>channel</code>, <code>name</code>, and <code>action</code>. The default values for these are:</p>
+
+<pre><code>namespace = ""
+channel = "controller"
+controllerEventName = "&lt;Controller.name&gt;" (lowercase and underscored)
+action = "&lt;action&gt;
+eventSeperator = ":"
+</code></pre>
+
+<p>So using the above examples, the event maps for the <code>PostsController</code> are:</p>
+
+<pre><code>controller:posts:foo  -&gt; Controller.foo
+controller:posts:new  -&gt; Controller.setupForm
+controller:posts:edit -&gt; Controller.setupForm
+</code></pre>
+
+<p><em>Note: undefined/empty values effectively removes that segment from the event name</em></p>
+
+<h4>
+<a name="namespace" class="anchor" href="#namespace"><span class="octicon octicon-link"></span></a>namespace</h4>
+
+<p>By default <code>Controller</code>s have an empty namespace. If you wish to prefix the events the <code>Controller</code> registers for with an namespace, set this property:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">createController</span><span class="p">(</span><span class="s2">"Posts"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">namespace</span><span class="o">:</span> <span class="s2">"admin"</span>
+  <span class="p">...</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>This will register all events with the <code>namespace</code> prefix:</p>
+
+<pre><code>admin:controller:posts:foo  -&gt; Controller.foo
+admin:controller:posts:new  -&gt; Controller.setupForm
+admin:controller:posts:edit -&gt; Controller.setupForm
+</code></pre>
+
+<h4>
+<a name="channel" class="anchor" href="#channel"><span class="octicon octicon-link"></span></a>channel</h4>
+
+<p>The default channel for a <code>Controller</code> is <code>controller</code>. To change this simply set the channel:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">createController</span><span class="p">(</span><span class="s2">"Posts"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">channel</span><span class="o">:</span> <span class="s2">"pages"</span>
+  <span class="p">...</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>This will register all events with the <code>channel</code>:</p>
+
+<pre><code>pages:posts:foo  -&gt; Controller.foo
+pages:posts:new  -&gt; Controller.setupForm
+pages:posts:edit -&gt; Controller.setupForm
+</code></pre>
+
+<h4>
+<a name="controllereventname" class="anchor" href="#controllereventname"><span class="octicon octicon-link"></span></a>controllerEventName</h4>
+
+<p>The <code>Controller</code> is given a <code>name</code> property by the <code>Application.createController(name, attributes)</code> method. The <code>controllerEventName</code> is automatically createds by lowercasing and underscoring the <code>name</code> to normalize event names. The <code>PostsController</code> example has the <code>name</code> "Posts" and a <code>controllerEventName</code> of "posts". CamelCased names will have underscores between each uppercased word:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">createController</span><span class="p">(</span><span class="s2">"CamelCase"</span><span class="p">);</span>
+</pre></div>
+
+<p>This would register all events with the controller <code>controllerEventName</code> of <code>camel_case</code>:</p>
+
+<pre><code>controller:camel_case:&lt;action&gt; -&gt; Controller.&lt;action&gt;
+</code></pre>
+
+<h4>
+<a name="eventseperator" class="anchor" href="#eventseperator"><span class="octicon octicon-link"></span></a>eventSeperator</h4>
+
+<p>The <code>eventSeperator</code> property defines how the <code>namespace</code>, <code>channel</code>, <code>name</code>, and <code>action</code> will be joined to create an event name. You can change this by setting the <code>eventSeperator</code> on the <code>Controller</code>:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">createController</span><span class="p">(</span><span class="s2">"Posts"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">eventSeperator</span><span class="o">:</span> <span class="s2">"."</span>
+  <span class="p">...</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>This would register all events using "." as a seperator:</p>
+
+<pre><code>controller.posts.foo  -&gt; Controller.foo
+controller.posts.new  -&gt; Controller.setupForm
+controller.posts.edit -&gt; Controller.edit
+</code></pre>
+
+<h3>
+<a name="actioneventname" class="anchor" href="#actioneventname"><span class="octicon octicon-link"></span></a>actionEventName</h3>
+
+<p>The <code>actionEventName</code> method allows you to get the full event name of a given action. It returns the <code>namespace</code>, <code>channel</code>, <code>controllerEventName</code>, and the <code>action</code> joined by the <code>eventSeperator</code>:</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">controller</span> <span class="o">=</span> <span class="nx">App</span><span class="p">.</span><span class="nx">createController</span><span class="p">(</span><span class="s2">"Posts"</span><span class="p">);</span>
+<span class="nx">controller</span><span class="p">.</span><span class="nx">actionEventName</span><span class="p">(</span><span class="s2">"index"</span><span class="p">);</span> <span class="c1">// controller:posts:index</span>
+<span class="nx">controller</span><span class="p">.</span><span class="nx">actionEventName</span><span class="p">(</span><span class="s2">"show"</span><span class="p">);</span> <span class="c1">// controller:posts:show</span>
+<span class="nx">controller</span><span class="p">.</span><span class="nx">actionEventName</span><span class="p">(</span><span class="s2">"new"</span><span class="p">);</span> <span class="c1">// controller:posts:new</span>
+<span class="nx">controller</span><span class="p">.</span><span class="nx">actionEventName</span><span class="p">(</span><span class="s2">"edit"</span><span class="p">);</span> <span class="c1">// controller:posts:edit</span>
+<span class="nx">controller</span><span class="p">.</span><span class="nx">actionEventName</span><span class="p">();</span> <span class="c1">// controller:posts</span>
+</pre></div>
+
+<h3>
+<a name="classname" class="anchor" href="#classname"><span class="octicon octicon-link"></span></a>className</h3>
+
+<p>Every Controller has a <code>className</code>. The <code>className</code> property is generated by capitalizing the <code>name</code> and adding the suffix "Controller". This property is used to display the Controller's constructor name in error output. Given the "Posts" Controller, the <code>controllerName</code> would be: <code>PostsController</code>.</p>
+
+<h2>
+<a name="testing" class="anchor" href="#testing"><span class="octicon octicon-link"></span></a>Testing</h2>
+
+<p>JSKit is all about making testing javascript easier. JSKit itself comes with some handy tools for testing JSKit applications. When you create a controller with the <code>Application.createController</code> method. The created Controller's constructor will be available on the <code>Application</code> object using the Controller's <code>className</code>. Using the "Posts" controller example:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">PostsController</span>
+</pre></div>
+
+<p><strong><em>ALWAYS</em></strong> use the provided constructors when testing your Controllers to ensure you don't pollute your tests with mutated state.</p>
+
+<h3>
+<a name="testdispatcher" class="anchor" href="#testdispatcher"><span class="octicon octicon-link"></span></a>TestDispatcher</h3>
+
+<p>The <code>TestDispatcher</code> is used to help test JSKit Controllers. You should always use the <code>TestDispatcher</code> when testing Controllers. To create a controller with the <code>TestDispatcher</code> simply pass it to the Controller:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">describe</span><span class="p">(</span><span class="s2">"PostsController"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">subject</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">dispatcher</span><span class="p">;</span>
+
+  <span class="nx">beforeEach</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">dispatcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JSKit</span><span class="p">.</span><span class="nx">TestDispatcher</span><span class="p">;</span>
+    <span class="nx">subject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">.</span><span class="nx">PostsController</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="p">...</span>  
+<span class="p">};</span>
+</pre></div>
+
+<h4>
+<a name="spies" class="anchor" href="#spies"><span class="octicon octicon-link"></span></a>spies</h4>
+
+<p>When your Controller registers events on the <code>TestDispatcher</code>, your Controller's action methods will be enhanced with properties to determine if and how they were called:</p>
+
+<div class="highlight highlight-js"><pre><span class="p">...</span>
+<span class="nx">it</span><span class="p">(</span><span class="s2">"calls index when the index event is triggered"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="nx">controller</span><span class="p">.</span><span class="nx">actionEventName</span><span class="p">(</span><span class="s2">"index"</span><span class="p">));</span>
+
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">controller</span><span class="p">.</span><span class="nx">index</span><span class="p">.</span><span class="nx">called</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">controller</span><span class="p">.</span><span class="nx">index</span><span class="p">.</span><span class="nx">callCount</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">controller</span><span class="p">.</span><span class="nx">index</span><span class="p">.</span><span class="nx">calls</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">args</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">an</span><span class="p">(</span><span class="s2">"Array"</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">controller</span><span class="p">.</span><span class="nx">index</span><span class="p">.</span><span class="nx">calls</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">args</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">empty</span><span class="p">();</span>
+<span class="p">});</span>
+<span class="p">...</span>   
+<span class="p">};</span>
+</pre></div>
+
+<h3>
+<a name="hasaction" class="anchor" href="#hasaction"><span class="octicon octicon-link"></span></a>hasAction</h3>
+
+<p>Most of the time, you will not need the extra functionality provided by spies and you simply want to see if a Controller's actions are wired up correctly. You can do this simply by calling <code>hasAction</code> with the controller and action you wish to test:</p>
+
+<div class="highlight highlight-js"><pre><span class="p">...</span>
+<span class="kd">var</span> <span class="nx">subject</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">dispatcher</span><span class="p">;</span>
+
+<span class="nx">beforeEach</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">dispatcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JSKit</span><span class="p">.</span><span class="nx">TestDispatcher</span><span class="p">;</span>
+  <span class="nx">subject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">.</span><span class="nx">PostsController</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">it</span><span class="p">(</span><span class="s2">"has an index action"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">hasAction</span><span class="p">(</span><span class="nx">subject</span><span class="p">,</span> <span class="s2">"index"</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="p">...</span>
+</pre></div>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li><a href="https://github.com/daytonn/jskit/fork">Fork it</a></li>
+<li>Clone it locally</li>
+<li>Set the upstream remote (<code>git remote add upstream git@github.com:daytonn/jskit.git</code>)</li>
+<li>Run the specs with <code>npm test</code>
+</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Rebase from upstream (<code>git rebase upstream master</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/daytonn">daytonn</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
