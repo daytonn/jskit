@@ -22,8 +22,8 @@
 
 
         <ul>
-          <li><a href="https://github.com/daytonn/jskit/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/daytonn/jskit/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.min.js">Download <strong>Production</strong></a></li>
+          <li><a href="https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.js">Download <strong>Development</strong></a></li>
           <li><a href="https://github.com/daytonn/jskit">View On <strong>GitHub</strong></a></li>
         </ul>
       </header>
@@ -302,7 +302,7 @@ controller.posts.edit -&gt; Controller.edit
     <span class="nx">dispatcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JSKit</span><span class="p">.</span><span class="nx">TestDispatcher</span><span class="p">;</span>
     <span class="nx">subject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">App</span><span class="p">.</span><span class="nx">PostsController</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">);</span>
   <span class="p">}</span>
-  <span class="p">...</span>  
+  <span class="p">...</span>
 <span class="p">};</span>
 </pre></div>
 
@@ -320,7 +320,7 @@ controller.posts.edit -&gt; Controller.edit
   <span class="nx">expect</span><span class="p">(</span><span class="nx">controller</span><span class="p">.</span><span class="nx">index</span><span class="p">.</span><span class="nx">calls</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">args</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">an</span><span class="p">(</span><span class="s2">"Array"</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">controller</span><span class="p">.</span><span class="nx">index</span><span class="p">.</span><span class="nx">calls</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">args</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">empty</span><span class="p">();</span>
 <span class="p">});</span>
-<span class="p">...</span>   
+<span class="p">...</span>
 <span class="p">};</span>
 </pre></div>
 
@@ -366,6 +366,6 @@ controller.posts.edit -&gt; Controller.edit
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-    
+
   </body>
 </html>
