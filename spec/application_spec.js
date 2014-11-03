@@ -1,7 +1,6 @@
 /* jshint esnext: true */
 import { expect } from "./spec_helper";
 import Controller from "../lib/controller";
-import ApplicationController from "../lib/application_controller";
 import TestDispatcher from "../lib/test_dispatcher";
 import Application from "../lib/application";
 import Events from "backbone-events-standalone";
@@ -32,7 +31,7 @@ describe("Application", function() {
 
     it("accepts an alternate Dispatcher", function() {
       var dispatcher = new TestDispatcher;
-      controller = subject.createController("Test", {}, dispatcher);
+      controller = subject.createController("Test", { dispatcher: dispatcher });
       expect(controller.dispatcher).to.equal(dispatcher);
     });
 
@@ -50,22 +49,6 @@ describe("Application", function() {
 
       it("returns the controller", () => {
         expect(controller).to.be.an.instanceof(Controller);
-      });
-    });
-
-    describe("ApplicationController", function() {
-      beforeEach(function() {
-        controller = subject.createController("Application", {
-          init: function() { this.initCalled = true; }
-        });
-      });
-
-      it("creates a controller instance on the Controler's namespace", () => {
-        expect(subject.Controllers.Application).to.be.an.instanceof(ApplicationController);
-      });
-
-      it("returns the controller", () => {
-        expect(controller).to.be.an.instanceof(ApplicationController);
       });
     });
 

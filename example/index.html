@@ -6,8 +6,9 @@
 <body>
   <div id="application-controller"></div>
   <div id="home-controller"></div>
+  <div id="home-index"></div>
   <div id="foo-action"></div>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+
   <script src="jskit.js"></script>
   <script>
     var App = JSKit.createApplication();
@@ -17,7 +18,7 @@
         this.applicationController = document.getElementById("application-controller");
       },
 
-      init: function(message) {
+      all: function(message) {
         this.applicationController.innerHTML = message;
       }
     });
@@ -27,11 +28,16 @@
 
       initialize: function() {
         this.homeControllerContainer = document.getElementById("home-controller");
+        this.homeIndexContainer = document.getElementById("home-index");
         this.fooActionContainer = document.getElementById("foo-action");
       },
 
-      index: function(message) {
+      all: function(message) {
         this.homeControllerContainer.innerHTML = this.messageParagraph(message);
+      },
+
+      index: function(message) {
+        this.homeIndexContainer.innerHTML = this.messageParagraph(message);
       },
 
       bar: function(message) {
@@ -43,9 +49,10 @@
       }
     });
 
-    App.Dispatcher.trigger("controller:all", "Application Controller");
-    App.Dispatcher.trigger("controller:home:index", "Hello JSKit");
-    App.Dispatcher.trigger("controller:home:foo", "foo triggered");
+    App.Dispatcher.trigger("controller:application:all", "controller:application:all triggered");
+    App.Dispatcher.trigger("controller:home:all", "controller:home:all triggered");
+    App.Dispatcher.trigger("controller:home:index", "controller:home:index triggered");
+    App.Dispatcher.trigger("controller:home:foo", "controller:home:foo triggered");
   </script>
 </body>
 </html>

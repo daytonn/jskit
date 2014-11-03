@@ -8,6 +8,7 @@ import _ from "lodash";
 describe("Controller", function() {
   var dispatcher;
   var subject;
+  var allCalled;
   var controllerDefaults = {
     name: "Test",
     actions: ["index", { mapped: "action" }],
@@ -73,6 +74,17 @@ describe("Controller", function() {
 
   it("requires a dispatcher", function() {
     expect(() => createController()).to.throw();
+  });
+
+  it("has a default all function", function() {
+    expect(subject.all).to.be.a("Function");
+  });
+
+  describe("all event", function() {
+    it("automatically wires the all event", function() {
+      dispatcher.trigger(subject.actionEventName("all"));
+      expect(subject.all.called).to.equal(true);
+    });
   });
 
   describe("actionEventName", function() {
