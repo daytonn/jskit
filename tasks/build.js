@@ -23,7 +23,15 @@ gulp.task("compile", ["transpile"], function() {
     .pipe(gulp.dest("tmp/compiled"));
 });
 
-gulp.task("concat", ["compile"], function() {
+gulp.task("concat_without_traceur", ["compile"], function() {
+  return gulp.src([
+    "tmp/compiled/**/*.js",
+    ])
+    .pipe(concat("jskit_standalone.js"))
+    .pipe(gulp.dest("dist"));
+});
+
+gulp.task("concat_with_traceur", ["concat_without_traceur"], function() {
   return gulp.src([
     "node_modules/traceur/bin/traceur-runtime.js",
     "tmp/compiled/**/*.js",
@@ -32,7 +40,7 @@ gulp.task("concat", ["compile"], function() {
     .pipe(gulp.dest("dist"));
 });
 
-gulp.task("minify", ["concat"], function() {
+gulp.task("minify", ["concat_with_traceur"], function() {
   return gulp.src("dist/jskit.js")
     .pipe(uglify())
     .pipe(rename({ suffix: ".min" }))
