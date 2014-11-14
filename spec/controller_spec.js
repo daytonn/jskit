@@ -4,7 +4,6 @@ import Controller from "../lib/controller";
 import TestDispatcher from "../lib/test_dispatcher";
 import _ from "lodash";
 
-
 describe("Controller", function() {
   var dispatcher;
   var subject;
@@ -27,6 +26,9 @@ describe("Controller", function() {
     subject = createController(dispatcher, controllerDefaults);
   });
 
+  it("requires a dispatcher", function() {
+    expect(() => createController()).to.throw();
+  });
   it("has an actions array", function() {
     expect(subject.actions).to.be.an("Array");
   });
@@ -70,10 +72,6 @@ describe("Controller", function() {
 
   it("has an eventSeperator", function() {
     expect(subject.eventSeperator).to.equal(":");
-  });
-
-  it("requires a dispatcher", function() {
-    expect(() => createController()).to.throw();
   });
 
   it("has a default all function", function() {

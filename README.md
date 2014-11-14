@@ -214,6 +214,13 @@ This would register all events using "." as a seperator:
     controller.posts.new  -> Controller.setupForm
     controller.posts.edit -> Controller.edit
     
+
+### The `all` event
+
+Every controller has an automatically wired `all` action. Other than being automatically wired, it is a simple action->event map like any other:
+
+    controller:posts:all -> Controller.all
+    
 ### actionEventName
 
 The `actionEventName` method allows you to get the full event name of a given action. It returns the `namespace`, `channel`, `controllerEventName`, and the `action` joined by the `eventSeperator`:
