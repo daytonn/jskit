@@ -39,12 +39,17 @@ gulp.task("minify", ["concat"], function() {
     .pipe(gulp.dest("dist"));
 });
 
+gulp.task("es6", ["example"], function() {
+  return  gulp.src(["lib/**/*.js"])
+    .pipe(gulp.dest("dist/es6"));
+});
+
 gulp.task("example", ["minify"], function() {
   gulp.src(["dist/jskit.js"])
     .pipe(gulp.dest("example"));
 });
 
-gulp.task("build", ["example"], function() {
+gulp.task("build", ["es6"], function() {
   return gulp.src(["tmp"])
     .pipe(clean());
 });
