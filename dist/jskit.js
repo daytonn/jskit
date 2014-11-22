@@ -11018,18 +11018,21 @@ var $__default = Controller;
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var $__application__,
-    $__test_95_dispatcher__;
+    $__test_95_dispatcher__,
+    $__controller__;
 var Application = ($__application__ = require("./application"), $__application__ && $__application__.__esModule && $__application__ || {default: $__application__}).default;
 var TestDispatcher = ($__test_95_dispatcher__ = require("./test_dispatcher"), $__test_95_dispatcher__ && $__test_95_dispatcher__.__esModule && $__test_95_dispatcher__ || {default: $__test_95_dispatcher__}).default;
+var Controller = ($__controller__ = require("./controller"), $__controller__ && $__controller__.__esModule && $__controller__ || {default: $__controller__}).default;
 (global || window).JSKit = {
   TestDispatcher: TestDispatcher,
+  Controller: Controller,
   createApplication: function() {
     return new Application;
   }
 };
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_1c6a0457.js","/")
-},{"./application":8,"./test_dispatcher":12,"buffer":3,"oMfpAn":6}],11:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_9e283b2a.js","/")
+},{"./application":8,"./controller":9,"./test_dispatcher":12,"buffer":3,"oMfpAn":6}],11:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 Object.defineProperties(exports, {

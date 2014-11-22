@@ -36,9 +36,7 @@ function setControllerDefaults() {
 class Controller {
   constructor(dispatcher) {
     if (!dispatcher) throw new Error(`${this.className}: dispatcher is undefined`);
-
     this.dispatcher = dispatcher;
-
     _.bindAll.apply(this, [this].concat(_.functions(this)));
 
     setControllerDefaults.call(this);
@@ -49,9 +47,7 @@ class Controller {
   }
 
   initialize() {}
-
   all() {}
-
   actionEventName(action) {
     return _.compact([this.namespace, this.channel, this.controllerEventName, action]).join(this.eventSeperator);
   }
