@@ -50,6 +50,52 @@ describe("Application", function() {
       it("returns the controller", () => {
         expect(controller).to.be.an.instanceof(Controller);
       });
+
+      describe("with mixins", () => {
+        var MixinOne;
+        var MixinTwo;
+        beforeEach(() => {
+          MixinOne = {
+            actions: ["mixin"],
+            someProperty: "test",
+            mixin: function() {
+              return this.someProperty;
+            }
+          };
+          MixinTwo = {
+            actions: ["mixinTwo"],
+            mixinTwo: function() {},
+            anotherProperty: "test"
+          };
+          controller = subject.createController("Test", MixinOne, MixinTwo, {
+            actions: ["index"],
+            index: function() {}
+          });
+        });
+
+        it("has the mixin actions", () => {
+          expect(controller.actions).to.contain("mixin");
+          expect(controller.actions).to.contain("mixinTwo");
+        });
+
+        it("has the mixin methods", () => {
+          expect(controller.mixin).to.be.a.function;
+          expect(controller.mixinTwo).to.be.a.function;
+        });
+
+        it("has the mixin properties", () => {
+          expect(controller.someProperty).to.equal("test");
+          expect(controller.anotherProperty).to.equal("test");
+        });
+
+        it("has the default methods", () => {
+          expect(controller.index).to.be.a.function;
+        });
+
+        it("has the defaut controller actions", () => {
+          expect(controller.actions).to.contain("index");
+        });
+      });
     });
 
     describe("constantizing controller name", function() {
