@@ -10938,7 +10938,7 @@ var Application = function Application() {
     var allActions = _.chain(attrs).map((function(mixin) {
       return mixin.actions;
     })).flatten().compact().value();
-    attrs = ($__6 = _).extend.apply($__6, $traceurRuntime.spread(attrs, [{actions: allActions}]));
+    attrs = ($__6 = _).extend.apply($__6, $traceurRuntime.spread([{}], attrs, [{actions: allActions}]));
     var dispatcher = attrs.dispatcher || this.Dispatcher;
     if (attrs.dispatcher)
       delete attrs.dispatcher;
@@ -11038,7 +11038,7 @@ var Controller = ($__controller__ = require("./controller"), $__controller__ && 
   }
 };
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_e732f29.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d77f6de5.js","/")
 },{"./application":8,"./controller":9,"./test_dispatcher":12,"buffer":3,"oMfpAn":6}],11:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
