@@ -5,23 +5,24 @@ import TestDispatcher from "../lib/test_dispatcher";
 import Controller from "../lib/controller";
 import _ from "lodash";
 
+let extend = _.extend;
+let each = _.each;
+let functions = _.functions;
+
 describe("TestDispatcher", function() {
   var subject;
   var controller;
   class TestController extends Controller {}
 
   beforeEach(function() {
-    _.extend(TestController.prototype, {
+    extend(TestController.prototype, {
       name: "Test",
       actions: ["foo", { bar: "foo" }],
-      foo: function() {}
+      foo() { this.otherMethod(); },
+      otherMethod() {}
     });
     subject = new TestDispatcher;
     controller = new TestController(subject);
-  });
-
-  it("has an events object", function() {
-    expect(subject.events).to.be.an("Object");
   });
 
   it("has a shadowDispatcher", function() {
@@ -30,14 +31,11 @@ describe("TestDispatcher", function() {
     expect(subject.shadowDispatcher.trigger).to.be.a("Function");
   });
 
-  describe("on", function() {
-    it("adds the event to the events object", function() {
-      ["foo", "bar"].forEach((action) => {
-        var eventName = controller.actionEventName(action);
-        expect(subject.events[eventName]).to.contain(controller.foo);
-      });
-    });
+  it("has an array of listeners", () => {
+    expect(subject.listeners).to.be.an("Array");
+  });
 
+  describe("on", function() {
     it("adds a spy tooling to the handler", function() {
       expect(controller.foo.called).to.equal(false);
       expect(controller.foo.callCount).to.equal(0);
@@ -50,6 +48,37 @@ describe("TestDispatcher", function() {
       expect(controller.foo.called).to.equal(true);
       expect(controller.foo.callCount).to.equal(1);
       expect(controller.foo.calls.length).to.equal(1);
+    });
+
+    it("saves a reference to the controller that registered to it", () => {
+      expect(subject.listeners).to.contain(controller);
+    });
+
+    it("does not store duplicate instances of controllers", () => {
+      expect(subject.listeners.length).to.eq(1);
+    });
+
+    it("adds a spy tooling to each controller method", () => {
+      expect(controller.otherMethod.called).to.equal(false);
+      expect(controller.otherMethod.callCount).to.equal(0);
+      expect(controller.otherMethod.calls).to.be.an("Array");
+
+      controller.otherMethod(1, 2, 3);
+
+      expect(controller.otherMethod.called).to.equal(true);
+      expect(controller.otherMethod.callCount).to.equal(1);
+
+      var args = _.first(controller.otherMethod.calls).args;
+
+      expect(args).to.contain(1);
+      expect(args).to.contain(2);
+      expect(args).to.contain(3);
+
+      controller.foo();
+
+      expect(controller.otherMethod.callCount).to.equal(2);
+
+      expect(_.last(controller.otherMethod.calls).args.length).to.be.empty;
     });
   });
 
@@ -66,6 +95,21 @@ describe("TestDispatcher", function() {
     it("triggers the shadowDispatcher", function() {
       subject.trigger("testEvent");
       expect(eventFired).to.equal(true);
+    });
+  });
+
+  describe("hasAction", () => {
+    it("returns true when the controller has the given action", () => {
+      expect(subject.hasAction(controller, "foo")).to.equal(true);
+    });
+
+    it("returns false when the controller does not have the given action", () => {
+      expect(subject.hasAction(controller, "nonexistent")).to.equal(false);
+    });
+
+    it("works with mapped actions", () => {
+      expect(subject.hasAction(controller, { bar: "foo" })).to.equal(true);
+      expect(subject.hasAction(controller, { non: "existent" })).to.equal(false);
     });
   });
 });

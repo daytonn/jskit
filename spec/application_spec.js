@@ -4,7 +4,6 @@ import Controller from "../lib/controller";
 import TestDispatcher from "../lib/test_dispatcher";
 import Application from "../lib/application";
 import Events from "backbone-events-standalone";
-import _ from "lodash";
 
 describe("Application", function() {
   var subject;
@@ -121,7 +120,7 @@ describe("Application", function() {
         expect(subject.DashedNameControllers).to.be.defined;
       });
 
-      it("constantizes names with mized characters", function() {
+      it("constantizes names with mixed characters", function() {
         controller = subject.createController("name with-mixed_characters");
         expect(subject.Controllers.NameWithMixedCharacters).to.be.an.instanceof(Controller);
         expect(subject.NameWithMixedCharactersControllers).to.be.defined;
