@@ -306,7 +306,7 @@ App.createController("Comments", CustomMixin, {
 });
 ```
 
-*Note: Mixin properties are NOT copied deeply, aside from the `actions` array, array properties are not merge and deeply nested references will not be cloned. Because of this, Mixin usage is considered experimental and should be used with caution.*
+*Note: Mixin properties are NOT copied deeply. Aside from the `actions` array, array properties are not merge and deeply nested references will not be cloned. Because of this, Mixin usage is considered experimental and should be used with caution.*
 
 Testing
 -------
