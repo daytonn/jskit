@@ -8482,27 +8482,30 @@ var Events = ($__backbone_45_events_45_standalone__ = require("backbone-events-s
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
 var s = ($__string__ = require("./string"), $__string__ && $__string__.__esModule && $__string__ || {default: $__string__}).default;
 var BaseController = ($__controller__ = require("./controller"), $__controller__ && $__controller__.__esModule && $__controller__ || {default: $__controller__}).default;
+var clone = _.clone;
+var extend = _.extend;
+var first = _.first;
 var Application = function Application() {
   this.Controllers = {};
-  this.Dispatcher = _.clone(Events);
+  this.Dispatcher = clone(Events);
 };
 ($traceurRuntime.createClass)(Application, {createController: function(name) {
     for (var attrs = [],
         $__5 = 1; $__5 < arguments.length; $__5++)
       attrs[$__5 - 1] = arguments[$__5];
     var mixins = attrs.length > 2 ? attrs.slice(0, attrs.length - 1) : [];
-    attrs = _.first(attrs.slice(attrs.length - 1)) || {};
+    attrs = first(attrs.slice(attrs.length - 1)) || {};
     var dispatcher = attrs.dispatcher || this.Dispatcher;
     if (attrs.dispatcher)
       delete attrs.dispatcher;
     name = s.constantize(name);
-    _.extend(attrs, {name: name});
+    extend(attrs, {name: name});
     var Controller = function Controller() {
       $traceurRuntime.defaultSuperCall(this, $Controller.prototype, arguments);
     };
     var $Controller = Controller;
     ($traceurRuntime.createClass)(Controller, {}, {}, BaseController);
-    _.extend(Controller.prototype, attrs);
+    extend(Controller.prototype, attrs);
     this[(attrs.name + "Controller")] = Controller;
     this.Controllers[name] = new (Function.prototype.bind.apply(Controller, $traceurRuntime.spread([null, dispatcher], mixins)))();
     return this.Controllers[name];
@@ -8523,14 +8526,26 @@ var $__lodash__,
     $__string__;
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
 var s = ($__string__ = require("./string"), $__string__ && $__string__.__esModule && $__string__ || {default: $__string__}).default;
+var bindAll = _.bindAll;
+var compact = _.compact;
+var defaults = _.defaults;
+var each = _.each;
+var extend = _.extend;
+var first = _.first;
+var functions = _.functions;
+var isFunction = _.isFunction;
+var isObject = _.isObject;
+var keys = _.keys;
+var uniq = _.uniq;
+var values = _.values;
 function ensureActionIsDefined(actionMap) {
-  if (!_.isFunction(this[actionMap.method]))
+  if (!isFunction(this[actionMap.method]))
     throw new Error((this.className + " action \"" + actionMap.name + this.eventSeperator + actionMap.method + "\" method is undefined"));
 }
 function mapAction(action) {
-  var isMappedAction = _.isObject(action);
-  var method = isMappedAction ? _(action).values().first() : action;
-  var name = isMappedAction ? _(action).keys().first() : action;
+  var isMappedAction = isObject(action);
+  var method = isMappedAction ? first(values(action)) : action;
+  var name = isMappedAction ? first(keys(action)) : action;
   return {
     name: name,
     method: method
@@ -8538,7 +8553,7 @@ function mapAction(action) {
 }
 function registerActions(dispatcher) {
   var $__2 = this;
-  _.each(this.actions, (function(action) {
+  each(this.actions, (function(action) {
     var actionMap = mapAction(action);
     ensureActionIsDefined.call($__2, actionMap);
     $__2.dispatcher.on($__2.actionEventName(actionMap.name), $__2[actionMap.method], $__2);
@@ -8546,7 +8561,7 @@ function registerActions(dispatcher) {
 }
 function setControllerDefaults() {
   this.name = this.name || "Anonymous";
-  _.defaults(this, {
+  defaults(this, {
     eventSeperator: ":",
     actions: [],
     channel: "controller",
@@ -8556,12 +8571,12 @@ function setControllerDefaults() {
 }
 function addMixins(mixins) {
   var $__2 = this;
-  _.each(mixins, (function(mixin) {
+  each(mixins, (function(mixin) {
     if (mixin.actions) {
-      $__2.actions = _.uniq($__2.actions.concat(mixin.actions));
+      $__2.actions = uniq($__2.actions.concat(mixin.actions));
       delete mixin.actions;
     }
-    _.extend($__2, mixin, $__2);
+    extend($__2, mixin, $__2);
   }), this);
 }
 var Controller = function Controller(dispatcher) {
@@ -8573,7 +8588,7 @@ var Controller = function Controller(dispatcher) {
   if (mixins)
     addMixins.call(this, mixins);
   this.dispatcher = dispatcher;
-  _.bindAll.apply(this, [this].concat(_.functions(this)));
+  bindAll.apply(this, [this].concat(functions(this)));
   setControllerDefaults.call(this);
   this.actions.unshift("all");
   registerActions.call(this);
@@ -8583,7 +8598,7 @@ var Controller = function Controller(dispatcher) {
   initialize: function() {},
   all: function() {},
   actionEventName: function(action) {
-    return _.compact([this.namespace, this.channel, this.controllerEventName, action]).join(this.eventSeperator);
+    return compact([this.namespace, this.channel, this.controllerEventName, action]).join(this.eventSeperator);
   }
 }, {});
 var $__default = Controller;
@@ -8606,7 +8621,7 @@ var Controller = ($__controller__ = require("./controller"), $__controller__ && 
   }
 };
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_149e14b8.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_2c584872.js","/")
 },{"./application":8,"./controller":9,"./test_dispatcher":12,"buffer":3,"oMfpAn":6}],11:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -8618,10 +8633,14 @@ Object.defineProperties(exports, {
 });
 var $__lodash__;
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
+var contains = _.contains;
+var map = _.map;
+var toArray = _.toArray;
+var unescape = _.unescape;
 var $__default = {
   camelize: function() {
     var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return _(string.split(/_|-|\s/g)).map(function(part, i) {
+    return map(string.split(/_|-|\s/g), function(part, i) {
       return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
     }).join("");
   },
@@ -8641,7 +8660,7 @@ var $__default = {
   constantize: function() {
     var string = arguments[0] !== (void 0) ? arguments[0] : "";
     if (string.match(/_|-|\s/)) {
-      var s = _(string.split(/_|-|\s/g)).map(function(part, i) {
+      var s = map(string.split(/_|-|\s/g), function(part, i) {
         return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
       }).join("");
       string = s;
@@ -8703,13 +8722,13 @@ var $__default = {
   },
   titleCase: function() {
     var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return _(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/)).map(function(s) {
+    return map(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/), function(s) {
       return s.charAt(0).toUpperCase() + s.slice(1);
     }).join(" ");
   },
   titleize: function() {
     var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return _(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/)).map(function(s) {
+    return map(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/), function(s) {
       return s.charAt(0).toUpperCase() + s.slice(1);
     }).join(" ");
   },
@@ -8717,9 +8736,9 @@ var $__default = {
     var string = arguments[0] !== (void 0) ? arguments[0] : "";
     var truthyStrings = ["true", "yes", "on", "y"];
     var falseyStrings = ["false", "no", "off", "n"];
-    if (_(truthyStrings).contains(string.toLowerCase())) {
+    if (contains(truthyStrings, string.toLowerCase())) {
       return true;
-    } else if (_(falseyStrings).contains(string.toLowerCase())) {
+    } else if (contains(falseyStrings, string.toLowerCase())) {
       return false;
     } else {
       return string.length > 0 ? true : false;
@@ -8743,7 +8762,7 @@ var $__default = {
   },
   unescape: function() {
     var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return _.unescape.apply(this, [this].concat(_.toArray(arguments)));
+    return unescape.apply(this, [this].concat(toArray(arguments)));
   },
   unwrap: function(string, wrapper) {
     string = string || "";
@@ -8776,6 +8795,17 @@ var $__lodash__,
     $__backbone_45_events_45_standalone__;
 var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
 var Events = ($__backbone_45_events_45_standalone__ = require("backbone-events-standalone"), $__backbone_45_events_45_standalone__ && $__backbone_45_events_45_standalone__.__esModule && $__backbone_45_events_45_standalone__ || {default: $__backbone_45_events_45_standalone__}).default;
+var clone = _.clone;
+var contains = _.contains;
+var each = _.each;
+var first = _.first;
+var functions = _.functions;
+var isString = _.isString;
+var keys = _.keys;
+var toArray = _.toArray;
+var values = _.values;
+var map = _.map;
+var rest = _.rest;
 function spyOn(handler) {
   handler.called = false;
   handler.callCount = 0;
@@ -8785,8 +8815,8 @@ function spyOn(handler) {
 function mapAction(action) {
   var name;
   var method;
-  name = _.isString(action) ? action : _(action).keys().first();
-  method = _.isString(action) ? action : _(action).values().first();
+  name = isString(action) ? action : first(keys(action));
+  method = isString(action) ? action : first(values(action));
   return {
     name: name,
     method: method
@@ -8794,33 +8824,53 @@ function mapAction(action) {
 }
 function actionName(action) {
   var actionMap = mapAction(action);
-  return _.isString(action) ? ("\"" + action + "\"") : ("{ " + actionMap.name + ": \"" + actionMap.method + "\" }");
+  return isString(action) ? ("\"" + action + "\"") : ("{ " + actionMap.name + ": \"" + actionMap.method + "\" }");
 }
 var TestDispatcher = function TestDispatcher() {
+  this.listeners = [];
   this.events = {};
-  this.shadowDispatcher = _.clone(Events);
+  this.shadowDispatcher = clone(Events);
 };
 ($traceurRuntime.createClass)(TestDispatcher, {
   on: function(eventName, handler, controller) {
+    if (!contains(this.listeners, controller))
+      this.spyOnControllerMethods(controller);
     var spy = spyOn(handler);
     this.events[eventName] = this.events[eventName] || [];
     this.events[eventName].push(spy);
     this.shadowDispatcher.on(eventName, function() {
-      this.trackSpy(spy);
+      this.trackSpy(spy, arguments);
     }, this);
+  },
+  spyOnControllerMethods: function(controller) {
+    var actionNames = map(controller.actions, (function(action) {
+      return actionName(action);
+    }));
+    var _this = this;
+    each(functions(controller), (function(method) {
+      if (!contains(actionNames, method)) {
+        var unboundMethod = controller[method];
+        controller[method] = function() {
+          _this.trackSpy(controller[method], arguments);
+          return unboundMethod.apply(controller, arguments);
+        };
+        spyOn(controller[method]);
+      }
+    }), this);
+    this.listeners.push(controller);
   },
   trigger: function(eventName, handler, context) {
     this.shadowDispatcher.trigger(eventName, handler, context);
   },
-  trackSpy: function(spy) {
+  trackSpy: function(spy, args) {
     spy.callCount += 1;
     spy.called = true;
-    spy.calls.push({args: _.toArray(arguments)});
+    spy.calls.push({args: toArray(args)});
   },
   hasAction: function(controller, action) {
     var actionExists = false;
     controller.actions.forEach((function(a) {
-      if (actionName(a) === actionName(a))
+      if (actionName(a) === actionName(action))
         actionExists = true;
     }));
     if (!actionExists)

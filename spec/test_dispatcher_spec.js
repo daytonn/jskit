@@ -5,9 +5,9 @@ import TestDispatcher from "../lib/test_dispatcher";
 import Controller from "../lib/controller";
 import _ from "lodash";
 
-let extend = _.extend;
-let each = _.each;
-let functions = _.functions;
+var extend = _.extend;
+var each = _.each;
+var functions = _.functions;
 
 describe("TestDispatcher", function() {
   var subject;

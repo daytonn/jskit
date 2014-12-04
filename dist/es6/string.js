@@ -1,9 +1,14 @@
 /* jshint esnext: true */
 import _ from "lodash";
 
+var contains = _.contains;
+var map = _.map;
+var toArray = _.toArray;
+var unescape = _.unescape;
+
 export default {
   camelize: function(string="") {
-    return _(string.split(/_|-|\s/g)).map(function(part, i) {
+    return map(string.split(/_|-|\s/g), function(part, i) {
       return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
     }).join("");
   },
@@ -24,7 +29,7 @@ export default {
 
   constantize: function(string="") {
     if (string.match(/_|-|\s/)) {
-      var s = _(string.split(/_|-|\s/g)).map(function(part, i) {
+      var s = map(string.split(/_|-|\s/g), function(part, i) {
         return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
       }).join("");
       string = s;
@@ -86,13 +91,13 @@ export default {
   },
 
   titleCase: function(string="") {
-    return _(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/)).map(function(s) {
+    return map(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/), function(s) {
       return s.charAt(0).toUpperCase() + s.slice(1);
     }).join(" ");
   },
 
   titleize: function(string="") {
-    return _(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/)).map(function(s) {
+    return map(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/), function(s) {
       return s.charAt(0).toUpperCase() + s.slice(1);
     }).join(" ");
   },
@@ -100,9 +105,9 @@ export default {
   toBoolean: function(string="") {
     var truthyStrings = ["true", "yes", "on", "y"];
     var falseyStrings = ["false", "no", "off", "n"];
-    if (_(truthyStrings).contains(string.toLowerCase())) {
+    if (contains(truthyStrings, string.toLowerCase())) {
       return true;
-    } else if (_(falseyStrings).contains(string.toLowerCase())) {
+    } else if (contains(falseyStrings, string.toLowerCase())) {
       return false;
     } else {
       return string.length > 0 ? true : false;
@@ -127,7 +132,7 @@ export default {
   },
 
   unescape: function(string="") {
-    return _.unescape.apply(this, [this].concat(_.toArray(arguments)));
+    return unescape.apply(this, [this].concat(toArray(arguments)));
   },
 
   unwrap: function(string, wrapper) {
