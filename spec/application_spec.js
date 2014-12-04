@@ -51,6 +51,10 @@ describe("Application", function() {
         expect(controller).to.be.an.instanceof(Controller);
       });
 
+      it("has the defined methods", () => {
+        expect(controller.index).to.be.a.function;
+      });
+
       describe("with mixins", () => {
         var MixinOne;
         var MixinTwo;

@@ -33,9 +33,20 @@ function setControllerDefaults() {
   });
 }
 
+function addMixins(mixins) {
+  _.each(mixins, (mixin) => {
+    if (mixin.actions) {
+      this.actions = _.uniq(this.actions.concat(mixin.actions));
+      delete mixin.actions;
+    }
+    _.extend(this, mixin, this);
+  }, this);
+}
+
 class Controller {
-  constructor(dispatcher) {
+  constructor(dispatcher, ...mixins) {
     if (!dispatcher) throw new Error(`${this.className}: dispatcher is undefined`);
+    if (mixins) addMixins.call(this, mixins);
     this.dispatcher = dispatcher;
     _.bindAll.apply(this, [this].concat(_.functions(this)));
 

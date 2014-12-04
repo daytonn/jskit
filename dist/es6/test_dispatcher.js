@@ -25,7 +25,7 @@ function actionName(action) {
   return _.isString(action) ? `"${action}"` :  `{ ${actionMap.name}: "${actionMap.method}" }`;
 }
 
-class TestDispatcher {
+export default class TestDispatcher {
   constructor() {
     this.events = {};
     this.shadowDispatcher = _.clone(Events);
@@ -74,5 +74,3 @@ class TestDispatcher {
 
   off() {}
 }
-
-export default TestDispatcher;

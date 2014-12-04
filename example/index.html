@@ -8,10 +8,12 @@
   <div id="home-controller"></div>
   <div id="home-index"></div>
   <div id="foo-action"></div>
+  <div id="mixins-controller"></div>
 
   <script src="jskit.js"></script>
   <script>
     var App = JSKit.createApplication();
+
 
     App.createController("Application", {
       initialize: function() {
@@ -22,6 +24,30 @@
         this.applicationController.innerHTML = message;
       }
     });
+
+    App.createController("WithMixins",
+      {
+        actions: ["mixinOne"],
+        mixinOne: function() {
+          this.controllerContainer.innerHTML = this.controllerContainer.innerHTML + "<br/>" + "mixinOne called";
+        }
+      },
+      {
+        actions: ["mixinTwo"],
+        mixinTwo: function() {
+          this.controllerContainer.innerHTML = this.controllerContainer.innerHTML + "<br/>" + "mixinTwo called";
+        }
+      },
+      {
+        actions: ["index"],
+        index: function() {
+          this.controllerContainer.innerHTML = this.controllerContainer.innerHTML + "<br/>" + "index called";
+        },
+        initialize: function() {
+          this.controllerContainer = document.getElementById("mixins-controller");
+        },
+      }
+    );
 
     App.createController("Home", {
       actions: ["index", { foo: "bar" }],
@@ -53,6 +79,10 @@
     App.Dispatcher.trigger("controller:home:all", "controller:home:all triggered");
     App.Dispatcher.trigger("controller:home:index", "controller:home:index triggered");
     App.Dispatcher.trigger("controller:home:foo", "controller:home:foo triggered");
+
+    App.Dispatcher.trigger("controller:with_mixins:index");
+    App.Dispatcher.trigger("controller:with_mixins:mixinOne");
+    App.Dispatcher.trigger("controller:with_mixins:mixinTwo");
   </script>
 </body>
 </html>

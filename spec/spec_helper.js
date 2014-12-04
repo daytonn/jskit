@@ -25,3 +25,16 @@ export function createController(dispatcher, attrs={}) {
   }
   return new TestController(dispatcher);
 }
+
+export function createControllerWithMixins(dispatcher, attrs, ...mixins) {
+  attrs = attrs || {};
+  if (!attrs.name && attrs.name !== "") {
+    attrs.name = "Test";
+  }
+  class TestController extends Controller {}
+  var proto = TestController.prototype;
+  for (var attr in attrs) {
+    if (attrs.hasOwnProperty(attr)) proto[attr] = attrs[attr];
+  }
+  return new TestController(dispatcher, ...mixins);
+}

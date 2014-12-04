@@ -1,5 +1,5 @@
 /* jshint esnext: true */
-import { expect, createController } from "./spec_helper";
+import { expect, createController, createControllerWithMixins } from "./spec_helper";
 import Controller from "../lib/controller";
 import TestDispatcher from "../lib/test_dispatcher";
 import _ from "lodash";
@@ -29,6 +29,7 @@ describe("Controller", function() {
   it("requires a dispatcher", function() {
     expect(() => createController()).to.throw();
   });
+
   it("has an actions array", function() {
     expect(subject.actions).to.be.an("Array");
   });
@@ -58,35 +59,64 @@ describe("Controller", function() {
     expect(subject.index.called).to.equal(true);
   });
 
-  it("has a className", function() {
+  it("has a className", () => {
     expect(subject.className).to.equal("TestController");
   });
 
-  it("has an index action", function() {
+  it("has an index action", () => {
     expect(dispatcher.hasAction(subject, "index")).to.equal(true);
   });
 
-  it("has a mapped action", function() {
+  it("has a mapped action", () => {
     expect(dispatcher.hasAction(subject, { mapped: "action" })).to.equal(true);
   });
 
-  it("has an eventSeperator", function() {
+  it("has an eventSeperator", () => {
     expect(subject.eventSeperator).to.equal(":");
   });
 
-  it("has a default all function", function() {
+  it("has a default all function", () => {
     expect(subject.all).to.be.a("Function");
   });
 
-  describe("all event", function() {
-    it("automatically wires the all event", function() {
+  describe("Mixins", () => {
+    var MixinOne;
+    var MixinTwo;
+    beforeEach(() => {
+      MixinOne = {
+        actions: ["mixinOne"],
+        mixinOne: function() {},
+        mOne: "test"
+      };
+      MixinTwo = {
+        actions: ["mixinTwo"],
+        mixinTwo: function() {},
+        mTwo: "test"
+      };
+      subject = createControllerWithMixins(dispatcher, controllerDefaults, MixinOne, MixinTwo);
+    });
+
+    it("mixes in each mixin's actions", () => {
+      expect(subject).to.have.action("mixinOne");
+      expect(subject).to.have.action("mixinTwo");
+    });
+
+    it("mixes in each mixin's properties", () => {
+      expect(subject.mOne).to.equal("test");
+      expect(subject.mTwo).to.equal("test");
+    });
+
+  });
+
+  describe("all event", () => {
+    it("automatically wires the all event", () => {
       dispatcher.trigger(subject.actionEventName("all"));
       expect(subject.all.called).to.equal(true);
     });
   });
 
-  describe("actionEventName", function() {
-    it("returns the full event string for a given action", function() {
+  describe("actionEventName", () => {
+    it("returns the full event string for a given action", () => {
       var expectedEventName = _.compact([
         subject.namespace,
         subject.channel,
@@ -98,22 +128,22 @@ describe("Controller", function() {
     });
   });
 
-  describe("default names", function() {
+  describe("default names", () => {
     beforeEach(function() {
       subject = new Controller(dispatcher);
     });
 
-    it("has a default name of Anonymous", function() {
+    it("has a default name of Anonymous", () => {
       expect(subject.name).to.equal("Anonymous");
     });
 
-    it("has a default className of AnonymousController", function() {
+    it("has a default className of AnonymousController", () => {
       expect(subject.className).to.equal("AnonymousController");
     });
   });
 
-  describe("initialize", function() {
-    it("calls initialize when the controller is constructed", function() {
+  describe("initialize", () => {
+    it("calls initialize when the controller is constructed", () => {
       var initializeCalled = false;
       createController(dispatcher, {
         initialize: function() {
@@ -133,11 +163,11 @@ describe("Controller", function() {
   });
 
   describe("with namespace", () => {
-    beforeEach(function() {
+    beforeEach(() => {
       subject = createController(dispatcher, controllerAttributes({ namespace: "admin" }));
     });
 
-    it("has a namespace", function() {
+    it("has a namespace", () => {
       expect(subject.namespace).to.equal("admin");
     });
 
@@ -148,11 +178,11 @@ describe("Controller", function() {
   });
 
   describe("with channel", () => {
-    beforeEach(function() {
+    beforeEach(() => {
       subject = createController(dispatcher, controllerAttributes({ channel: "custom" }));
     });
 
-    it("has a channel", function() {
+    it("has a channel", () => {
       expect(subject.channel).to.equal("custom");
     });
 
@@ -163,7 +193,7 @@ describe("Controller", function() {
   });
 
   describe("with eventSeperator", () => {
-    beforeEach(function() {
+    beforeEach(() => {
       subject = createController(dispatcher, controllerAttributes({ eventSeperator: "." }));
     });
 
@@ -174,7 +204,7 @@ describe("Controller", function() {
   });
 
   describe("CamelCase controllers", () => {
-    beforeEach(function() {
+    beforeEach(() => {
       subject = createController(dispatcher, controllerAttributes({ name: "CamelCase", namespace: null }));
     });
 
@@ -193,12 +223,12 @@ describe("Controller", function() {
       });
     });
 
-    it("wires up mapped actions", function() {
+    it("wires up mapped actions", () => {
       dispatcher.trigger(subject.actionEventName("foo"));
       expect(subject.bar.called).to.equal(true);
     });
 
-    it("wires up normal actions", function() {
+    it("wires up normal actions", () => {
       dispatcher.trigger(subject.actionEventName("index"));
       expect(subject.index.called).to.equal(true);
     });
