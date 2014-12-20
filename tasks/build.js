@@ -11,13 +11,20 @@ var wrap = require("gulp-wrap");
 
 gulp.task("transpile", ["clean"], function () {
   return gulp.src([
-    "lib/**/*.js"
+    "lib/*.js"
   ])
     .pipe(traceur({ modules: "commonjs" }).on("error", util.log))
     .pipe(gulp.dest("tmp/transpiled"));
 });
 
-gulp.task("compile", ["transpile"], function() {
+gulp.task("legacy", ["transpile"], function() {
+  return gulp.src("lib/legacy/jskit.js")
+    .pipe(browserify({ insertGlobals: true }))
+    .pipe(rename("jskit_legacy.js"))
+    .pipe(gulp.dest("dist"));
+});
+
+gulp.task("compile", ["legacy"], function() {
   return gulp.src(["tmp/transpiled/jskit.js"])
     .pipe(browserify({ insertGlobals: true }).on("error", util.log))
     .pipe(gulp.dest("tmp/compiled"));
@@ -47,14 +54,14 @@ gulp.task("minify", ["concat_with_traceur"], function() {
     .pipe(gulp.dest("dist"));
 });
 
-gulp.task("es6", ["example"], function() {
-  return  gulp.src(["lib/**/*.js"])
-    .pipe(gulp.dest("dist/es6"));
-});
-
 gulp.task("example", ["minify"], function() {
   gulp.src(["dist/jskit.js"])
     .pipe(gulp.dest("example"));
+});
+
+gulp.task("es6", ["example"], function() {
+  return  gulp.src(["lib/*.js"])
+    .pipe(gulp.dest("dist/es6"));
 });
 
 gulp.task("build", ["es6"], function() {

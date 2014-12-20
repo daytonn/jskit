@@ -1,5 +1,5 @@
-var gulp = require('gulp');
+var gulp = require("gulp");
 
-gulp.task('watch', function() {
-  gulp.watch('lib/*', ['build']);
+gulp.task("watch", function() {
+  gulp.watch("lib/**/*", ["build"]);
 });
