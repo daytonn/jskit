@@ -10933,12 +10933,7 @@ var Application = function Application() {
   this.Controllers = {};
   this.Dispatcher = clone(Events);
 };
-($traceurRuntime.createClass)(Application, {createController: function(name) {
-    for (var attrs = [],
-        $__5 = 1; $__5 < arguments.length; $__5++)
-      attrs[$__5 - 1] = arguments[$__5];
-    var mixins = attrs.length > 2 ? attrs.slice(0, attrs.length - 1) : [];
-    attrs = first(attrs.slice(attrs.length - 1)) || {};
+($traceurRuntime.createClass)(Application, {createController: function(name, attrs) {
     var dispatcher = attrs.dispatcher || this.Dispatcher;
     if (attrs.dispatcher)
       delete attrs.dispatcher;
@@ -10951,7 +10946,7 @@ var Application = function Application() {
     ($traceurRuntime.createClass)(Controller, {}, {}, BaseController);
     extend(Controller.prototype, attrs);
     this[(attrs.name + "Controller")] = Controller;
-    this.Controllers[name] = new (Function.prototype.bind.apply(Controller, $traceurRuntime.spread([null, dispatcher], mixins)))();
+    this.Controllers[name] = new Controller(dispatcher, attrs);
     return this.Controllers[name];
   }}, {});
 var $__default = Application;
@@ -11013,24 +11008,10 @@ function setControllerDefaults() {
     controllerEventName: s.underscore(this.name)
   });
 }
-function addMixins(mixins) {
-  var $__2 = this;
-  each(mixins, (function(mixin) {
-    if (mixin.actions) {
-      $__2.actions = uniq($__2.actions.concat(mixin.actions));
-      delete mixin.actions;
-    }
-    extend($__2, mixin, $__2);
-  }), this);
-}
-var Controller = function Controller(dispatcher) {
-  for (var mixins = [],
-      $__4 = 1; $__4 < arguments.length; $__4++)
-    mixins[$__4 - 1] = arguments[$__4];
+var Controller = function Controller(dispatcher, attrs) {
   if (!dispatcher)
     throw new Error((this.className + ": dispatcher is undefined"));
-  if (mixins)
-    addMixins.call(this, mixins);
+  extend(this, attrs, this);
   this.dispatcher = dispatcher;
   bindAll.apply(this, [this].concat(functions(this)));
   setControllerDefaults.call(this);
@@ -11065,7 +11046,7 @@ var Controller = ($__controller__ = require("./controller"), $__controller__ && 
   }
 };
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_2c584872.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_b0a065e4.js","/")
 },{"./application":8,"./controller":9,"./test_dispatcher":12,"buffer":3,"oMfpAn":6}],11:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";

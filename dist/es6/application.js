@@ -14,10 +14,7 @@ export default class Application {
     this.Dispatcher = clone(Events);
   }
 
-  createController(name, ...attrs) {
-    var mixins = attrs.length > 2 ? attrs.slice(0, attrs.length -1) : [];
-    attrs = first(attrs.slice(attrs.length -1)) || {};
-
+  createController(name, attrs) {
     var dispatcher = attrs.dispatcher || this.Dispatcher;
     if (attrs.dispatcher) delete attrs.dispatcher;
 
@@ -27,7 +24,7 @@ export default class Application {
     class Controller extends BaseController {}
     extend(Controller.prototype, attrs);
     this[`${attrs.name}Controller`] = Controller;
-    this.Controllers[name] = new Controller(dispatcher, ...mixins);
+    this.Controllers[name] = new Controller(dispatcher, attrs);
 
     return this.Controllers[name];
   }

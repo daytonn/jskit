@@ -7,8 +7,10 @@ import Events from "backbone-events-standalone";
 
 describe("Application", function() {
   var subject;
+  var dispatcher;
   beforeEach(function() {
     subject = new Application;
+    dispatcher = new TestDispatcher;
   });
 
   it("has a Controllers namespace", () => {
@@ -29,7 +31,6 @@ describe("Application", function() {
     var controller;
 
     it("accepts an alternate Dispatcher", function() {
-      var dispatcher = new TestDispatcher;
       controller = subject.createController("Test", { dispatcher: dispatcher });
       expect(controller.dispatcher).to.equal(dispatcher);
     });
@@ -53,75 +54,30 @@ describe("Application", function() {
       it("has the defined methods", () => {
         expect(controller.index).to.be.a.function;
       });
-
-      describe("with mixins", () => {
-        var MixinOne;
-        var MixinTwo;
-        beforeEach(() => {
-          MixinOne = {
-            actions: ["mixin"],
-            someProperty: "test",
-            mixin: function() {
-              return this.someProperty;
-            }
-          };
-          MixinTwo = {
-            actions: ["mixinTwo"],
-            mixinTwo: function() {},
-            anotherProperty: "test"
-          };
-          controller = subject.createController("Test", MixinOne, MixinTwo, {
-            actions: ["index"],
-            index: function() {}
-          });
-        });
-
-        it("has the mixin actions", () => {
-          expect(controller.actions).to.contain("mixin");
-          expect(controller.actions).to.contain("mixinTwo");
-        });
-
-        it("has the mixin methods", () => {
-          expect(controller.mixin).to.be.a.function;
-          expect(controller.mixinTwo).to.be.a.function;
-        });
-
-        it("has the mixin properties", () => {
-          expect(controller.someProperty).to.equal("test");
-          expect(controller.anotherProperty).to.equal("test");
-        });
-
-        it("has the default methods", () => {
-          expect(controller.index).to.be.a.function;
-        });
-
-        it("has the defaut controller actions", () => {
-          expect(controller.actions).to.contain("index");
-        });
-      });
     });
 
-    describe("constantizing controller name", function() {
+    describe("controller name", function() {
       it("constantizes underscored names", function() {
-        controller = subject.createController("underscored_name");
+        controller = subject.createController("underscored_name", { dispatcher: dispatcher });
+
         expect(subject.Controllers.UnderscoredName).to.be.an.instanceof(Controller);
         expect(subject.UnderscoredNameControllers).to.be.defined;
       });
 
       it("constantizes names with spaces", function() {
-        controller = subject.createController("name with spaces");
+        controller = subject.createController("name with spaces", { dispatcher: dispatcher });
         expect(subject.Controllers.NameWithSpaces).to.be.an.instanceof(Controller);
         expect(subject.NameWithSpacesControllers).to.be.defined;
       });
 
       it("constantizes names with dashes", function() {
-        controller = subject.createController("dashed-name");
+        controller = subject.createController("dashed-name", { dispatcher: dispatcher });
         expect(subject.Controllers.DashedName).to.be.an.instanceof(Controller);
         expect(subject.DashedNameControllers).to.be.defined;
       });
 
       it("constantizes names with mixed characters", function() {
-        controller = subject.createController("name with-mixed_characters");
+        controller = subject.createController("name with-mixed_characters", { dispatcher: dispatcher });
         expect(subject.Controllers.NameWithMixedCharacters).to.be.an.instanceof(Controller);
         expect(subject.NameWithMixedCharactersControllers).to.be.defined;
       });
