@@ -1,5 +1,83 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var _ = require("lodash");
+var BaseController = require("./controller");
+var Dispatcher = require("backbone-events-standalone");
+
+function Application() {
+  this.Controllers = {};
+  this.Dispatcher = Dispatcher;
+}
+
+function createControllerInstance(attributes, name) {
+  function Controller() { BaseController.call(this); }
+  Controller.prototype = Object.create(BaseController.prototype);
+  Controller.prototype.constructor = Controller;
+  _.extend(Controller.prototype, attributes);
+  this[name + "Controller"] = Controller;
+  return new Controller;
+}
+
+function registerControllerActions(controller, actions, name, namespace) {
+  _(actions).each(function(action) {
+    if (!controller[action] || !_.isFunction(controller[action])) {
+      throw new Error("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method");
+    }
+
+    var eventName = _([namespace, "controller", underscoreName(name), action]).compact().join(":");
+    this.Dispatcher.on(eventName, controller[action], controller);
+  }, this);
+}
+
+function underscoreName(name) {
+  return name.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
+}
+
+function registerApplicationControllerActions(controller, namespace) {
+  if (!controller.init) throw new Error("'Application' Controller: init is undefined");
+  var eventName = _([namespace, "controller", "all"]).compact().join(":");
+  this.Dispatcher.on(eventName, controller.init, controller);
+}
+
+Application.prototype.createController = function(name, attributes) {
+  var controller = createControllerInstance.call(this, attributes, name);
+  registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
+  if (name.match(/^Application$/i)) registerApplicationControllerActions.call(this, controller, attributes.namespace);
+  return this.Controllers[name] = controller;
+};
+
+module.exports = Application;
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/application.js","/")
+},{"./controller":2,"backbone-events-standalone":5,"buffer":6,"lodash":10,"oMfpAn":9}],2:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var _ = require("lodash");
+
+function Controller() {
+  this.initialize();
+  _.bindAll.apply(this, [this].concat(_.functions(this)));
+}
+
+Controller.prototype.initialize = function() {};
+
+Controller.prototype.actions = [];
+
+module.exports = Controller;
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
+},{"buffer":6,"lodash":10,"oMfpAn":9}],3:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var Application = require("./application");
+
+global.JSKit = {
+  createApplication: function() {
+    return new Application;
+  }
+};
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_758dd193.js","/")
+},{"./application":1,"buffer":6,"oMfpAn":9}],4:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -279,12 +357,12 @@
 })(this);
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone-events-standalone/backbone-events-standalone.js","/../../node_modules/backbone-events-standalone")
-},{"buffer":3,"oMfpAn":6}],2:[function(require,module,exports){
+},{"buffer":6,"oMfpAn":9}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 module.exports = require('./backbone-events-standalone');
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone-events-standalone/index.js","/../../node_modules/backbone-events-standalone")
-},{"./backbone-events-standalone":1,"buffer":3,"oMfpAn":6}],3:[function(require,module,exports){
+},{"./backbone-events-standalone":4,"buffer":6,"oMfpAn":9}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1397,7 +1475,7 @@ function assert (test, message) {
 }
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
-},{"base64-js":4,"buffer":3,"ieee754":5,"oMfpAn":6}],4:[function(require,module,exports){
+},{"base64-js":7,"buffer":6,"ieee754":8,"oMfpAn":9}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -1521,7 +1599,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
-},{"buffer":3,"oMfpAn":6}],5:[function(require,module,exports){
+},{"buffer":6,"oMfpAn":9}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
@@ -1609,7 +1687,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
 };
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
-},{"buffer":3,"oMfpAn":6}],6:[function(require,module,exports){
+},{"buffer":6,"oMfpAn":9}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -1676,7 +1754,7 @@ process.chdir = function (dir) {
 };
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
-},{"buffer":3,"oMfpAn":6}],7:[function(require,module,exports){
+},{"buffer":6,"oMfpAn":9}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * @license
@@ -8465,407 +8543,4 @@ process.chdir = function (dir) {
 }.call(this));
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/lodash/dist/lodash.js","/../../node_modules/lodash/dist")
-},{"buffer":3,"oMfpAn":6}],8:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-"use strict";
-Object.defineProperties(exports, {
-  default: {get: function() {
-      return $__default;
-    }},
-  __esModule: {value: true}
-});
-var $__backbone_45_events_45_standalone__,
-    $__lodash__,
-    $__string__,
-    $__controller__;
-var Events = ($__backbone_45_events_45_standalone__ = require("backbone-events-standalone"), $__backbone_45_events_45_standalone__ && $__backbone_45_events_45_standalone__.__esModule && $__backbone_45_events_45_standalone__ || {default: $__backbone_45_events_45_standalone__}).default;
-var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
-var s = ($__string__ = require("./string"), $__string__ && $__string__.__esModule && $__string__ || {default: $__string__}).default;
-var BaseController = ($__controller__ = require("./controller"), $__controller__ && $__controller__.__esModule && $__controller__ || {default: $__controller__}).default;
-var clone = _.clone;
-var extend = _.extend;
-var first = _.first;
-var Application = function Application() {
-  this.Controllers = {};
-  this.Dispatcher = clone(Events);
-};
-($traceurRuntime.createClass)(Application, {createController: function(name, attrs) {
-    var dispatcher = attrs.dispatcher || this.Dispatcher;
-    if (attrs.dispatcher)
-      delete attrs.dispatcher;
-    name = s.constantize(name);
-    extend(attrs, {name: name});
-    var Controller = function Controller() {
-      $traceurRuntime.defaultSuperCall(this, $Controller.prototype, arguments);
-    };
-    var $Controller = Controller;
-    ($traceurRuntime.createClass)(Controller, {}, {}, BaseController);
-    extend(Controller.prototype, attrs);
-    this[(attrs.name + "Controller")] = Controller;
-    this.Controllers[name] = new Controller(dispatcher, attrs);
-    return this.Controllers[name];
-  }}, {});
-var $__default = Application;
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/application.js","/")
-},{"./controller":9,"./string":11,"backbone-events-standalone":2,"buffer":3,"lodash":7,"oMfpAn":6}],9:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-"use strict";
-Object.defineProperties(exports, {
-  default: {get: function() {
-      return $__default;
-    }},
-  __esModule: {value: true}
-});
-var $__lodash__,
-    $__string__;
-var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
-var s = ($__string__ = require("./string"), $__string__ && $__string__.__esModule && $__string__ || {default: $__string__}).default;
-var bindAll = _.bindAll;
-var compact = _.compact;
-var defaults = _.defaults;
-var each = _.each;
-var extend = _.extend;
-var first = _.first;
-var functions = _.functions;
-var isFunction = _.isFunction;
-var isObject = _.isObject;
-var keys = _.keys;
-var uniq = _.uniq;
-var values = _.values;
-function ensureActionIsDefined(actionMap) {
-  if (!isFunction(this[actionMap.method]))
-    throw new Error((this.className + " action \"" + actionMap.name + this.eventSeperator + actionMap.method + "\" method is undefined"));
-}
-function mapAction(action) {
-  var isMappedAction = isObject(action);
-  var method = isMappedAction ? first(values(action)) : action;
-  var name = isMappedAction ? first(keys(action)) : action;
-  return {
-    name: name,
-    method: method
-  };
-}
-function registerActions(dispatcher) {
-  var $__2 = this;
-  each(this.actions, (function(action) {
-    var actionMap = mapAction(action);
-    ensureActionIsDefined.call($__2, actionMap);
-    $__2.dispatcher.on($__2.actionEventName(actionMap.name), $__2[actionMap.method], $__2);
-  }), this);
-}
-function setControllerDefaults() {
-  this.name = this.name || "Anonymous";
-  defaults(this, {
-    eventSeperator: ":",
-    actions: [],
-    channel: "controller",
-    className: (s.constantize(this.name) + "Controller"),
-    controllerEventName: s.underscore(this.name)
-  });
-}
-var Controller = function Controller(dispatcher, attrs) {
-  if (!dispatcher)
-    throw new Error((this.className + ": dispatcher is undefined"));
-  extend(this, attrs, this);
-  this.dispatcher = dispatcher;
-  bindAll.apply(this, [this].concat(functions(this)));
-  setControllerDefaults.call(this);
-  this.actions.unshift("all");
-  registerActions.call(this);
-  this.initialize();
-};
-($traceurRuntime.createClass)(Controller, {
-  initialize: function() {},
-  all: function() {},
-  actionEventName: function(action) {
-    return compact([this.namespace, this.channel, this.controllerEventName, action]).join(this.eventSeperator);
-  }
-}, {});
-var $__default = Controller;
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
-},{"./string":11,"buffer":3,"lodash":7,"oMfpAn":6}],10:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-"use strict";
-var $__application__,
-    $__test_95_dispatcher__,
-    $__controller__;
-var Application = ($__application__ = require("./application"), $__application__ && $__application__.__esModule && $__application__ || {default: $__application__}).default;
-var TestDispatcher = ($__test_95_dispatcher__ = require("./test_dispatcher"), $__test_95_dispatcher__ && $__test_95_dispatcher__.__esModule && $__test_95_dispatcher__ || {default: $__test_95_dispatcher__}).default;
-var Controller = ($__controller__ = require("./controller"), $__controller__ && $__controller__.__esModule && $__controller__ || {default: $__controller__}).default;
-(global || window).JSKit = {
-  TestDispatcher: TestDispatcher,
-  Controller: Controller,
-  createApplication: function() {
-    return new Application;
-  }
-};
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_8a203138.js","/")
-},{"./application":8,"./controller":9,"./test_dispatcher":12,"buffer":3,"oMfpAn":6}],11:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-"use strict";
-Object.defineProperties(exports, {
-  default: {get: function() {
-      return $__default;
-    }},
-  __esModule: {value: true}
-});
-var $__lodash__;
-var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
-var contains = _.contains;
-var map = _.map;
-var toArray = _.toArray;
-var unescape = _.unescape;
-var $__default = {
-  camelize: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return map(string.split(/_|-|\s/g), function(part, i) {
-      return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
-    }).join("");
-  },
-  capitalize: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  },
-  chunk: function(string, chunkSize) {
-    string = string || "";
-    chunkSize = chunkSize ? chunkSize : string.length;
-    return string.match(new RegExp(".{1," + chunkSize + "}", "g"));
-  },
-  compact: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/\s/g, "");
-  },
-  constantize: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    if (string.match(/_|-|\s/)) {
-      var s = map(string.split(/_|-|\s/g), function(part, i) {
-        return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
-      }).join("");
-      string = s;
-    } else {
-      string = string.toString();
-    }
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  },
-  dasherize: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/_/g, "-").toLowerCase();
-  },
-  humanize: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    var s = string.replace(/_/g, " ").replace(/^\s?/, "").toLowerCase();
-    return s.charAt(0).toUpperCase() + s.slice(1);
-  },
-  hyphenate: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/([A-Z])/g, " $1").toLowerCase().replace(/\s|_/g, "-").toLowerCase();
-  },
-  isBlank: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return (/^(\s?)+$/).test(this);
-  },
-  isEmpty: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.length === 0;
-  },
-  isNotEmpty: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.length > 0;
-  },
-  isPresent: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return !(/^(\s?)+$/).test(this);
-  },
-  lstrip: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/^\s+/, "");
-  },
-  ltrim: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/^\s+/, "");
-  },
-  stripTags: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/<\w+(\s+("[^"]*"|"[^"]*"|[^>])+)?>|<\/\w+>/gi, "");
-  },
-  strip: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/^\s+(.+)\s+$/, "$1");
-  },
-  swapCase: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/[A-Za-z]/g, function(s) {
-      return (/[A-Z]/).test(s) ? s.toLowerCase() : s.toUpperCase();
-    });
-  },
-  titleCase: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return map(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/), function(s) {
-      return s.charAt(0).toUpperCase() + s.slice(1);
-    }).join(" ");
-  },
-  titleize: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return map(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/), function(s) {
-      return s.charAt(0).toUpperCase() + s.slice(1);
-    }).join(" ");
-  },
-  toBoolean: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    var truthyStrings = ["true", "yes", "on", "y"];
-    var falseyStrings = ["false", "no", "off", "n"];
-    if (contains(truthyStrings, string.toLowerCase())) {
-      return true;
-    } else if (contains(falseyStrings, string.toLowerCase())) {
-      return false;
-    } else {
-      return string.length > 0 ? true : false;
-    }
-  },
-  toNumber: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return this * 1 || 0;
-  },
-  trim: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/^\s+(.+)\s+$/, "$1");
-  },
-  truncate: function(string, length) {
-    string = string || "";
-    return (string.length > length) ? string.substring(0, length) + "..." : this;
-  },
-  underscore: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return string.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
-  },
-  unescape: function() {
-    var string = arguments[0] !== (void 0) ? arguments[0] : "";
-    return unescape.apply(this, [this].concat(toArray(arguments)));
-  },
-  unwrap: function(string, wrapper) {
-    string = string || "";
-    return string.replace(new RegExp("^" + wrapper + "(.+)" + wrapper + "$"), "$1");
-  },
-  wordCount: function(string, word) {
-    string = string || "";
-    var matches;
-    string = string.stripTags();
-    matches = (word) ? string.match(new RegExp(word, "g")) : string.match(/\b[A-Za-z_]+\b/g);
-    return matches ? matches.length : 0;
-  },
-  wrap: function(string, wrapper) {
-    string = string || "";
-    return wrapper.concat(this, wrapper);
-  }
-};
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/string.js","/")
-},{"buffer":3,"lodash":7,"oMfpAn":6}],12:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-"use strict";
-Object.defineProperties(exports, {
-  default: {get: function() {
-      return $__default;
-    }},
-  __esModule: {value: true}
-});
-var $__lodash__,
-    $__backbone_45_events_45_standalone__;
-var _ = ($__lodash__ = require("lodash"), $__lodash__ && $__lodash__.__esModule && $__lodash__ || {default: $__lodash__}).default;
-var Events = ($__backbone_45_events_45_standalone__ = require("backbone-events-standalone"), $__backbone_45_events_45_standalone__ && $__backbone_45_events_45_standalone__.__esModule && $__backbone_45_events_45_standalone__ || {default: $__backbone_45_events_45_standalone__}).default;
-var clone = _.clone;
-var contains = _.contains;
-var each = _.each;
-var first = _.first;
-var functions = _.functions;
-var isString = _.isString;
-var keys = _.keys;
-var toArray = _.toArray;
-var values = _.values;
-var map = _.map;
-var rest = _.rest;
-function spyOn(handler) {
-  handler.called = false;
-  handler.callCount = 0;
-  handler.calls = [];
-  return handler;
-}
-function mapAction(action) {
-  var name;
-  var method;
-  name = isString(action) ? action : first(keys(action));
-  method = isString(action) ? action : first(values(action));
-  return {
-    name: name,
-    method: method
-  };
-}
-function actionName(action) {
-  var actionMap = mapAction(action);
-  return isString(action) ? ("\"" + action + "\"") : ("{ " + actionMap.name + ": \"" + actionMap.method + "\" }");
-}
-var TestDispatcher = function TestDispatcher() {
-  this.listeners = [];
-  this.events = {};
-  this.shadowDispatcher = clone(Events);
-};
-($traceurRuntime.createClass)(TestDispatcher, {
-  on: function(eventName, handler, controller) {
-    if (!contains(this.listeners, controller))
-      this.spyOnControllerMethods(controller);
-    var spy = spyOn(handler);
-    this.events[eventName] = this.events[eventName] || [];
-    this.events[eventName].push(spy);
-    this.shadowDispatcher.on(eventName, function() {
-      this.trackSpy(spy, arguments);
-    }, this);
-  },
-  spyOnControllerMethods: function(controller) {
-    var actionNames = map(controller.actions, (function(action) {
-      return actionName(action);
-    }));
-    var _this = this;
-    each(functions(controller), (function(method) {
-      if (!contains(actionNames, method)) {
-        var unboundMethod = controller[method];
-        controller[method] = function() {
-          _this.trackSpy(controller[method], arguments);
-          return unboundMethod.apply(controller, arguments);
-        };
-        spyOn(controller[method]);
-      }
-    }), this);
-    this.listeners.push(controller);
-  },
-  trigger: function(eventName, handler, context) {
-    this.shadowDispatcher.trigger(eventName, handler, context);
-  },
-  trackSpy: function(spy, args) {
-    spy.callCount += 1;
-    spy.called = true;
-    spy.calls.push({args: toArray(args)});
-  },
-  hasAction: function(controller, action) {
-    var actionExists = false;
-    controller.actions.forEach((function(a) {
-      if (actionName(a) === actionName(action))
-        actionExists = true;
-    }));
-    if (!actionExists)
-      return false;
-    var actionMap = mapAction(action);
-    var handler = controller[actionMap.method];
-    var eventName = controller.actionEventName(actionMap.name);
-    var cachedCount = handler.callCount;
-    controller.dispatcher.trigger(eventName);
-    return handler.callCount > cachedCount;
-  },
-  off: function() {}
-}, {});
-var $__default = TestDispatcher;
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/test_dispatcher.js","/")
-},{"backbone-events-standalone":2,"buffer":3,"lodash":7,"oMfpAn":6}]},{},[10])
+},{"buffer":6,"oMfpAn":9}]},{},[3])

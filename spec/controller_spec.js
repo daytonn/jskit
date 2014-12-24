@@ -79,35 +79,6 @@ describe("Controller", function() {
     expect(subject.all).to.be.a("Function");
   });
 
-  describe("Mixins", () => {
-    var MixinOne;
-    var MixinTwo;
-    beforeEach(() => {
-      MixinOne = {
-        actions: ["mixinOne"],
-        mixinOne: function() {},
-        mOne: "test"
-      };
-      MixinTwo = {
-        actions: ["mixinTwo"],
-        mixinTwo: function() {},
-        mTwo: "test"
-      };
-      subject = createControllerWithMixins(dispatcher, controllerDefaults, MixinOne, MixinTwo);
-    });
-
-    it("mixes in each mixin's actions", () => {
-      expect(subject).to.have.action("mixinOne");
-      expect(subject).to.have.action("mixinTwo");
-    });
-
-    it("mixes in each mixin's properties", () => {
-      expect(subject.mOne).to.equal("test");
-      expect(subject.mTwo).to.equal("test");
-    });
-
-  });
-
   describe("all event", () => {
     it("automatically wires the all event", () => {
       dispatcher.trigger(subject.actionEventName("all"));

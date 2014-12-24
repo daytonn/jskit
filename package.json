@@ -1,10 +1,10 @@
 {
   "name": "jskit",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "A simple answer to jQuery soup",
   "main": "dist/jskit.js",
   "scripts": {
-    "test": "mocha --compilers js:mocha-traceur spec/*.js"
+    "test": "mocha --compilers js:mocha-traceur spec/*.js -c -R progress"
   },
   "repository": {
     "type": "git",
