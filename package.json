@@ -4,7 +4,7 @@
   "description": "A simple answer to jQuery soup",
   "main": "dist/jskit.js",
   "scripts": {
-    "test": "mocha --compilers js:mocha-traceur spec/*.js -c -R progress"
+    "test": "mocha --compilers js:mocha-traceur spec/*.js -c -R progress && mocha spec/legacy -R progress"
   },
   "repository": {
     "type": "git",
