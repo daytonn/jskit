@@ -1,82 +1,412 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var Events = require("backbone-events-standalone");
 var _ = require("lodash");
+var s = require("./string");
 var BaseController = require("./controller");
-var Dispatcher = require("backbone-events-standalone");
+
+var clone = _.clone;
+var extend = _.extend;
+var first = _.first;
 
 function Application() {
   this.Controllers = {};
-  this.Dispatcher = Dispatcher;
+  this.Dispatcher = clone(Events);
 }
 
-function createControllerInstance(attributes, name) {
-  function Controller() { BaseController.call(this); }
-  Controller.prototype = Object.create(BaseController.prototype);
-  Controller.prototype.constructor = Controller;
-  _.extend(Controller.prototype, attributes);
-  this[name + "Controller"] = Controller;
-  return new Controller;
-}
+Application.prototype.createController = function(name, attrs) {
+  var dispatcher = attrs.dispatcher || this.Dispatcher;
+  if (attrs.dispatcher) delete attrs.dispatcher;
 
-function registerControllerActions(controller, actions, name, namespace) {
-  _(actions).each(function(action) {
-    if (!controller[action] || !_.isFunction(controller[action])) {
-      throw new Error("'" + name + "' Controller has an action '" + action + "' defined with no corresponding method");
-    }
+  name = s.constantize(name);
+  extend(attrs, { name: name });
 
-    var eventName = _([namespace, "controller", underscoreName(name), action]).compact().join(":");
-    this.Dispatcher.on(eventName, controller[action], controller);
-  }, this);
-}
+  function Controller() { BaseController.apply(this, arguments); }
+  extend(Controller.prototype, BaseController.prototype, attrs);
+  this[attrs.name + "Controller"] = Controller;
+  this.Controllers[name] = new Controller(dispatcher, attrs);
 
-function underscoreName(name) {
-  return name.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
-}
-
-function registerApplicationControllerActions(controller, namespace) {
-  if (!controller.init) throw new Error("'Application' Controller: init is undefined");
-  var eventName = _([namespace, "controller", "all"]).compact().join(":");
-  this.Dispatcher.on(eventName, controller.init, controller);
-}
-
-Application.prototype.createController = function(name, attributes) {
-  var controller = createControllerInstance.call(this, attributes, name);
-  registerControllerActions.call(this, controller, attributes.actions, name, attributes.namespace);
-  if (name.match(/^Application$/i)) registerApplicationControllerActions.call(this, controller, attributes.namespace);
-  return this.Controllers[name] = controller;
+  return this.Controllers[name];
 };
 
 module.exports = Application;
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/application.js","/")
-},{"./controller":2,"backbone-events-standalone":5,"buffer":6,"lodash":10,"oMfpAn":9}],2:[function(require,module,exports){
+},{"./controller":2,"./string":4,"backbone-events-standalone":7,"buffer":8,"lodash":12,"oMfpAn":11}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var _ = require("lodash");
+var s = require("./string");
 
-function Controller() {
+var bindAll = _.bindAll;
+var compact = _.compact;
+var defaults = _.defaults;
+var each = _.each;
+var extend = _.extend;
+var first = _.first;
+var functions = _.functions;
+var isFunction = _.isFunction;
+var isObject = _.isObject;
+var keys = _.keys;
+var uniq = _.uniq;
+var values = _.values;
+
+function ensureActionIsDefined(actionMap) {
+  if (!isFunction(this[actionMap.method])) throw new Error(this.className + " action \"" + actionMap.name + this.eventSeperator + actionMap.method + "\" method is undefined");
+}
+
+function mapAction(action) {
+  var isMappedAction = isObject(action);
+  var method = isMappedAction ? first(values(action)) : action;
+  var name = isMappedAction ? first(keys(action)) : action;
+
+  return { name: name, method: method };
+}
+
+function registerActions(dispatcher) {
+  each(this.actions, function(action) {
+    var actionMap = mapAction(action);
+    ensureActionIsDefined.call(this, actionMap);
+    this.dispatcher.on(this.actionEventName(actionMap.name), this[actionMap.method], this);
+  }, this);
+}
+
+function setControllerDefaults() {
+  this.name = this.name || "Anonymous";
+  defaults(this, {
+    eventSeperator: ":",
+    actions: [],
+    channel: "controller",
+    className: s.constantize(this.name) + "Controller",
+    controllerEventName: s.underscore(this.name)
+  });
+}
+
+function Controller(dispatcher, attrs) {
+  if (!dispatcher) throw new Error(this.className + ": dispatcher is undefined");
+  extend(this, attrs, this);
+  this.dispatcher = dispatcher;
+  bindAll.apply(this, [this].concat(functions(this)));
+
+  setControllerDefaults.call(this);
+  this.actions.unshift("all");
+  registerActions.call(this);
+
   this.initialize();
-  _.bindAll.apply(this, [this].concat(_.functions(this)));
 }
 
 Controller.prototype.initialize = function() {};
+Controller.prototype.all = function() {};
 
-Controller.prototype.actions = [];
+Controller.prototype.actionEventName = function(action) {
+  return compact([this.namespace, this.channel, this.controllerEventName, action]).join(this.eventSeperator);
+};
 
 module.exports = Controller;
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/controller.js","/")
-},{"buffer":6,"lodash":10,"oMfpAn":9}],3:[function(require,module,exports){
+},{"./string":4,"buffer":8,"lodash":12,"oMfpAn":11}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Application = require("./application");
+var TestDispatcher = require("./test_dispatcher");
 
-global.JSKit = {
+(global || window).JSKit = {
+  TestDispatcher: TestDispatcher,
   createApplication: function() {
     return new Application;
   }
 };
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_758dd193.js","/")
-},{"./application":1,"buffer":6,"oMfpAn":9}],4:[function(require,module,exports){
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_e3291e6d.js","/")
+},{"./application":1,"./test_dispatcher":5,"buffer":8,"oMfpAn":11}],4:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var _ = require("lodash");
+
+var contains = _.contains;
+var map = _.map;
+var toArray = _.toArray;
+var unescape = _.unescape;
+
+module.exports = {
+  camelize: function(string) {
+    string = string || "";
+    return map(string.split(/_|-|\s/g), function(part, i) {
+      return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
+    }).join("");
+  },
+
+  capitalize: function(string) {
+    string = string || "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  },
+
+  chunk: function(string, chunkSize) {
+    string = string || "";
+    chunkSize = chunkSize ? chunkSize : string.length;
+    return string.match(new RegExp(".{1," + chunkSize + "}", "g"));
+  },
+
+  compact: function(string) {
+    string = string || "";
+    return string.replace(/\s/g, "");
+  },
+
+  constantize: function(string) {
+    string = string || "";
+    if (string.match(/_|-|\s/)) {
+      var s = map(string.split(/_|-|\s/g), function(part, i) {
+        return (i > 0) ? part.charAt(0).toUpperCase() + part.slice(1) : part.toLowerCase();
+      }).join("");
+      string = s;
+    } else {
+      string = string.toString();
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  },
+
+  dasherize: function(string) {
+    string = string || "";
+    return string.replace(/_/g, "-").toLowerCase();
+  },
+
+  humanize: function(string) {
+    string = string || "";
+    var s = string.replace(/_/g, " ").replace(/^\s?/, "").toLowerCase();
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  },
+
+  hyphenate: function(string) {
+    string = string || "";
+    return string.replace(/([A-Z])/g, " $1").toLowerCase().replace(/\s|_/g, "-").toLowerCase();
+  },
+
+  isBlank: function(string) {
+    string = string || "";
+    return (/^(\s?)+$/).test(this);
+  },
+
+  isEmpty: function(string) {
+    string = string || "";
+    return string.length === 0;
+  },
+
+  isNotEmpty: function(string) {
+    string = string || "";
+    return string.length > 0;
+  },
+
+  isPresent: function(string) {
+    string = string || "";
+    return !(/^(\s?)+$/).test(this);
+  },
+
+  lstrip: function(string) {
+    string = string || "";
+    return string.replace(/^\s+/, "");
+  },
+
+  ltrim: function(string) {
+    string = string || "";
+    return string.replace(/^\s+/, "");
+  },
+
+  stripTags: function(string) {
+    string = string || "";
+    return string.replace(/<\w+(\s+("[^"]*"|"[^"]*"|[^>])+)?>|<\/\w+>/gi, "");
+  },
+
+  strip: function(string) {
+    string = string || "";
+    return string.replace(/^\s+(.+)\s+$/, "$1");
+  },
+
+  swapCase: function(string) {
+    string = string || "";
+    return string.replace(/[A-Za-z]/g, function(s) {
+      return (/[A-Z]/).test(s) ? s.toLowerCase() : s.toUpperCase();
+    });
+  },
+
+  titleCase: function(string) {
+    string = string || "";
+    return map(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/), function(s) {
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }).join(" ");
+  },
+
+  titleize: function(string) {
+    string = string || "";
+    return map(string.replace(/([A-Z])/g, " $1").replace(/-|_/g, " ").split(/\s/), function(s) {
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }).join(" ");
+  },
+
+  toBoolean: function(string) {
+    string = string || "";
+    var truthyStrings = ["true", "yes", "on", "y"];
+    var falseyStrings = ["false", "no", "off", "n"];
+    if (contains(truthyStrings, string.toLowerCase())) {
+      return true;
+    } else if (contains(falseyStrings, string.toLowerCase())) {
+      return false;
+    } else {
+      return string.length > 0 ? true : false;
+    }
+  },
+
+  toNumber: function(string) {
+    string = string || "";
+    return this * 1 || 0;
+  },
+
+  trim: function(string) {
+    string = string || "";
+    return string.replace(/^\s+(.+)\s+$/, "$1");
+  },
+
+  truncate: function(string, length) {
+    string = string || "";
+    return (string.length > length) ? string.substring(0, length) + "..." : this;
+  },
+
+  underscore: function(string) {
+    string = string || "";
+    return string.replace(/([A-Z])/g, " $1").replace(/^\s?/, "").replace(/-|\s/g, "_").toLowerCase();
+  },
+
+  unescape: function(string) {
+    string = string || "";
+    return unescape.apply(this, [this].concat(toArray(arguments)));
+  },
+
+  unwrap: function(string, wrapper) {
+    string = string || "";
+    return string.replace(new RegExp("^" + wrapper + "(.+)" + wrapper + "$"), "$1");
+  },
+
+  wordCount: function(string, word) {
+    string = string || "";
+    var matches;
+    string = string.stripTags();
+    matches = (word) ? string.match(new RegExp(word, "g")) : string.match(/\b[A-Za-z_]+\b/g);
+    return matches ? matches.length : 0;
+  },
+
+  wrap: function(string, wrapper) {
+    string = string || "";
+    return wrapper.concat(this, wrapper);
+  }
+};
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/string.js","/")
+},{"buffer":8,"lodash":12,"oMfpAn":11}],5:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var _ = require("lodash");
+var Events = require("backbone-events-standalone");
+
+var clone = _.clone;
+var contains = _.contains;
+var each = _.each;
+var first = _.first;
+var functions = _.functions;
+var isString = _.isString;
+var keys = _.keys;
+var toArray = _.toArray;
+var values = _.values;
+var map = _.map;
+var rest = _.rest;
+
+function spyOn(handler) {
+  handler.called = false;
+  handler.callCount = 0;
+  handler.calls = [];
+  return handler;
+}
+
+function mapAction(action) {
+  var name;
+  var method;
+
+  name = isString(action) ? action : first(keys(action));1
+  method = isString(action) ? action : first(values(action));
+
+  return { name: name, method: method };
+}
+
+function actionName(action) {
+  var actionMap = mapAction(action);
+  return isString(action) ? '"' + action + '"' :  '{ ' + actionMap.name + ': "' + actionMap.method + '" }';
+}
+
+function TestDispatcher() {
+  this.listeners = [];
+  this.events = {};
+  this.shadowDispatcher = clone(Events);
+}
+
+TestDispatcher.prototype.on = function(eventName, handler, controller) {
+  if (!contains(this.listeners, controller)) this.spyOnControllerMethods(controller);
+  var spy = spyOn(handler);
+
+  this.events[eventName] = this.events[eventName] || [];
+  this.events[eventName].push(spy);
+
+  this.shadowDispatcher.on(eventName, function() {
+    this.trackSpy(spy, arguments);
+  }, this);
+};
+
+TestDispatcher.prototype.spyOnControllerMethods = function(controller) {
+  var actionNames = map(controller.actions, function(action) { return actionName(action); });
+  var _this = this;
+  each(functions(controller), function(method) {
+    if (!contains(actionNames, method)) {
+      var unboundMethod = controller[method];
+      controller[method] = function() {
+        _this.trackSpy(controller[method], arguments);
+        return unboundMethod.apply(controller, arguments);
+      };
+      spyOn(controller[method]);
+    }
+  }, this);
+  this.listeners.push(controller);
+};
+
+TestDispatcher.prototype.trigger = function(eventName, handler, context) {
+  this.shadowDispatcher.trigger(eventName, handler, context);
+};
+
+TestDispatcher.prototype.trackSpy = function(spy, args) {
+  spy.callCount += 1;
+  spy.called = true;
+  spy.calls.push({ args: toArray(args) });
+};
+
+TestDispatcher.prototype.hasAction = function(controller, action) {
+  var actionExists = false;
+
+  controller.actions.forEach(function(a) {
+    if (actionName(a) === actionName(action)) actionExists = true;
+  });
+
+  if (!actionExists) return false;
+
+  var actionMap = mapAction(action);
+  var handler = controller[actionMap.method];
+
+  var eventName = controller.actionEventName(actionMap.name);
+  var cachedCount = handler.callCount;
+
+  controller.dispatcher.trigger(eventName);
+
+  return handler.callCount > cachedCount;
+};
+
+TestDispatcher.prototype.off = function() {};
+
+module.exports = TestDispatcher;
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/test_dispatcher.js","/")
+},{"backbone-events-standalone":7,"buffer":8,"lodash":12,"oMfpAn":11}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
@@ -357,12 +687,12 @@ global.JSKit = {
 })(this);
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone-events-standalone/backbone-events-standalone.js","/../../node_modules/backbone-events-standalone")
-},{"buffer":6,"oMfpAn":9}],5:[function(require,module,exports){
+},{"buffer":8,"oMfpAn":11}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 module.exports = require('./backbone-events-standalone');
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone-events-standalone/index.js","/../../node_modules/backbone-events-standalone")
-},{"./backbone-events-standalone":4,"buffer":6,"oMfpAn":9}],6:[function(require,module,exports){
+},{"./backbone-events-standalone":6,"buffer":8,"oMfpAn":11}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1475,7 +1805,7 @@ function assert (test, message) {
 }
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
-},{"base64-js":7,"buffer":6,"ieee754":8,"oMfpAn":9}],7:[function(require,module,exports){
+},{"base64-js":9,"buffer":8,"ieee754":10,"oMfpAn":11}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -1599,7 +1929,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
-},{"buffer":6,"oMfpAn":9}],8:[function(require,module,exports){
+},{"buffer":8,"oMfpAn":11}],10:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
@@ -1687,7 +2017,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
 };
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
-},{"buffer":6,"oMfpAn":9}],9:[function(require,module,exports){
+},{"buffer":8,"oMfpAn":11}],11:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -1754,7 +2084,7 @@ process.chdir = function (dir) {
 };
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
-},{"buffer":6,"oMfpAn":9}],10:[function(require,module,exports){
+},{"buffer":8,"oMfpAn":11}],12:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /**
  * @license
@@ -8543,4 +8873,4 @@ process.chdir = function (dir) {
 }.call(this));
 
 }).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/lodash/dist/lodash.js","/../../node_modules/lodash/dist")
-},{"buffer":6,"oMfpAn":9}]},{},[3])
+},{"buffer":8,"oMfpAn":11}]},{},[3])
