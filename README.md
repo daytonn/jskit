@@ -307,14 +307,14 @@ it("has an index action", function() {
 Contributing
 ------------
 1. [Fork it](https://github.com/daytonn/jskit/fork)
-2. Clone it locally
-3. Set the upstream remote (`git remote add upstream git@github.com:daytonn/jskit.git`)
-4. Install the dependencies with npm (`npm install`)
-5. Run the specs with `npm test`
-6. Run the example app with `npm start`
-7. Create your feature branch (`git checkout -b my-new-feature`)
-8. Commit your changes (`git commit -am 'Add some feature'`)
-9. Ensure remote is updated (`git remote update`)
-10. Rebase from upstream (`git rebase upstream/master`)
-11. Push to the branch (`git push origin my-new-feature`)
-12. Create new Pull Request
+1. Clone it locally
+1. Set the upstream remote (`git remote add upstream git@github.com:daytonn/jskit.git`)
+1. Install the dependencies with npm (`npm install`)
+1. Run the specs with `npm test`
+1. Run the example app with `npm start`
+1. Create your feature branch (`git checkout -b my-new-feature`)
+1. Commit your changes (`git commit -am 'Add some feature'`)
+1. Ensure remote is updated (`git remote update`)
+1. Rebase from upstream (`git rebase upstream/master`)
+1. Push to the branch (`git push origin my-new-feature`)
+1. Create new Pull Request
