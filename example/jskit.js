@@ -10979,7 +10979,7 @@ var uniq = _.uniq;
 var values = _.values;
 function ensureActionIsDefined(actionMap) {
   if (!isFunction(this[actionMap.method]))
-    throw new Error((this.className + " action \"" + actionMap.name + this.eventSeperator + actionMap.method + "\" method is undefined"));
+    throw new Error((this.className + " action \"" + actionMap.name + this.eventSeparator + actionMap.method + "\" method is undefined"));
 }
 function mapAction(action) {
   var isMappedAction = isObject(action);
@@ -11001,7 +11001,7 @@ function registerActions(dispatcher) {
 function setControllerDefaults() {
   this.name = this.name || "Anonymous";
   defaults(this, {
-    eventSeperator: ":",
+    eventSeparator: ":",
     actions: [],
     channel: "controller",
     className: (s.constantize(this.name) + "Controller"),
@@ -11023,7 +11023,7 @@ var Controller = function Controller(dispatcher, attrs) {
   initialize: function() {},
   all: function() {},
   actionEventName: function(action) {
-    return compact([this.namespace, this.channel, this.controllerEventName, action]).join(this.eventSeperator);
+    return compact([this.namespace, this.channel, this.controllerEventName, action]).join(this.eventSeparator);
   }
 }, {});
 var $__default = Controller;
