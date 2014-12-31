@@ -314,6 +314,7 @@ Contributing
 6. Run the example app with `npm start`
 7. Create your feature branch (`git checkout -b my-new-feature`)
 8. Commit your changes (`git commit -am 'Add some feature'`)
-9. Rebase from upstream (`git rebase upstream master`)
-10. Push to the branch (`git push origin my-new-feature`)
-11. Create new Pull Request
+9. Ensure remote is updated (`git remote update`)
+10. Rebase from upstream (`git rebase upstream/master`)
+11. Push to the branch (`git push origin my-new-feature`)
+12. Create new Pull Request
