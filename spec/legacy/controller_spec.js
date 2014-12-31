@@ -68,8 +68,8 @@ describe("Controller", function() {
     expect(dispatcher.hasAction(subject, { mapped: "action" })).to.equal(true);
   });
 
-  it("has an eventSeperator", function() {
-    expect(subject.eventSeperator).to.equal(":");
+  it("has an eventSeparator", function() {
+    expect(subject.eventSeparator).to.equal(":");
   });
 
   it("has a default all function", function() {
@@ -90,7 +90,7 @@ describe("Controller", function() {
         subject.channel,
         subject.controllerEventName,
         "foo"
-      ]).join(subject.eventSeperator);
+      ]).join(subject.eventSeparator);
 
       expect(subject.actionEventName("foo")).to.equal(expectedEventName);
     });
@@ -160,12 +160,12 @@ describe("Controller", function() {
     });
   });
 
-  describe("with eventSeperator", function() {
+  describe("with eventSeparator", function() {
     beforeEach(function() {
-      subject = createController(dispatcher, controllerAttributes({ eventSeperator: "." }));
+      subject = createController(dispatcher, controllerAttributes({ eventSeparator: "." }));
     });
 
-    it("wires up the actions with the eventSeperator", function() {
+    it("wires up the actions with the eventSeparator", function() {
       dispatcher.trigger(subject.actionEventName("index"));
       expect(subject.index.called).to.equal(true);
     });
