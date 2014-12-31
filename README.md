@@ -1,7 +1,7 @@
 JSKit
 =====
 
-JSKit is a tiny library to end the problem of jQuery soup and `$(document).ready()` mess. JSKit introduces a simple, clean, and easily testable way to architect basic javascript enhanced web pages. Based on a simple event system, JSKit allows your back-end application seamlessly integrate your javacsript code with minimal coupling.
+JSKit is a tiny library to end the problem of jQuery soup and `$(document).ready()` mess. JSKit introduces a simple, clean, and easily testable way to architect basic javascript enhanced web pages. Based on a simple event system, JSKit allows your back-end application to seamlessly integrate your javacsript code with minimal coupling.
 
 Table of Contents
 -----------------
@@ -77,7 +77,7 @@ App.createController("Posts", {
 })
 ```
 
-When the `Application` creates a controller, it handles injecting the Controller with it's `Dispatcher`, creating the Controller's constructor, and instantiating an instance of the controller.
+When the `Application` creates a controller, it handles injecting the Controller with its `Dispatcher`, creating the Controller's constructor, and instantiating an instance of the controller.
 
 Controller instances are stored in `Application.Controllers` by name. Looking at the "Post" controller example above we know that there is an instance of a "Post" Controller in
 
@@ -98,11 +98,11 @@ The Controller instance is what `Application` will use at runtime. The Controlle
 
 Controllers
 -----------
-Controllers are the main component of a JSKit `Application`. Controllers accpet a single argument of a Dispatcher. The Dispatcher is passed automatically when a controller is created with the `Application.createController` method. Generally, you will only instantiate `Controller`s in your tests. Having the Dispatcher injected makes testing them in isolation much easier.
+Controllers are the main component of a JSKit `Application`. Controllers accept a single argument of a Dispatcher. The Dispatcher is passed automatically when a controller is created with the `Application.createController` method. Generally, you will only instantiate `Controller`s in your tests. Having the Dispatcher injected makes testing them in isolation much easier.
 
 ### Actions
 
-Actions define which events your controller responds to. The `Controller` uses the `actions` array to map it's methods to the Dispatcher's events. Actions are automatically mapped to the Dispatcher when the `Controller` is instantiate. There are two ways to define an action mapping in your `Controller`s:
+Actions define to which events your controller responds. The `Controller` uses the `actions` array to map its methods to the Dispatcher's events. Actions are automatically mapped to the Dispatcher when the `Controller` is instantiated. There are two ways to define an action mapping in your `Controller`s:
 
 #### Named Actions
 
@@ -134,7 +134,7 @@ App.createController("Posts", {
 
 ### Action Mapping
 
-When an action is mapped, it will be registered on the dispatcher for a specific event. The event that is registered depends on a few properties of the `Controller`: `namspace`, `channel`, `name`, and `action`. The default values for these are:
+When an action is mapped, it will be registered on the dispatcher for a specific event. The event that is registered depends on a few properties of the `Controller`: `namespace`, `channel`, `name`, and `action`. The default values for these are:
 
     namespace = ""
     channel = "controller"
@@ -153,7 +153,7 @@ So using the above examples, the event maps for the `PostsController` are:
 
 #### namespace
 
-By default `Controller`s have an empty namespace. If you wish to prefix the events the `Controller` registers for with an namespace, set this property:
+By default, `Controller`s have an empty namespace. If you wish to prefix the events the `Controller` registers for with an namespace, set this property:
 
 ```js
 App.createController("Posts", {
@@ -187,7 +187,7 @@ This will register all events with the `channel`:
 
 #### controllerEventName
 
-The `Controller` is given a `name` property by the `Application.createController(name, attributes)` method. The `controllerEventName` is automatically createds by lowercasing and underscoring the `name` to normalize event names. The `PostsController` example has the `name` "Posts" and a `controllerEventName` of "posts". CamelCased names will have underscores between each uppercased word:
+The `Controller` is given a `name` property by the `Application.createController(name, attributes)` method. The `controllerEventName` is automatically created by lowercasing and underscoring the `name` to normalize event names. The `PostsController` example has the `name` "Posts" and a `controllerEventName` of "posts". CamelCased names will have underscores between each uppercased word:
 
 ```js
 App.createController("CamelCase");
@@ -197,18 +197,18 @@ This would register all events with the controller `controllerEventName` of `cam
 
     controller:camel_case:<action> -> Controller.<action>
 
-#### eventSeperator
+#### eventSeparator
 
-The `eventSeperator` property defines how the `namespace`, `channel`, `name`, and `action` will be joined to create an event name. You can change this by setting the `eventSeperator` on the `Controller`:
+The `eventSeparator` property defines how the `namespace`, `channel`, `name`, and `action` will be joined to create an event name. You can change this by setting the `eventSeparator` on the `Controller`:
 
 ```js
 App.createController("Posts", {
-  eventSeperator: "."
+  eventSeparator: "."
   ...
 });
 ```
 
-This would register all events using "." as a seperator:
+This would register all events using "." as a separator:
 
     controller.posts.foo  -> Controller.foo
     controller.posts.new  -> Controller.setupForm
