@@ -7,6 +7,7 @@ gulp.task("concat", function() {
   return gulp.src([
     "lib/namespace.js",
     "lib/dispatcher.js",
+    "lib/test_dispatcher.js",
     "lib/controller.js",
     "lib/application.js",
     "lib/api.js"
