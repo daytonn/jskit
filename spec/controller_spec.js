@@ -1,33 +1,27 @@
-/* jshint esnext: true */
-import { expect, createController, createControllerWithMixins } from "./spec_helper";
-import Controller from "../lib/controller";
-import TestDispatcher from "../lib/test_dispatcher";
-import _ from "lodash";
-
 describe("Controller", function() {
   var dispatcher;
   var subject;
-  var allCalled;
-  var controllerDefaults = {
+  var testControllerDefaults = {
     name: "Test",
     actions: ["index", { mapped: "action" }],
-    index: function() {},
-    action: function() {}
+    index: sinon.spy(),
+    action: sinon.spy(),
+    all: sinon.spy()
   };
 
   function controllerAttributes(attributes) {
-    return _.extend({}, controllerDefaults, attributes);
+    return _.extend({}, testControllerDefaults, attributes);
   }
 
-  class TestController extends Controller {}
-
   beforeEach(function() {
-    dispatcher = new TestDispatcher;
-    subject = createController(dispatcher, controllerDefaults);
+    dispatcher = new JSKit.Dispatcher;
+    subject = createController(dispatcher, testControllerDefaults);
   });
 
   it("requires a dispatcher", function() {
-    expect(() => createController()).to.throw();
+    expect(function() {
+      createController();
+    }).to.throw(/dispatcher is undefined/);
   });
 
   it("has an actions array", function() {
@@ -56,38 +50,40 @@ describe("Controller", function() {
 
   it("registers action methods on the dispatcher", function() {
     dispatcher.trigger(subject.actionEventName("index"));
-    expect(subject.index.called).to.equal(true);
+    expect(subject.index).to.have.been.called;
   });
 
-  it("has a className", () => {
+  it("has a className", function() {
     expect(subject.className).to.equal("TestController");
   });
 
-  it("has an index action", () => {
-    expect(dispatcher.hasAction(subject, "index")).to.equal(true);
+  it("has an index action", function() {
+    dispatcher.trigger(subject.actionEventName("index"));
+    expect(subject.index).to.have.been.called;
   });
 
-  it("has a mapped action", () => {
-    expect(dispatcher.hasAction(subject, { mapped: "action" })).to.equal(true);
+  it("has a mapped action", function() {
+    dispatcher.trigger(subject.actionEventName("mapped"));
+    expect(subject.action).to.have.been.called;
   });
 
-  it("has an eventSeparator", () => {
+  it("has an eventSeparator", function() {
     expect(subject.eventSeparator).to.equal(":");
   });
 
-  it("has a default all function", () => {
+  it("has a default all function", function() {
     expect(subject.all).to.be.a("Function");
   });
 
-  describe("all event", () => {
-    it("automatically wires the all event", () => {
+  describe("all event", function() {
+    it("automatically wires the all event", function() {
       dispatcher.trigger(subject.actionEventName("all"));
-      expect(subject.all.called).to.equal(true);
+      expect(subject.all).to.have.been.called;
     });
   });
 
-  describe("actionEventName", () => {
-    it("returns the full event string for a given action", () => {
+  describe("actionEventName", function() {
+    it("returns the full event string for a given action", function() {
       var expectedEventName = _.compact([
         subject.namespace,
         subject.channel,
@@ -99,22 +95,22 @@ describe("Controller", function() {
     });
   });
 
-  describe("default names", () => {
+  describe("default names", function() {
     beforeEach(function() {
-      subject = new Controller(dispatcher);
+      subject = new JSKit.Controller(dispatcher);
     });
 
-    it("has a default name of Anonymous", () => {
+    it("has a default name of Anonymous", function() {
       expect(subject.name).to.equal("Anonymous");
     });
 
-    it("has a default className of AnonymousController", () => {
+    it("has a default className of AnonymousController", function() {
       expect(subject.className).to.equal("AnonymousController");
     });
   });
 
-  describe("initialize", () => {
-    it("calls initialize when the controller is constructed", () => {
+  describe("initialize", function() {
+    it("calls initialize when the controller is constructed", function() {
       var initializeCalled = false;
       createController(dispatcher, {
         initialize: function() {
@@ -125,83 +121,83 @@ describe("Controller", function() {
     });
   });
 
-  describe("with missing action methods", () => {
-    it("throws an error when an action is missing it's method", () => {
-      expect(() => {
+  describe("with missing action methods", function() {
+    it("throws an error when an action is missing it's method", function() {
+      expect(function() {
         createController(dispatcher, controllerAttributes({ index: undefined }));
-      }).to.throw(`TestController action "index:index" method is undefined`);
+      }).to.throw("TestController action \"index:index\" method is undefined");
     });
   });
 
-  describe("with namespace", () => {
-    beforeEach(() => {
+  describe("with namespace", function() {
+    beforeEach(function() {
       subject = createController(dispatcher, controllerAttributes({ namespace: "admin" }));
     });
 
-    it("has a namespace", () => {
+    it("has a namespace", function() {
       expect(subject.namespace).to.equal("admin");
     });
 
-    it("wires up the actions with the namespace", () => {
+    it("wires up the actions with the namespace", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index.called).to.equal(true);
+      expect(subject.index).to.have.been.called;
     });
   });
 
-  describe("with channel", () => {
-    beforeEach(() => {
+  describe("with channel", function() {
+    beforeEach(function() {
       subject = createController(dispatcher, controllerAttributes({ channel: "custom" }));
     });
 
-    it("has a channel", () => {
+    it("has a channel", function() {
       expect(subject.channel).to.equal("custom");
     });
 
-    it("wires up the actions with the channel", () => {
+    it("wires up the actions with the channel", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index.called).to.equal(true);
+      expect(subject.index).to.have.been.called;
     });
   });
 
-  describe("with eventSeparator", () => {
-    beforeEach(() => {
+  describe("with eventSeparator", function() {
+    beforeEach(function() {
       subject = createController(dispatcher, controllerAttributes({ eventSeparator: "." }));
     });
 
-    it("wires up the actions with the eventSeparator", () => {
+    it("wires up the actions with the eventSeparator", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index.called).to.equal(true);
+      expect(subject.index).to.have.been.called;
     });
   });
 
-  describe("CamelCase controllers", () => {
-    beforeEach(() => {
+  describe("CamelCase controllers", function() {
+    beforeEach(function() {
       subject = createController(dispatcher, controllerAttributes({ name: "CamelCase", namespace: null }));
     });
 
-    it("lowercases the controller name with underscores", () => {
+    it("lowercases the controller name with underscores", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index.called).to.equal(true);
+      expect(subject.index).to.have.been.called;
     });
   });
 
-  describe("with object action map", () => {
-    beforeEach(() => {
+  describe("with object action map", function() {
+    beforeEach(function() {
       subject = createController(dispatcher, {
         actions: ["index", { foo: "bar" }],
-        index: function() {},
-        bar: function() {}
+        index: sinon.spy(),
+        bar: sinon.spy()
       });
     });
 
-    it("wires up mapped actions", () => {
+    it("wires up mapped actions", function() {
       dispatcher.trigger(subject.actionEventName("foo"));
-      expect(subject.bar.called).to.equal(true);
+      expect(subject.bar).to.have.been.called;
     });
 
-    it("wires up normal actions", () => {
+    it("wires up normal actions", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index.called).to.equal(true);
+      expect(subject.index).to.have.been.called;
     });
   });
 });

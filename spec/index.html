@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="/node_modules/mocha/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="/node_modules/expect.js/index.js"></script>
+    <script src="/node_modules/mocha/mocha.js"></script>
+    <script src="/node_modules/chai/chai.js"></script>
+    <script src="/node_modules/sinon/pkg/sinon.js"></script>
+    <script src="/node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script src="/node_modules/lodash/lodash.js"></script>
+
+    <script>
+      mocha.setup("bdd");
+    </script>
+
+    <script src="/lib/namespace.js"></script>
+    <script src="/lib/dispatcher.js"></script>
+    <script src="/lib/controller.js"></script>
+    <script src="/lib/application.js"></script>
+    <script src="/lib/api.js"></script>
+
+    <script src="support/spec_helper.js"></script>
+
+    <script src="namespace_spec.js"></script>
+    <script src="dispatcher_spec.js"></script>
+    <script src="controller_spec.js"></script>
+    <script src="application_spec.js"></script>
+    <script src="api_spec.js"></script>
+
+    <script>
+      mocha.checkLeaks();
+      mocha.globals(["jQuery"]);
+      mocha.run();
+    </script>
+  </body>
+</html>

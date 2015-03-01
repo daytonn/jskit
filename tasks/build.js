@@ -1,9 +1,30 @@
-var clean = require("gulp-clean");
 var gulp = require("gulp");
-var requireDir = require("require-dir");
-var dir = requireDir("./distributions");
+var concat = require("gulp-concat");
+var rename = require("gulp-rename");
+var uglify = require("gulp-uglify");
 
-gulp.task("build", ["main", "standalone", "es6", "legacy", "example"], function() {
-  return gulp.src("tmp")
-    .pipe(clean());
+gulp.task("concat", function() {
+  return gulp.src([
+    "lib/namespace.js",
+    "lib/dispatcher.js",
+    "lib/controller.js",
+    "lib/application.js",
+    "lib/api.js"
+  ])
+    .pipe(concat("jskit.js"))
+    .pipe(gulp.dest("dist"));
 });
+
+gulp.task("minify", ["concat"], function() {
+  return gulp.src("dist/jskit.js")
+    .pipe(uglify())
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(gulp.dest("dist"));
+});
+
+gulp.task("example", ["minify"], function() {
+  return gulp.src(["dist/jskit.js", "node_modules/lodash/lodash.js"])
+    .pipe(gulp.dest("example"));
+});
+
+gulp.task("build", ["example"]);
