@@ -172,7 +172,7 @@ JSKit.Controller = (function() {
     if (!dispatcher) throw new Error(this.className + ": dispatcher is undefined");
     assign(this, attrs, this);
     this.dispatcher = dispatcher;
-    bindAll(this);
+    bindAll.apply(this, [this].concat(functions(this)));
 
     setControllerDefaults.call(this);
     this.actions.unshift("all");
