@@ -14,7 +14,7 @@ describe("Controller", function() {
   }
 
   beforeEach(function() {
-    dispatcher = new JSKit.Dispatcher;
+    dispatcher = new JSKit.TestDispatcher;
     subject = createController(dispatcher, testControllerDefaults);
   });
 
@@ -50,7 +50,7 @@ describe("Controller", function() {
 
   it("registers action methods on the dispatcher", function() {
     dispatcher.trigger(subject.actionEventName("index"));
-    expect(subject.index).to.have.been.called;
+    expect(subject.index.called).to.be.true;
   });
 
   it("has a className", function() {
@@ -59,12 +59,12 @@ describe("Controller", function() {
 
   it("has an index action", function() {
     dispatcher.trigger(subject.actionEventName("index"));
-    expect(subject.index).to.have.been.called;
+    expect(subject.index.called).to.be.true;
   });
 
   it("has a mapped action", function() {
     dispatcher.trigger(subject.actionEventName("mapped"));
-    expect(subject.action).to.have.been.called;
+    expect(subject.action.called).to.be.true;
   });
 
   it("has an eventSeparator", function() {
@@ -78,7 +78,7 @@ describe("Controller", function() {
   describe("all event", function() {
     it("automatically wires the all event", function() {
       dispatcher.trigger(subject.actionEventName("all"));
-      expect(subject.all).to.have.been.called;
+      expect(subject.all.called).to.be.true;
     });
   });
 
@@ -140,7 +140,7 @@ describe("Controller", function() {
 
     it("wires up the actions with the namespace", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index).to.have.been.called;
+      expect(subject.index.called).to.be.true;
     });
   });
 
@@ -155,7 +155,7 @@ describe("Controller", function() {
 
     it("wires up the actions with the channel", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index).to.have.been.called;
+      expect(subject.index.called).to.be.true;
     });
   });
 
@@ -166,7 +166,7 @@ describe("Controller", function() {
 
     it("wires up the actions with the eventSeparator", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index).to.have.been.called;
+      expect(subject.index.called).to.be.true;
     });
   });
 
@@ -177,7 +177,7 @@ describe("Controller", function() {
 
     it("lowercases the controller name with underscores", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index).to.have.been.called;
+      expect(subject.index.called).to.be.true;
     });
   });
 
@@ -192,12 +192,12 @@ describe("Controller", function() {
 
     it("wires up mapped actions", function() {
       dispatcher.trigger(subject.actionEventName("foo"));
-      expect(subject.bar).to.have.been.called;
+      expect(subject.bar.called).to.be.true;
     });
 
     it("wires up normal actions", function() {
       dispatcher.trigger(subject.actionEventName("index"));
-      expect(subject.index).to.have.been.called;
+      expect(subject.index.called).to.be.true;
     });
   });
 });
