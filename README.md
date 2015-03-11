@@ -1,6 +1,8 @@
 JSKit
 =====
 
+[![npm version](https://badge.fury.io/js/jskit.svg)](http://badge.fury.io/js/jskit)
+
 JSKit is a tiny library to end the problem of jQuery soup and `$(document).ready()` mess. JSKit introduces a simple, clean, and easily testable way to architect basic javascript enhanced web pages. Based on a simple event system, JSKit allows your back-end application to seamlessly integrate your javacsript code with minimal coupling.
 
 Table of Contents
