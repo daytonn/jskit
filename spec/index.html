@@ -33,9 +33,12 @@
     <script src="application_spec.js"></script>
     <script src="api_spec.js"></script>
 
+    <div id="element-to-cache"></div>
+    <div id="other-element-to-cache"></div>
+
     <script>
       mocha.checkLeaks();
-      mocha.globals(["jQuery"]);
+      mocha.globals(["jQuery", "$"]);
       mocha.run();
     </script>
   </body>

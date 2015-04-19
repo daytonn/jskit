@@ -6,7 +6,11 @@ describe("Controller", function() {
     actions: ["index", { mapped: "action" }],
     index: sinon.spy(),
     action: sinon.spy(),
-    all: sinon.spy()
+    all: sinon.spy(),
+    elements: {
+      firstDiv: "#element-to-cache",
+      secondDiv: "#other-element-to-cache"
+    }
   };
 
   function controllerAttributes(attributes) {
@@ -198,6 +202,28 @@ describe("Controller", function() {
     it("wires up normal actions", function() {
       dispatcher.trigger(subject.actionEventName("index"));
       expect(subject.index.called).to.be.true;
+    });
+  });
+
+  describe("#cacheElements", function() {
+    beforeEach(function() {
+      window.$ = function(selector) {
+        return document.getElementById(selector.replace("#", ""));
+      };
+    });
+
+    afterEach(function() {
+      delete window.$;
+    });
+
+    it("caches the elements specified in `elements`", function() {
+      subject.cacheElements();
+
+      expect(subject.firstDiv).to.exist;
+      expect(subject.secondDiv).to.exist;
+
+      expect(subject.firstDiv.id).to.equal("element-to-cache");
+      expect(subject.secondDiv.id).to.equal("other-element-to-cache");
     });
   });
 });

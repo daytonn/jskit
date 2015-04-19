@@ -186,6 +186,12 @@ JSKit.Controller = (function() {
     all: function() {},
     actionEventName: function(action) {
       return compact([this.namespace, this.channel, this.controllerEventName, action]).join(this.eventSeparator);
+    },
+    cacheElements: function() {
+      var controller = this;
+      each(controller.elements, function(selector, name) {
+        controller[name] = $(selector);
+      });
     }
   });
 
