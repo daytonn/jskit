@@ -1,72 +1,75 @@
-describe("Dispatcher", function() {
-  var subject;
-  var handler;
-  var foreignContext;
-  beforeEach(function() {
+import Dispatcher from '../src/dispatcher';
+
+describe("Dispatcher", () => {
+  let subject;
+  let handler;
+  let foreignContext;
+
+  beforeEach(() => {
     foreignContext = {
-      name: "foreign",
-      handler: function() {
-        this.name = "changed";
+      value: "foreign",
+      handler() {
+        this.value = "changed";
       }
     };
     handler = sinon.spy();
-    subject = new JSKit.Dispatcher;
+    subject = new Dispatcher;
   });
 
-  describe("on", function() {
-    beforeEach(function() {
+  describe("on", () => {
+    beforeEach(() => {
       subject.on("some-event", handler);
     });
 
-    it("registers a handler for an event", function() {
+    it("registers a handler for an event", () => {
       var eventHandler = _.first(subject.__events__["some-event"]).handler;
       expect(eventHandler).to.equal(handler);
     });
 
-    it("does not double register a handler", function() {
+    it("does not double register a handler", () => {
       subject.on("some-event", handler);
       expect(subject.__events__["some-event"].length).to.equal(1);
     });
   });
 
-  describe("off", function() {
-    beforeEach(function() {
+  describe("off", () => {
+    beforeEach(() => {
       subject.on("some-event", handler);
     });
 
-    it("removes all handlers from an event if only the event name is passed", function() {
+    it("removes all handlers from an event if only the event name is passed", () => {
       subject.off("some-event");
       expect(subject.__events__["some-event"].length).to.equal(0);
     });
 
-    it("removes an event handler if the hander is passed", function() {
+    it("removes an event handler if the hander is passed", () => {
       subject.on("some-event", foreignContext.handler);
       subject.off("some-event", handler);
       expect(subject.__events__["some-event"].length).to.equal(1);
     });
   });
 
-  describe("trigger", function() {
-    beforeEach(function() {
+  describe("trigger", () => {
+    beforeEach(() => {
       subject.on("some-event", handler);
       subject.trigger("some-event", "one", "two");
       subject.on("boundHandler", foreignContext.handler, foreignContext);
       subject.trigger("boundHandler");
     });
 
-    it("triggers events", function() {
+    it("triggers events", () => {
       expect(handler.called).to.be.true;
     });
 
-    it("deduplicates the handlers", function() {
+    it("deduplicates the handlers", () => {
       expect(handler.callCount).to.equal(1);
     });
 
-    it("binds a context to the event handler", function() {
-      expect(foreignContext.name).to.equal("changed");
+    it("binds a context to the event handler", () => {
+      expect(foreignContext.value).to.equal("changed");
     });
 
-    it("passes the tail of the arguments array to the handler", function() {
+    it("passes the tail of the arguments array to the handler", () => {
       expect(handler.calledWith("one", "two")).to.be.true;
     });
   });

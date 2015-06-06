@@ -1,0 +1,1 @@
+{"version":3,"sources":["jskit.js"],"names":[],"mappings":";;;;;AAAA,IAAA,KAAA,GAAA,EAAA,CAAA;qBACA,KAAA","file":"jskit.js","sourcesContent":["var JSKit = {};\nexport default JSKit;\n"],"sourceRoot":"/source/"}
