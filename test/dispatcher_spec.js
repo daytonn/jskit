@@ -4,6 +4,7 @@ describe("Dispatcher", () => {
   let subject;
   let handler;
   let foreignContext;
+  let first = _.first;
 
   beforeEach(() => {
     foreignContext = {
@@ -29,6 +30,20 @@ describe("Dispatcher", () => {
     it("does not double register a handler", () => {
       subject.on("some-event", handler);
       expect(subject.__events__["some-event"].length).to.equal(1);
+    });
+  });
+
+  describe("before", () => {
+    let beforeHandler;
+
+    beforeEach(function() {
+      beforeHandler = sinon.spy();
+      subject.on("some-event", handler);
+      subject.before("some-event", beforeHandler);
+    });
+
+    it("prepends the handler to the events", () => {
+      expect(first(subject.__events__["some-event"]).handler).to.equal(beforeHandler);
     });
   });
 

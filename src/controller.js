@@ -35,7 +35,7 @@ function mapAction(action) {
 
 function ensureActionIsDefined(controller, actionMap) {
   if (!isFunc(controller[actionMap.method])) {
-    throw new Error(controller.name + " action \"" + actionMap.name + ":" + actionMap.method + "\" method is undefined");
+    throw new Error(`${controller.name} action "${actionMap.name}:${actionMap.method}" method is undefined`);
   }
 }
 
@@ -48,6 +48,41 @@ function actionEventName(controller, action) {
   ]).join(controller.eventSeparator);
 }
 
+function cacheElements(controller, action) {
+  if (controller.elements[action]) {
+    each(controller.elements[action], function(selector, name) {
+      controller[`$${name}`] = $(selector);
+    }, controller);
+  }
+}
+
+function registerEvents(controller, action) {
+  if (controller.events[action]) {
+    each(controller.events[action], function(eventMap, element) {
+      var evnt = first(keys(eventMap));
+      var handler = controller[first(values(eventMap))];
+      var $element = controller[`$${element}`];
+      $element.on(evnt, handler);
+    }, controller);
+  }
+}
+
+function registerElementEvents(controller) {
+  each(controller.elements, function(elements, action) {
+    controller.dispatcher.before(actionEventName(controller, action), function() {
+      cacheElements(controller, action);
+    }, controller);
+  }, controller);
+}
+
+function registerControllerEvents(controller) {
+  each(controller.events, function(eventMap, action) {
+    controller.dispatcher.on(actionEventName(controller, action), function() {
+      registerEvents(controller, action);
+    }, controller);
+  }, controller);
+}
+
 let Controller = {
   create(attrs={}) {
     if (!attrs.name) throw new Error("Controller.create(name): name is undefined");
@@ -57,14 +92,18 @@ let Controller = {
       channel: "controller",
       controllerEventName: underscore(attrs.name),
       dispatcher: new Dispatcher,
+      elements: {},
+      events: {},
       eventSeparator: ":",
       all: () => {},
       initialize: () => {}
     });
-
     bindAll(controller);
     controller.actions.unshift("all");
+    registerElementEvents(controller);
+    registerControllerEvents(controller);
     registerActions(controller);
+
     controller.initialize();
 
     return controller;

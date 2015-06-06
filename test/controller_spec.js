@@ -4,14 +4,17 @@ import Dispatcher from "../src/dispatcher";
 describe("Controller", () => {
   let extend = _.extend;
   let last = _.last;
+  let first = _.first;
   let dispatcher;
   let subject;
   let testControllerDefaults;
   let indexCalled;
   let allCalled;
   let actionCalled;
+  let $fixtures;
 
-  beforeEach(function() {
+  beforeEach(() => {
+    $fixtures = $("#fixtures");
     dispatcher = new Dispatcher;
     testControllerDefaults = {
       action() { actionCalled = true; },
@@ -62,6 +65,14 @@ describe("Controller", () => {
     it("has an all function", () => {
       expect(subject.all).to.be.a("Function");
     });
+
+    it("has an elements object", () => {
+      expect(subject.elements).to.be.an("Object");
+    });
+
+    it("has an events object", () => {
+      expect(subject.events).to.be.an("Object");
+    });
   });
 
   describe("options", () => {
@@ -89,7 +100,7 @@ describe("Controller", () => {
   describe("initialize", () => {
     let initializeCalled;
 
-    beforeEach(function() {
+    beforeEach(() => {
       subject = Controller.create(extend(testControllerDefaults, {
         initialize() { initializeCalled = true; }
       }));
@@ -184,6 +195,49 @@ describe("Controller", () => {
     it("wires up normal actions", () => {
       subject.dispatcher.trigger("controller:test:index");
       expect(indexCalled).to.equal(true);
+    });
+  });
+
+  describe("elements", () => {
+    beforeEach(() => {
+      $fixtures.append("<a id='element' href='#'>Test</a>");
+      subject = Controller.create(extend({}, testControllerDefaults, {
+        elements: {
+          index: { element: "#element" }
+        }
+      }));
+    });
+
+    it("registers cacheElements before actions", () => {
+      let cacheElements = first(subject.dispatcher.__events__["controller:test:index"]).handler;
+      cacheElements();
+      expect(subject.$element).to.exist;
+    });
+  });
+
+  describe("events", () => {
+    let handleElementClickCalled;
+
+    beforeEach(() => {
+      $fixtures.append("<a id='element' href='#'>Test</a>");
+      subject = Controller.create(extend({}, testControllerDefaults, {
+        handleElementClick: function() { handleElementClickCalled = true; },
+        elements: {
+          index: { element: "#element" }
+        },
+        events: {
+          index: {
+            element: { click: "handleElementClick" }
+          }
+        }
+      }));
+    });
+
+    // This test passes in the browser but not on cli
+    xit("wires up events", () => {
+      subject.dispatcher.trigger("controller:test:index");
+      subject.$element.trigger("click");
+      expect(handleElementClickCalled).to.equal(true);
     });
   });
 });

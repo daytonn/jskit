@@ -1,19 +1,38 @@
+let contains = _.contains;
+let pluck = _.pluck;
+
+function getEventHandlers(context, eventName) {
+  return context.__events__[eventName] = context.__events__[eventName] || [];
+}
+
+function createHandlerObject(context = null, handler) {
+  return {
+    context: context,
+    handler: handler
+  }
+}
+
+function registerHandler(registeredHandlers, eventHandler, method="push") {
+  if (!contains(pluck(registeredHandlers, "handler"), eventHandler.handler)) {
+    registeredHandlers[method](eventHandler);
+  }
+}
+
 class Dispatcher {
   constructor() {
     this.__events__ = {};
   }
 
   on(eventName, handler, context) {
-    var eventHandler = {
-      context: context || null,
-      handler: handler
-    };
+    var eventHandler = createHandlerObject(context, handler);
+    var registeredHandlers = getEventHandlers(this, eventName);
+    registerHandler(registeredHandlers, eventHandler);
+  }
 
-    var registeredHandlers = this.__events__[eventName] = this.__events__[eventName] || [];
-
-    if (!_.contains(_.pluck(registeredHandlers, "handler"), handler)) {
-      registeredHandlers.push(eventHandler);
-    }
+  before(eventName, handler, context) {
+    var eventHandler = createHandlerObject(context, handler);
+    var registeredHandlers = getEventHandlers(this, eventName);
+    registerHandler(registeredHandlers, eventHandler, "unshift");
   }
 
   off(eventName, handler) {
