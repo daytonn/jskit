@@ -3,16 +3,26 @@ import Dispatcher from "../src/dispatcher";
 
 describe("Controller", () => {
   let extend = _.extend;
+  let last = _.last;
   let dispatcher;
   let subject;
-  let testControllerDefaults = {
-    name: "Test",
-    actions: ["index", { mapped: "action" }],
-    index: sinon.spy(),
-    action: sinon.spy(),
-    all: sinon.spy()
-  };
+  let testControllerDefaults;
+  let indexCalled;
+  let allCalled;
+  let actionCalled;
 
+  beforeEach(function() {
+    dispatcher = new Dispatcher;
+    testControllerDefaults = {
+      action() { actionCalled = true; },
+      actions: ["index", { mapped: "action" }],
+      all() { allCalled = true; },
+      dispatcher: dispatcher,
+      index() { indexCalled = true; },
+      name: "Test"
+    };
+    subject = Controller.create(testControllerDefaults);
+  });
 
   describe("defaults", () => {
     beforeEach(() => {
@@ -37,7 +47,6 @@ describe("Controller", () => {
       expect(subject.channel).to.equal("controller");
     });
 
-
     it("has a default initialize method", () => {
       expect(subject.initialize).to.be.a("Function");
     });
@@ -56,147 +65,125 @@ describe("Controller", () => {
   });
 
   describe("options", () => {
-    beforeEach(() => {
-      subject = Controller.create(testControllerDefaults);
-    });
-
     it("has an index action", () => {
       expect(subject.actions).to.contain("index");
     });
 
-    xit("has a mapped action", () => {
-
+    it("has a mapped action", () => {
+      expect(last(subject.actions).mapped).to.equal("action");
     });
   });
 
-  // it("registers action methods on the dispatcher", () => {
-  //   dispatcher.trigger(subject.actionEventName("index"));
-  //   expect(subject.index.called).to.be.true;
-  // });
+  describe("actions", () => {
+    it("registers action methods on the dispatcher", () => {
+      subject.dispatcher.trigger("controller:test:index");
+      expect(indexCalled).to.equal(true);
+    });
 
-  // describe("all event", () => {
-  //   it("automatically wires the all event", () => {
-  //     dispatcher.trigger(subject.actionEventName("all"));
-  //     expect(subject.all.called).to.be.true;
-  //   });
-  // });
+    it("automatically wires the all event", () => {
+      dispatcher.trigger("controller:test:all");
+      expect(allCalled).to.equal(true);
+    });
+  });
 
-  // describe("actionEventName", () => {
-  //   it("returns the full event string for a given action", () => {
-  //     var expectedEventName = _.compact([
-  //       subject.namespace,
-  //       subject.channel,
-  //       subject.controllerEventName,
-  //       "foo"
-  //     ]).join(subject.eventSeparator);
+  describe("initialize", () => {
+    let initializeCalled;
 
-  //     expect(subject.actionEventName("foo")).to.equal(expectedEventName);
-  //   });
-  // });
+    beforeEach(function() {
+      subject = Controller.create(extend(testControllerDefaults, {
+        initialize() { initializeCalled = true; }
+      }));
+    });
 
-  // describe("default names", () => {
-  //   beforeEach(() => {
-  //     subject = new JSKit.Controller(dispatcher);
-  //   });
+    it("calls initialize when the controller is constructed", () => {
+      expect(initializeCalled).to.equal(true);
+    });
+  });
 
-  //   it("has a default name of Anonymous", () => {
-  //     expect(subject.name).to.equal("Anonymous");
-  //   });
+  describe("with missing action methods", () => {
+    it("throws an error when an action is missing it's method", () => {
+      expect(() => {
+        let attrs = extend({}, testControllerDefaults, { index: undefined });
+        Controller.create(attrs);
+      }).to.throw("Test action \"index:index\" method is undefined");
+    });
+  });
 
-  //   it("has a default className of AnonymousController", () => {
-  //     expect(subject.className).to.equal("AnonymousController");
-  //   });
-  // });
+  describe("with namespace", () => {
+    beforeEach(() => {
+      let attrs = extend({}, testControllerDefaults, { namespace: "admin" });
+      subject = Controller.create(attrs);
+    });
 
-  // describe("initialize", () => {
-  //   it("calls initialize when the controller is constructed", () => {
-  //     var initializeCalled = false;
-  //     createController(dispatcher, {
-  //       initialize: () => {
-  //         initializeCalled = true;
-  //       }
-  //     });
-  //     expect(initializeCalled).to.equal(true);
-  //   });
-  // });
+    it("has a namespace", () => {
+      expect(subject.namespace).to.equal("admin");
+    });
 
-  // describe("with missing action methods", () => {
-  //   it("throws an error when an action is missing it's method", () => {
-  //     expect(() => {
-  //       createController(dispatcher, controllerAttributes({ index: undefined }));
-  //     }).to.throw("TestController action \"index:index\" method is undefined");
-  //   });
-  // });
+    it("wires up the actions with the namespace", () => {
+      subject.dispatcher.trigger("admin:controller:test:index");
+      expect(indexCalled).to.equal(true);
+    });
+  });
 
-  // describe("with namespace", () => {
-  //   beforeEach(() => {
-  //     subject = createController(dispatcher, controllerAttributes({ namespace: "admin" }));
-  //   });
+  describe("with channel", () => {
+    beforeEach(() => {
+      let attrs = extend({}, testControllerDefaults, { channel: "custom" });
+      subject = Controller.create(attrs);
+    });
 
-  //   it("has a namespace", () => {
-  //     expect(subject.namespace).to.equal("admin");
-  //   });
+    it("has a channel", () => {
+      expect(subject.channel).to.equal("custom");
+    });
 
-  //   it("wires up the actions with the namespace", () => {
-  //     dispatcher.trigger(subject.actionEventName("index"));
-  //     expect(subject.index.called).to.be.true;
-  //   });
-  // });
+    it("wires up the actions with the channel", () => {
+      dispatcher.trigger("custom:test:index");
+      expect(indexCalled).to.equal(true);
+    });
+  });
 
-  // describe("with channel", () => {
-  //   beforeEach(() => {
-  //     subject = createController(dispatcher, controllerAttributes({ channel: "custom" }));
-  //   });
+  describe("with eventSeparator", () => {
+    beforeEach(() => {
+      let attrs = extend({}, testControllerDefaults, { eventSeparator: "." });
+      subject = Controller.create(attrs);
+    });
 
-  //   it("has a channel", () => {
-  //     expect(subject.channel).to.equal("custom");
-  //   });
+    it("wires up the actions with the eventSeparator", () => {
+      subject.dispatcher.trigger("controller.test.index");
+      expect(indexCalled).to.equal(true);
+    });
+  });
 
-  //   it("wires up the actions with the channel", () => {
-  //     dispatcher.trigger(subject.actionEventName("index"));
-  //     expect(subject.index.called).to.be.true;
-  //   });
-  // });
+  describe("CamelCase controllers", () => {
+    beforeEach(() => {
+      let attrs = extend({}, testControllerDefaults, { name: "CamelCase" });
+      subject = Controller.create(attrs);
+    });
 
-  // describe("with eventSeparator", () => {
-  //   beforeEach(() => {
-  //     subject = createController(dispatcher, controllerAttributes({ eventSeparator: "." }));
-  //   });
+    it("lowercases the controller name with underscores", () => {
+      subject.dispatcher.trigger("controller:camel_case:index");
+      expect(indexCalled).to.equal(true);
+    });
+  });
 
-  //   it("wires up the actions with the eventSeparator", () => {
-  //     dispatcher.trigger(subject.actionEventName("index"));
-  //     expect(subject.index.called).to.be.true;
-  //   });
-  // });
+  describe("with object action map", () => {
+    let barCalled;
 
-  // describe("CamelCase controllers", () => {
-  //   beforeEach(() => {
-  //     subject = createController(dispatcher, controllerAttributes({ name: "CamelCase", namespace: null }));
-  //   });
+    beforeEach(() => {
+      let attrs = extend({}, testControllerDefaults, {
+        actions: ["index", { foo: "bar" }],
+        bar() { barCalled = true; }
+      });
+      subject = Controller.create(attrs);
+    });
 
-  //   it("lowercases the controller name with underscores", () => {
-  //     dispatcher.trigger(subject.actionEventName("index"));
-  //     expect(subject.index.called).to.be.true;
-  //   });
-  // });
+    it("wires up mapped actions", () => {
+      subject.dispatcher.trigger("controller:test:foo");
+      expect(barCalled).to.equal(true);
+    });
 
-  // describe("with object action map", () => {
-  //   beforeEach(() => {
-  //     subject = createController(dispatcher, {
-  //       actions: ["index", { foo: "bar" }],
-  //       index: sinon.spy(),
-  //       bar: sinon.spy()
-  //     });
-  //   });
-
-  //   it("wires up mapped actions", () => {
-  //     dispatcher.trigger(subject.actionEventName("foo"));
-  //     expect(subject.bar.called).to.be.true;
-  //   });
-
-  //   it("wires up normal actions", () => {
-  //     dispatcher.trigger(subject.actionEventName("index"));
-  //     expect(subject.index.called).to.be.true;
-  //   });
-  // });
+    it("wires up normal actions", () => {
+      subject.dispatcher.trigger("controller:test:index");
+      expect(indexCalled).to.equal(true);
+    });
+  });
 });
