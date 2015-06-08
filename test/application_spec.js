@@ -1,11 +1,10 @@
 import Application from "../src/application";
-import Dispatcher from "../src/dispatcher";
 
 describe("Application", () => {
   let subject;
 
   beforeEach(() => {
-    subject = new Application;
+    subject = Application.create();
   });
 
   it("has a Controllers namespace", () => {
@@ -13,7 +12,7 @@ describe("Application", () => {
   });
 
   it("has a Dispatcher", () => {
-    expect(subject.Dispatcher).to.be.an.instanceof(Dispatcher);
+    expect(subject.Dispatcher).to.be.an("Object");
   });
 
   describe("createController", () => {

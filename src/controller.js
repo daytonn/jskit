@@ -91,7 +91,7 @@ let Controller = {
       actions: [],
       channel: "controller",
       controllerEventName: underscore(attrs.name),
-      dispatcher: new Dispatcher,
+      dispatcher: Dispatcher.create(),
       elements: {},
       events: {},
       eventSeparator: ":",

@@ -14,7 +14,7 @@ describe("Dispatcher", () => {
       }
     };
     handler = sinon.spy();
-    subject = new Dispatcher;
+    subject = Dispatcher.create();
   });
 
   describe("on", () => {

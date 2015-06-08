@@ -15,7 +15,7 @@ describe("Controller", () => {
 
   beforeEach(() => {
     $fixtures = $("#fixtures");
-    dispatcher = new Dispatcher;
+    dispatcher = Dispatcher.create();
     testControllerDefaults = {
       action() { actionCalled = true; },
       actions: ["index", { mapped: "action" }],
@@ -39,7 +39,7 @@ describe("Controller", () => {
     });
 
     it("has a default dispatcher", () => {
-      expect(subject.dispatcher).to.be.an.instanceof(Dispatcher);
+      expect(subject.dispatcher).to.be.an("Object");
     });
 
     it("has an actions array", () => {

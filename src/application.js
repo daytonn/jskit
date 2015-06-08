@@ -17,24 +17,26 @@ function constantize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-class Application {
-  constructor() {
-    this.Controllers = {};
-    this.Dispatcher = new Dispatcher;
-  }
+let Application = {
+  create() {
+    return {
+      Controllers: {},
+      Dispatcher: Dispatcher.create(),
 
-  createController(name, attrs={}) {
-    if (!name) throw new Error("Application.createController(name, attrs): name is undefined");
-    attrs.name = name;
+      createController(name, attrs={}) {
+        if (!name) throw new Error("Application.createController(name, attrs): name is undefined");
+        attrs.name = name;
 
-    let factory = {
-      create(attributes={ name: name }) {
-        return Controller.create(extend({}, attrs, attributes));
+        let factory = {
+          create(attributes={ name: name }) {
+            return Controller.create(extend({}, attrs, attributes));
+          }
+        }
+        this[`${constantize(name)}Controller`] = factory;
+        return this.Controllers[name] = factory.create({ dispatcher: this.Dispatcher });
       }
-    }
-    this[`${constantize(name)}Controller`] = factory;
-    return this.Controllers[name] = factory.create({ dispatcher: this.Dispatcher });
+    };
   }
-}
+};
 
 export default Application;
