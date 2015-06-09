@@ -1,6 +1,5 @@
-beforeEach(() => {
-  var $mocha = $("#mocha");
-  $mocha.append("<div id='fixtures'/>");
+beforeEach(function() {
+  $("#mocha").append("<div id='fixtures'/>");
 });
 
 afterEach(function() {

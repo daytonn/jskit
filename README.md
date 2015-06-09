@@ -48,10 +48,10 @@ Make sure that lodash or underscore is included and available globally.
 
 Basic Usage
 -----------
-The `Application` is the interface to your JSKit components. To create an application you simply call `createApplication`:
+The `Application` is the interface to your JSKit components. To create an application you simply call `JSKit.Application.create()`:
 
 ```js
-var App = JSKit.createApplication();
+var App = JSKit.Application.create();
 ```
 
 ### Dispatcher
@@ -70,7 +70,7 @@ Generally you will not have to manually register for events (`App.Dispatcher.on`
 
 ### Creating Controllers
 
-The basic component of a JSKit application is a Controller. Controllers are basically objects that map actions to events. To create a controller, call `createController`:
+The basic component of a JSKit application is a Controller. Controllers are basically objects that map events to methods (actions). To create a controller, call `createController`:
 
 ```js
 App.createController("Posts", {
@@ -94,30 +94,26 @@ App.createController("Posts", {
 })
 ```
 
-When the `Application` creates a controller, it handles injecting the Controller with its `Dispatcher`, creating the Controller's constructor, and instantiating an instance of the controller.
+When the `Application` creates a controller, it handles passing the Application's dispatcher to the Controller, creating the Controller's factory, and creating a controller on the Application's `Controllers` object.
 
-Controller instances are stored in `Application.Controllers` by name. Looking at the "Post" controller example above we know that there is an instance of a "Post" Controller in
+Controller objects are stored in `Application.Controllers` by name. Looking at the "Posts" controller example above we know that there is a Posts Controller object at `App.Controllers.Posts`.
 
-```js
-App.Controllers.Post
-```
+Controller factories are functions on the `Application` object itself with the suffix "Controller". These factories are useful in testing to create fresh copies of the controller object for testing. Given the example above there would be a Posts controller factory at `App.PostsController`
 
-Controller constructors are stored on the `Application` object itself with the suffix "Controller".
-and the `PostController` class constructor is at
+ To create a Posts controller object, simply call create: 
 
 ```js
-App.PostController
+var testPostsController = App.PostsController.create();
 ```
 
-The Controller instance is what `Application` will use at runtime. The Controller's constructor is simply a convenience for creating clean states for testing.
+The `App.Controllers.Posts` object is what the `Application` will use at runtime. The `App.PostsController` factory is simply a convenience for creating clean states for testing.
 
 Controllers
 -----------
-Controllers are the main component of a JSKit `Application`. Controllers accept a single argument of a Dispatcher. The Dispatcher is passed automatically when a controller is created with the `Application.createController` method. Generally, you will only instantiate `Controller`s in your tests. Having the Dispatcher injected makes testing them in isolation much easier.
 
 ### Actions
 
-Actions define to which events your controller responds. The `Controller` uses the `actions` array to map its methods to the Dispatcher's events. Actions are automatically mapped to the Dispatcher when the `Controller` is instantiated. There are two ways to define an action mapping in your `Controller`s:
+Actions define events to which your controller responds. The `Controller` uses the `actions` array to map its methods to the Dispatcher's events. Actions are automatically mapped to the Dispatcher when the `Controller` is created. There are two ways to define an action mapping:
 
 #### Named Actions
 
@@ -149,12 +145,12 @@ App.createController("Posts", {
 
 ### Action Mapping
 
-When an action is mapped, it will be registered on the dispatcher for a specific event. The event that is registered depends on a few properties of the `Controller`: `namespace`, `channel`, `name`, and `action`. The default values for these are:
+When an action is mapped, it will be registered on the dispatcher for a specific event. The event that is registered depends on a few properties of the `Controller` which are: `namespace`, `channel`, `name`, and `action`. The default values for these are:
 
     namespace = ""
     channel = "controller"
-    controllerEventName = "<Controller.name>" (lowercase and underscored)
-    action = "<action>
+    controllerEventName = "{Controller.name}" (lowercase and underscored)
+    action = "{action}""
     eventSeperator = ":"
 
 So using the above examples, the event maps for the `PostsController` are:
