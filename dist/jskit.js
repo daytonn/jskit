@@ -1,5 +1,12 @@
-if (!_) throw new Error("JSKit: lodash or underscore is required");
-var JSKit = {};
+var JSKit = (function() {
+  if (!_) throw new Error("JSKit: lodash or underscore is required");
+
+  return {
+    createApplication: function() {
+      return JSKit.Application.create();
+    }
+  };
+})();
 
 JSKit.Dispatcher = (function() {
   var contains = _.contains;
