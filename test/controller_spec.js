@@ -14,12 +14,12 @@ describe("Controller", function() {
     $fixtures = $("#fixtures");
     dispatcher = JSKit.Dispatcher.create();
     testControllerDefaults = {
-      action() { actionCalled = true; },
+      name: "Test",
       actions: ["index", { mapped: "action" }],
-      all() { allCalled = true; },
       dispatcher: dispatcher,
-      index() { indexCalled = true; },
-      name: "Test"
+      all: function() { allCalled = true; },
+      index: function() { indexCalled = true; },
+      action: function() { actionCalled = true; }
     };
     subject = JSKit.Controller.create(testControllerDefaults);
   });
@@ -99,7 +99,7 @@ describe("Controller", function() {
 
     beforeEach(function() {
       subject = JSKit.Controller.create(extend(testControllerDefaults, {
-        initialize() { initializeCalled = true; }
+        initialize: function() { initializeCalled = true; }
       }));
     });
 
@@ -179,7 +179,7 @@ describe("Controller", function() {
     beforeEach(function() {
       var attrs = extend({}, testControllerDefaults, {
         actions: ["index", { foo: "bar" }],
-        bar() { barCalled = true; }
+        bar: function() { barCalled = true; }
       });
       subject = JSKit.Controller.create(attrs);
     });

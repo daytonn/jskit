@@ -32,9 +32,12 @@ JSKit.Application = (function() {
               attributes = attributes || { name: name };
               return JSKit.Controller.create(extend({}, attrs, attributes));
             }
-          }
+          };
+
           this[constantize(name) + "Controller"] = factory;
-          return this.Controllers[name] = factory.create({ dispatcher: dispatcher });
+          this.Controllers[name] = factory.create({ dispatcher: dispatcher });
+
+          return this.Controllers[name];
         }
       };
     }

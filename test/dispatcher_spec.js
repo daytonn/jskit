@@ -7,7 +7,7 @@ describe("Dispatcher", function() {
   beforeEach(function() {
     foreignContext = {
       value: "foreign",
-      handler() {
+      handler: function() {
         this.value = "changed";
       }
     };

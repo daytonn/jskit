@@ -5,11 +5,10 @@ var uglify = require("gulp-uglify");
 
 gulp.task("concat", function() {
   return gulp.src([
-    "src/namespace.js",
+    "src/jskit.js",
     "src/dispatcher.js",
     "src/controller.js",
-    "src/application.js",
-    "src/jskit.js"
+    "src/application.js"
   ])
     .pipe(concat("jskit.js"))
     .pipe(gulp.dest("dist"));
