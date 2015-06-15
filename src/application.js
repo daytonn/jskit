@@ -26,15 +26,15 @@ JSKit.Application = (function() {
           attrs = attrs || {};
           if (!name) throw new Error("Application.createController(name, attrs): name is undefined");
           attrs.name = name;
+          var controllerName = constantize(name) + "Controller";
 
-          var factory = {
+          var factory = this[controllerName] = {
             create: function(attributes) {
               attributes = attributes || { name: name };
               return JSKit.Controller.create(extend({}, attrs, attributes));
             }
           };
 
-          this[constantize(name) + "Controller"] = factory;
           this.Controllers[name] = factory.create({ dispatcher: dispatcher });
 
           return this.Controllers[name];

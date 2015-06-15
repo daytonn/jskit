@@ -18,25 +18,24 @@ Table of Contents
 Installation
 ---------------
 
-### Requirements
-* [lodash](https://lodash.com/) or [underscore](http://underscorejs.org/)
+### Using NPM
 
-Make sure that lodash or underscore is included and available globally.
+JSKit can be install using `npm`
 
-```html
-<script type="text/javascript" src="path/to/lodash.js"></script>
+```sh
+npm install jskit
 ```
 
--- or --
+Or add it to your package.json:
 
-```html
-<script type="text/javascript" src="path/to/underscore.js"></script>
+```js
+"jskit": "^3.5.0",
 ```
 
-### Download
+### Manual Install
+
 * Download the latest version
-  * [jskit.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.js)
-  * [jskit.min.js](https://raw.githubusercontent.com/daytonn/jskit/master/dist/jskit.min.js)
+  * [jskit-3.0.5.zip](https://github.com/daytonn/jskit/archive/3.5.0.zip)
 * Include Script
   * include the `jskit.js` file in your application
 
@@ -45,10 +44,32 @@ Make sure that lodash or underscore is included and available globally.
 <script type="text/javascript" src="path/to/jskit.js"></script>
 ```
 
+### Dependencies
+
+* [lodash](https://lodash.com/) (or [underscore](http://underscorejs.org/))
+* [jQuery](https://jquery.com/) (or equivalent `$` selector function)
+
+Make sure that the dependencies are included and available globally.
+
+```html
+<script type="text/javascript" src="path/to/lodash.js"></script>
+<script type="text/javascript" src="path/to/jquery.js"></script>
+```
+
+-- or --
+
+```html
+<script type="text/javascript" src="path/to/underscore.js"></script>
+<script type="text/javascript" src="path/to/zepto.js"></script>
+```
+
 
 Basic Usage
 -----------
-The `Application` is the interface to your JSKit components. To create an application you simply call `JSKit.Application.create()`:
+
+### Application
+
+A `JSKit.Application` object serves as the interface to your JSKit components. To create an application you simply call `JSKit.Application.create()`:
 
 ```js
 var App = JSKit.Application.create();
@@ -56,7 +77,7 @@ var App = JSKit.Application.create();
 
 ### Dispatcher
 
-Every application has a `Dispatcher` that allows registry and triggering of events throughout your JSKit application. In fact, JSKit is basically a thin wrapper around the `Dispatcher` that allows you to coordinate your javascript with minimal friction.
+Every application has a `Dispatcher` that allows you to register and trigger events throughout your JSKit application. In fact, JSKit is basically a thin wrapper around the `Dispatcher` that allows you to coordinate your javascript with minimal friction.
 
 ```js
 App.Dispatcher.on("some-event-name", function() {
@@ -164,7 +185,7 @@ So using the above examples, the event maps for the `PostsController` are:
 
 #### namespace
 
-By default, `Controller`s have an empty namespace. If you wish to prefix the events the `Controller` registers for with an namespace, set this property:
+By default, Controller's have an empty namespace. If you wish to prefix the events with a namespace, set this property:
 
 ```js
 App.createController("Posts", {
@@ -181,7 +202,7 @@ This will register all events with the `namespace` prefix:
 
 #### channel
 
-The default channel for a `Controller` is `controller`. To change this simply set the channel:
+The default channel for a Controller is `controller`. To change this simply set the channel:
 
 ```js
 App.createController("Posts", {
@@ -196,17 +217,17 @@ This will register all events with the `channel`:
     pages:posts:new  -> Controller.setupForm
     pages:posts:edit -> Controller.setupForm
 
-#### controllerEventName
+#### controller event name
 
-The `Controller` is given a `name` property by the `Application.createController(name, attributes)` method. The `controllerEventName` is automatically created by lowercasing and underscoring the `name` to normalize event names. The `PostsController` example has the `name` "Posts" and a `controllerEventName` of "posts". CamelCased names will have underscores between each uppercased word:
+The Controller is given a `name` property by the `Application.createController(name, attributes)` method. The controller event name is automatically created by lowercasing and underscoring the `name` to normalize event names. The `PostsController` example has the `name` "Posts" and a controller event name` of "posts". CamelCased names will have underscores between each uppercased word:
 
 ```js
-App.createController("CamelCase");
+App.createController("CamelCase", {...});
 ```
 
-This would register all events with the controller `controllerEventName` of `camel_case`:
+This would register all events with the controller controller event name of `camel_case`:
 
-    controller:camel_case:<action> -> Controller.<action>
+    controller:camel_case:action -> Controller.action
 
 #### eventSeparator
 
@@ -232,88 +253,17 @@ Every controller has an automatically wired `all` action. Other than being autom
 
     controller:posts:all -> Controller.all
 
-### actionEventName
-
-The `actionEventName` method allows you to get the full event name of a given action. It returns the `namespace`, `channel`, `controllerEventName`, and the `action` joined by the `eventSeperator`:
-
-```js
-var controller = App.createController("Posts");
-controller.actionEventName("index"); // controller:posts:index
-controller.actionEventName("show"); // controller:posts:show
-controller.actionEventName("new"); // controller:posts:new
-controller.actionEventName("edit"); // controller:posts:edit
-controller.actionEventName(); // controller:posts
-```
-
-### className
-
-Every Controller has a `className`. The `className` property is generated by capitalizing the `name` and adding the suffix "Controller". This property is used to display the Controller's constructor name in error output. Given the "Posts" Controller, the `controllerName` would be: `PostsController`.
-
 Testing
 -------
 
-JSKit is all about making testing javascript easier. JSKit itself comes with some handy tools for testing JSKit applications. When you create a controller with the `Application.createController` method. The created Controller's constructor will be available on the `Application` object using the Controller's `className`. Using the "Posts" controller example:
+JSKit is all about making testing javascript easier. When you create a controller with the `Application.createController` method. The created Controller's factory will be available on the `Application` object. Using the "Posts" controller example:
 
 ```js
-App.PostsController
+App.PostsController.create();
 ```
 
-**_ALWAYS_** use the provided constructors when testing your Controllers to ensure you don't pollute your tests with mutated state.
+**_ALWAYS_** use the provided factories when testing your Controllers to ensure you don't pollute your tests with mutated state.
 
-### TestDispatcher
-
-The `TestDispatcher` is used to help test JSKit Controllers. You should always use the `TestDispatcher` when testing Controllers. To create a controller with the `TestDispatcher` simply pass it to the Controller:
-
-```js
-describe("PostsController", function() {
-  var subject;
-  var dispatcher;
-
-  beforeEach() {
-    dispatcher = new JSKit.TestDispatcher;
-    subject = new App.PostsController(dispatcher);
-  }
-  ...
-};
-```
-
-#### spies
-
-When your Controller registers events on the `TestDispatcher`, your Controller's action methods will be enhanced with properties to determine if and how they were called:
-
-```js
-...
-it("calls index when the index event is triggered", function() {
-  dispatcher.trigger(controller.actionEventName("index"));
-
-  expect(controller.index.called).to.equal(true);
-  expect(controller.index.callCount).to.equal(1);
-  expect(controller.index.calls[0].args).to.be.an("Array");
-  expect(controller.index.calls[0].args).to.be.empty();
-});
-...
-};
-```
-
-### hasAction
-
-Most of the time, you will not need the extra functionality provided by spies and you simply want to see if a Controller's actions are wired up correctly. You can do this simply by calling `hasAction` with the controller and action you wish to test:
-
-```js
-...
-var subject;
-var dispatcher;
-
-beforeEach() {
-  dispatcher = new JSKit.TestDispatcher;
-  subject = new App.PostsController(dispatcher);
-}
-
-it("has an index action", function() {
-  expect(dispatcher.hasAction(subject, "index")).to.equal(true);
-});
-...
-```
 
 Contributing
 ------------
@@ -322,7 +272,6 @@ Contributing
 1. Set the upstream remote (`git remote add upstream git@github.com:daytonn/jskit.git`)
 1. Install the dependencies with npm (`npm install`)
 1. Run the specs with `npm test`
-1. Run the example app with `npm start`
 1. Create your feature branch (`git checkout -b my-new-feature`)
 1. Commit your changes (`git commit -am 'Add some feature'`)
 1. Ensure remote is updated (`git remote update`)
