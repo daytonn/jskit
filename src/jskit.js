@@ -12,6 +12,7 @@ var JSKit = (function() {
     /**
      * Returns a new Application object.
      *
+     * @static
      * @method createApplication
      * @return {Application}
     */

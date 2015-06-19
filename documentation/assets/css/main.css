@@ -272,9 +272,11 @@ picture {
   display: inline-block; }
 
 .flag.private {
-  padding: 0.25em 0.5em;
+  padding: 0 0.25em;
   background: #FC323F;
   color: white;
+  font-size: 80%;
+  display: inline-block;
   border-radius: 3px; }
 
 .private {
@@ -287,73 +289,117 @@ picture {
   font-size: 2.0em;
   color: #8DA6CE;
   padding-bottom: .25em;
-  border-bottom: solid 1px #8DA6CE; }
+  border-bottom: solid 4px #8DA6CE; }
 
-.method.item {
+.method {
   float: left;
   display: block;
   margin-right: 3.57866%;
   width: 100%; }
-  .method.item:last-child {
+  .method:last-child {
     margin-right: 0; }
-  .method.item .method-content {
-    display: none; }
-  .method.item .method-signature {
+  .method .method-header::after {
+    clear: both;
+    content: "";
+    display: table; }
+  .method .method-content {
+    border-bottom: solid 1px #8DA6CE;
+    padding-bottom: 2em;
+    margin-bottom: 2em; }
+  .method .method-signature {
     float: left;
     display: block;
     margin-right: 3.57866%;
     width: 74.10533%; }
-    .method.item .method-signature:last-child {
+    .method .method-signature:last-child {
       margin-right: 0; }
-    .method.item .method-signature .returns-inline {
+    .method .method-signature .returns-inline {
       display: none; }
-    .method.item .method-signature .name {
+    .method .method-signature .name {
+      font-family: "Helvetica";
       font-size: 1.75em;
       font-weight: bold;
-      color: #FF6400; }
-  .method.item .args-list {
+      color: #8DA6CE; }
+  .method .args-list {
     line-height: .75em; }
-    .method.item .args-list::after {
+    .method .args-list::after {
       clear: both;
       content: "";
       display: table; }
-    .method.item .args-list li {
+    .method .args-list .arg {
+      font-weight: bold;
       float: left;
-      font-size: 1.25em; }
-  .method.item .meta {
+      font-size: 1.25em;
+      color: #FF4C00; }
+      .method .args-list .arg .comma {
+        color: black; }
+      .method .args-list .arg .default {
+        color: #FF4C00; }
+      .method .args-list .arg .optional {
+        color: #4C4C4C; }
+  .method .meta {
     float: left;
     display: block;
     margin-right: 3.57866%;
     width: 22.316%;
     margin-right: 0;
-    font-size: 1em;
-    display: none; }
-    .method.item .meta:last-child {
+    font-size: 1em; }
+    .method .meta:last-child {
       margin-right: 0; }
-  .method.item .params-list .param em {
+  .method .params {
+    margin-top: 1em; }
+    .method .params h4 {
+      padding: 0;
+      margin: 0; }
+  .method .returns {
+    margin-top: 2em; }
+  .method .params-list .param em {
     font-size: .9em;
     color: #808080; }
-    .method.item .params-list .param em code {
+    .method .params-list .param em code {
       text-decoration: none;
       display: inline-block;
       font-weight: bold;
       margin-right: 3px; }
-  .method.item .params-list .param .param-description {
+  .method .params-list .param .param-description {
     font-style: italic;
     color: #808080; }
-  .method.item .description p {
+  .method .description p {
     margin: 0;
     padding: 0; }
-  .method.item .returns::after {
+  .method .returns::after {
     clear: both;
     content: "";
     display: table; }
-  .method.item .returns strong {
+  .method .returns strong {
     display: inline-block;
     float: left;
     margin-right: 1em; }
-  .method.item .returns .returns-description {
+  .method .returns .returns-description {
     float: left; }
+
+#properties h2, #static-methods h2, #methods h2 {
+  font-size: 1.5em;
+  font-weight: 1.5em;
+  border-bottom: solid 1px #8DA6CE;
+  padding-bottom: .5em; }
+
+#properties {
+  margin-bottom: 2em; }
+
+#static-methods {
+  margin-bottom: 2em; }
+
+#methods {
+  margin-bottom: 2em; }
+
+#properties-table {
+  font-size: 90%; }
+  #properties-table td {
+    padding: 0; }
+
+.module-name {
+  margin-bottom: 2em; }
 
 #header {
   max-width: 68em;
@@ -368,6 +414,8 @@ picture {
     clear: both;
     content: "";
     display: table; }
+  #header h1 {
+    font-size: 2.5em; }
 
 #content {
   max-width: 68em;
@@ -387,15 +435,27 @@ picture {
   float: left;
   display: block;
   margin-right: 2.35765%;
-  width: 31.76157%; }
+  width: 23.23176%; }
   #sidebar:last-child {
     margin-right: 0; }
+  #sidebar ul {
+    width: 100%; }
+    #sidebar ul li {
+      display: block;
+      border-bottom: solid 1px #8DA6CE; }
+      #sidebar ul li a {
+        width: 100%;
+        padding: .5em;
+        display: block; }
+        #sidebar ul li a:hover {
+          color: white;
+          background-color: #8DA6CE; }
 
 #layout-content {
   float: left;
   display: block;
   margin-right: 2.35765%;
-  width: 65.88078%;
+  width: 74.41059%;
   margin-right: 0; }
   #layout-content:last-child {
     margin-right: 0; }
@@ -417,3 +477,6 @@ picture {
     display: table; }
   #options-form .button-group {
     float: right; }
+
+.hidden {
+  display: none; }

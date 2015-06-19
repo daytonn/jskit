@@ -3,58 +3,51 @@
 <head>
     <meta charset="utf-8">
     <title>Application</title>
-    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../assets/vendor/highlight/styles/github.css">
 </head>
 <body>
     <header id="header">
-        <h1/>
+        <h1>
 
-            
+            JSKit API Documentation
         </h1>
-        <p class="navbar-text">API Docs for Version: <b></b></p>
-
-        <form>
-            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Application", "classes/Controller", "classes/ControllerFactory", "classes/Dispatcher", "classes/JSKit", "modules/JSKit"]'>
-        </form>
     </header>
     <section id="content">
         <aside id="sidebar">
-            <div>
-                <div id="sidebar">
-                <div id="classes">
-                    <ul id="api-classes" class="nav nav-list">
-                            <li><a href="../classes/Application.html">Application</a></li>
-                            <li><a href="../classes/Controller.html">Controller</a></li>
-                            <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
-                            <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
-                            <li><a href="../classes/JSKit.html">JSKit</a></li>
-                    </ul>
-                </div>
-                </div>
-            </div>
+            <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/Application.html">Application</a></li>
+                <li><a href="../classes/Controller.html">Controller</a></li>
+                <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
+                <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
+                <li><a href="../classes/JSKit.html">JSKit</a></li>
+            </ul>
         </aside>
         <section id="layout-content">
             <div id="options">
                 <form id="options-form" class="form-inline pull-right">
-                    <div class="button-group">
-                      <label>
-                        <input type="radio" name="button-group" value="item" checked>
-                        <span class="button-group-item">Inherited</span>
-                      </label>
-                      <label>
-                        <input type="radio" name="button-group" value="other-item">
-                        <span class="button-group-item">Protected</span>
-                      </label>
-                      <label>
-                        <input type="radio" name="button-group" value="other-item">
-                        <span class="button-group-item">Private</span>
-                      </label>
-                      <label>
-                        <input type="radio" name="button-group" value="third">
-                        <span class="button-group-item">Deprecatec</span>
-                      </label>
-                    </div>
+                  <div class="button-group">
+                    <label>
+                      <input type="checkbox" name="button-group" value="inherited">
+                      <span class="button-group-item">Inherited</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="static" checked>
+                      <span class="button-group-item">Static</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="protected">
+                      <span class="button-group-item">Protected</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="private">
+                      <span class="button-group-item">Private</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="deprecated">
+                      <span class="button-group-item">Deprecated</span>
+                    </label>
+                  </div>
                 </form>
                 
             </div>
@@ -64,16 +57,12 @@
             
             
             
-            	<div class="well well-small">
+            	<div class="module-name">
                         Module: <a href="../modules/JSKit.html">JSKit</a>
                 </div>
             
             
             
-            <div class="yuidoc-class-description">
-            <p>Application</p>
-            
-            </div>
             
             <!-- table of contents -->
             
@@ -100,7 +89,7 @@
             		<li>
             			<strong>Static Methods</strong>
             			<ul>
-            				<li><a href="#method-JSKit.Application.create"><span class="im">Application.JSKit.Application.create</span>()</a></li>
+            				<li><a href="#method-create"><span class="im">Application.create</span>()</a></li>
             			</ul>
             		</li>
             	</ul>
@@ -109,18 +98,107 @@
             <!-- details -->
             
             
+                <div id="properties" class="page-section">
+                    <h2>Properties</h2>
+            
+                    <table id="properties-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr id="prop-Controllers" class="property item">
+                                    <td class="prop-name">
+                                        Controllers
+                                    </td>
+                                    <td class="prop-type">Object</td>
+                                    <td class="prop-description"><p>Controllers namespace to store Controller objects built at runtime</p>
+                                </td>
+                                </tr>
+                                <tr id="prop-Dispatcher" class="property item">
+                                    <td class="prop-name">
+                                        Dispatcher
+                                    </td>
+                                    <td class="prop-type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></td>
+                                    <td class="prop-description"><p>Dispatcher to subcribe and publish events</p>
+                                </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            
+            
+                <div id="static-methods" class="page-section hidden">
+                    <h2>Static Methods</h2>
+                    <div>
+                             <div id="method-create" class="method item">
+                            	<div class="method-header">
+                            		<div class="method-signature">
+                            
+                            			<span class="name"><code>Application.create</code></span>
+                            
+                            				<span class="paren">()</span>
+                            
+                            				<span class="returns-inline">
+                            					<span class="type">Object</span>
+                            				</span>
+                            		</div>
+                            
+                            
+                            
+                            
+                            
+                            		<div class="meta">
+                            					<p>
+                            					defined in
+                            			<a href="../files/src_application.js.html#l33"><code>src&#x2F;application.js:33</code></a>
+                            			</p>
+                            
+                            
+                            
+                            		</div>
+                            	</div>
+                            
+                            	<div class="method-content">
+                            	  	<div class="description"><p>Creates a new application object.</p>
+                            </div>
+                            
+                            
+                            	  	<div class="returns">
+                            	  		<strong>returns:</strong>
+                            
+                            	  		<div class="returns-description">
+                            	  					<span class="type">Object</span>:
+                            	  				<p>Application object</p>
+                            
+                            	  		</div>
+                            	  	</div>
+                            
+                            	</div>
+                            </div>
+                    </div>
+                </div>
+            
                 <div id="methods" class="page-section">
-                    <h2 class="off-left">Methods</h2>
-                    <div class="item-list">
-                        <div id="method-constantize" class="method item private">
+                    <h2>Methods</h2>
+                    <div>
+                         <div id="method-constantize" class="method item private">
                         	<div class="method-header">
                         		<div class="method-signature">
+                        				<span class="flag private">private</span>
+                        
                         			<span class="name"><code>constantize</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
-                        								<code class="optional">string=&quot;&quot;</code>
+                        								<code class="optional">
+                        									string=<span class="default">&quot;&quot;</span>
+                        								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
@@ -131,15 +209,13 @@
                         		</div>
                         
                         
-                        			<span class="flag private">private</span>
-                        
                         
                         
                         
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_application.js.html#l11"><code>src&#x2F;application.js:11</code></a>
+                        			<a href="../files/src_application.js.html#l9"><code>src&#x2F;application.js:9</code></a>
                         			</p>
                         
                         
@@ -154,14 +230,8 @@
                         </div>
                         
                         	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
                         	  		<table class="params-list">
-                        	  			<thead>
-                        	  				<tr>
-                        	  					<th>Parameter</th>
-                        	  					<th>Type</th>
-                        	  					<th>Description</th>
-                        	  				</tr>
-                        	  			</thead>
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
@@ -187,18 +257,23 @@
                         
                         	</div>
                         </div>
-                        <div id="method-createController" class="method item">
+                         <div id="method-createController" class="method item">
                         	<div class="method-header">
                         		<div class="method-signature">
+                        
                         			<span class="name"><code>createController</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
-                        								<code>name</code>
+                        								<code>
+                        									name<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code class="optional">attributes={}</code>
+                        								<code class="optional">
+                        									attributes=<span class="default">{}</span>
+                        								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
@@ -212,11 +287,10 @@
                         
                         
                         
-                        
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_application.js.html#l61"><code>src&#x2F;application.js:61</code></a>
+                        			<a href="../files/src_application.js.html#l59"><code>src&#x2F;application.js:59</code></a>
                         			</p>
                         
                         
@@ -231,14 +305,8 @@
                         </div>
                         
                         	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
                         	  		<table class="params-list">
-                        	  			<thead>
-                        	  				<tr>
-                        	  					<th>Parameter</th>
-                        	  					<th>Type</th>
-                        	  					<th>Description</th>
-                        	  				</tr>
-                        	  			</thead>
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
@@ -270,9 +338,7 @@
                         	  		<strong>returns:</strong>
                         
                         	  		<div class="returns-description">
-                        	  					<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>:
-                        	  				<p>controller created</p>
-                        
+                        	  					<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
                         	  		</div>
                         	  	</div>
                         
@@ -281,117 +347,6 @@
                     </div>
                 </div>
             
-                <div id="properties" class="page-section">
-                    <h2 class="off-left">Properties</h2>
-            
-                    <div class="item-list">
-                        <div id="prop-Controllers" class="property item">
-                            <h3 class="name"><code>Controllers</code></h3>
-                            <span class="type">Object</span>
-                        
-                        
-                        
-                        
-                        
-                            <div class="meta">
-                                        <p>
-                                        Defined in
-                                <a href="../files/src_application.js.html#l45"><code>src&#x2F;application.js:45</code></a>
-                                </p>
-                        
-                        
-                            </div>
-                        
-                            <div class="description">
-                                <p>Controllers namespace to store Controller objects built at runtime</p>
-                        
-                            </div>
-                        
-                                <p><strong>Default:</strong> {}</p>
-                        
-                        
-                        </div>
-                        <div id="prop-Dispatcher" class="property item">
-                            <h3 class="name"><code>Dispatcher</code></h3>
-                            <span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
-                        
-                        
-                        
-                        
-                        
-                            <div class="meta">
-                                        <p>
-                                        Defined in
-                                <a href="../files/src_application.js.html#l53"><code>src&#x2F;application.js:53</code></a>
-                                </p>
-                        
-                        
-                            </div>
-                        
-                            <div class="description">
-                                <p>Dispatcher to subcribe and publish events</p>
-                        
-                            </div>
-                        
-                                <p><strong>Default:</strong> Dispatcher</p>
-                        
-                        
-                        </div>
-                    </div>
-                </div>
-            
-            
-            
-                <div id="static-methods" class="page-section">
-                    <h2 class="off-left">Static Methods</h2>
-                    <div class="item-list">
-                	        <div id="method-JSKit.Application.create" class="method item">
-                	        	<div class="method-header">
-                	        		<div class="method-signature">
-                	        			<span class="name"><code>Application.JSKit.Application.create</code></span>
-                	        
-                	        				<span class="paren">()</span>
-                	        
-                	        				<span class="returns-inline">
-                	        					<span class="type">Object</span>
-                	        				</span>
-                	        		</div>
-                	        
-                	        
-                	        
-                	        
-                	        
-                	        
-                	        		<div class="meta">
-                	        					<p>
-                	        					defined in
-                	        			<a href="../files/src_application.js.html#l35"><code>src&#x2F;application.js:35</code></a>
-                	        			</p>
-                	        
-                	        
-                	        
-                	        		</div>
-                	        	</div>
-                	        
-                	        	<div class="method-content">
-                	        	  	<div class="description"><p>Creates a new application object.</p>
-                	        </div>
-                	        
-                	        
-                	        	  	<div class="returns">
-                	        	  		<strong>returns:</strong>
-                	        
-                	        	  		<div class="returns-description">
-                	        	  					<span class="type">Object</span>:
-                	        	  				<p>Application object</p>
-                	        
-                	        	  		</div>
-                	        	  	</div>
-                	        
-                	        	</div>
-                	        </div>
-                    </div>
-                </div>
         </section>
         <footer id="footer">
             <div class="inner">
@@ -400,4 +355,7 @@
         </footer>
     </section>
     <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/lodash.js"></script>
+    <script src="../assets/vendor/highlight/highlight.pack.js"></script>
+    <script src="../assets/js/main.js"></script>
 </html>

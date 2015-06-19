@@ -56,8 +56,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "src/jskit.js",
-            "line": 1,
-            "description": "Application"
+            "line": 1
         }
     },
     "classes": {
@@ -72,8 +71,7 @@
             "module": "JSKit",
             "namespace": "",
             "file": "src/application.js",
-            "line": 1,
-            "description": "Application"
+            "line": 1
         },
         "ControllerFactory": {
             "name": "ControllerFactory",
@@ -86,7 +84,7 @@
             "module": "JSKit",
             "namespace": "",
             "file": "src/application.js",
-            "line": 76
+            "line": 74
         },
         "Controller": {
             "name": "Controller",
@@ -99,8 +97,7 @@
             "module": "JSKit",
             "namespace": "",
             "file": "src/controller.js",
-            "line": 1,
-            "description": "Controller"
+            "line": 1
         },
         "Dispatcher": {
             "name": "Dispatcher",
@@ -113,8 +110,7 @@
             "module": "JSKit",
             "namespace": "",
             "file": "src/dispatcher.js",
-            "line": 1,
-            "description": "Controller"
+            "line": 1
         },
         "JSKit": {
             "name": "JSKit",
@@ -134,7 +130,7 @@
     "classitems": [
         {
             "file": "src/application.js",
-            "line": 11,
+            "line": 9,
             "description": "Takes a string and creates a constant name\nby uppercasing and camel-casing each word\ndelimited by a space.",
             "access": "private",
             "tagname": "",
@@ -158,10 +154,10 @@
         },
         {
             "file": "src/application.js",
-            "line": 35,
+            "line": 33,
             "description": "Creates a new application object.",
             "itemtype": "method",
-            "name": "JSKit.Application.create",
+            "name": "create",
             "static": 1,
             "return": {
                 "description": "Application object",
@@ -172,7 +168,7 @@
         },
         {
             "file": "src/application.js",
-            "line": 45,
+            "line": 43,
             "description": "Controllers namespace to store Controller objects built at runtime",
             "itemtype": "property",
             "name": "Controllers",
@@ -183,7 +179,7 @@
         },
         {
             "file": "src/application.js",
-            "line": 53,
+            "line": 51,
             "description": "Dispatcher to subcribe and publish events",
             "itemtype": "property",
             "name": "Dispatcher",
@@ -194,7 +190,7 @@
         },
         {
             "file": "src/application.js",
-            "line": 61,
+            "line": 59,
             "description": "Creates a controller with the given name and attributes\nand returns it. It also saves a reference to the Controller\nfactory used to create the controller for testing purposes.",
             "itemtype": "method",
             "name": "createController",
@@ -213,7 +209,7 @@
                 }
             ],
             "return": {
-                "description": "controller created",
+                "description": "",
                 "type": "Controller"
             },
             "class": "Application",
@@ -221,8 +217,9 @@
         },
         {
             "file": "src/application.js",
-            "line": 80,
+            "line": 78,
             "description": "Creates a fresh controller object with the original defaults",
+            "static": 1,
             "itemtype": "method",
             "name": "create",
             "params": [
@@ -234,7 +231,7 @@
                 }
             ],
             "return": {
-                "description": "controller",
+                "description": "",
                 "type": "Controller"
             },
             "class": "ControllerFactory",
@@ -242,7 +239,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 20,
+            "line": 18,
             "description": "Take a string and put underscores between names and delimiters",
             "access": "private",
             "tagname": "",
@@ -264,7 +261,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 33,
+            "line": 31,
             "description": "Register the controller's actions to the dispatcher",
             "access": "private",
             "tagname": "",
@@ -282,7 +279,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 48,
+            "line": 46,
             "description": "Take an action string or mapped action and return\nan object containing the action name and method.",
             "access": "private",
             "tagname": "",
@@ -304,7 +301,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 65,
+            "line": 63,
             "description": "Take a controller and an actionMap and determine if\nthe action is defined on the controller. If not, throw\nan error.",
             "access": "private",
             "tagname": "",
@@ -327,7 +324,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 81,
+            "line": 79,
             "description": "Return an event name based on the controller properties\nthat make up an event name.",
             "access": "private",
             "tagname": "",
@@ -353,7 +350,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 100,
+            "line": 98,
             "description": "Iterate over the given controller's elements object\nand cache a reference to each selected element.",
             "access": "private",
             "tagname": "",
@@ -376,7 +373,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 117,
+            "line": 115,
             "description": "Iterate over the given action's events and register\nthe event handlers on each element.",
             "access": "private",
             "tagname": "",
@@ -399,7 +396,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 137,
+            "line": 135,
             "description": "Iterate over the controller's elements\nand register to cache each action's events.",
             "access": "private",
             "tagname": "",
@@ -417,7 +414,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 153,
+            "line": 151,
             "description": "Iterate over the controller's events\nand register to handle each action's element events.",
             "access": "private",
             "tagname": "",
@@ -435,10 +432,10 @@
         },
         {
             "file": "src/controller.js",
-            "line": 170,
+            "line": 168,
             "description": "Factory function to create fresh controller objects\nwith the given attributes.",
             "itemtype": "method",
-            "name": "JSKit.Controller.create",
+            "name": "create",
             "static": 1,
             "params": [
                 {
@@ -458,7 +455,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 185,
+            "line": 183,
             "description": "Array of actions to be wired up.",
             "itemtype": "property",
             "name": "actions",
@@ -469,7 +466,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 193,
+            "line": 191,
             "description": "Namespace that controller events are namespaced under.",
             "itemtype": "property",
             "name": "namespace",
@@ -480,7 +477,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 201,
+            "line": 199,
             "description": "Channel that controller events use under namespace.",
             "itemtype": "property",
             "name": "channel",
@@ -491,7 +488,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 209,
+            "line": 207,
             "description": "Underscored name of controller for use in events.",
             "itemtype": "property",
             "name": "controllerEventName",
@@ -502,7 +499,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 217,
+            "line": 215,
             "description": "Event dispatcher for registering events.",
             "itemtype": "property",
             "name": "dispatcher",
@@ -513,7 +510,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 225,
+            "line": 223,
             "description": "Object of element names/selectors to\ncache per action.",
             "itemtype": "property",
             "name": "elements",
@@ -524,7 +521,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 234,
+            "line": 232,
             "description": "Object of events for each action to\nregister on given elements.",
             "itemtype": "property",
             "name": "events",
@@ -535,7 +532,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 243,
+            "line": 241,
             "description": "String to seperate event name segments",
             "itemtype": "property",
             "name": "eventSeparator",
@@ -546,7 +543,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 251,
+            "line": 249,
             "description": "Default implementation that commits no operation",
             "itemtype": "method",
             "name": "all",
@@ -555,7 +552,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 256,
+            "line": 254,
             "description": "Default implementation that commits no operation",
             "itemtype": "method",
             "name": "initialize",
@@ -564,7 +561,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 11,
+            "line": 9,
             "description": "Get all handler functions for a given dispatcher and event.",
             "itemtype": "method",
             "name": "getEventHandlers",
@@ -576,7 +573,7 @@
                 },
                 {
                     "name": "eventName",
-                    "description": "Event name for which you wish to find handlers",
+                    "description": "event name for which you wish to find handlers",
                     "type": "String"
                 }
             ],
@@ -589,7 +586,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 24,
+            "line": 22,
             "description": "Create a handler object that contains the context and handler function",
             "itemtype": "method",
             "name": "createHandlerObject",
@@ -601,7 +598,7 @@
                 },
                 {
                     "name": "handler",
-                    "description": "Function to handle event",
+                    "description": "function to handle event",
                     "type": "Function"
                 }
             ],
@@ -614,27 +611,27 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 40,
+            "line": 38,
             "description": "Add an event handler to the array of registered handlers.",
             "itemtype": "method",
             "name": "registerHandler",
             "params": [
                 {
                     "name": "registeredHandlers",
-                    "description": "Array of registered handlers for an event",
+                    "description": "registered handlers for an event",
                     "type": "Array"
                 },
                 {
                     "name": "eventHandler",
-                    "description": "Function to handle event",
+                    "description": "to handle event",
                     "type": "Function"
                 },
                 {
                     "name": "method",
-                    "description": "Method to add the handler to the array",
+                    "description": "method to add the handler to the array",
                     "type": "String",
                     "optional": true,
-                    "optdefault": "push"
+                    "optdefault": "\"push\""
                 }
             ],
             "class": "Dispatcher",
@@ -642,11 +639,11 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 56,
+            "line": 54,
             "description": "Create a new Dispatcher object.",
             "static": 1,
             "itemtype": "method",
-            "name": "Dispatcher.create",
+            "name": "create",
             "return": {
                 "description": "",
                 "type": "Dispatcher"
@@ -656,7 +653,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 67,
+            "line": 65,
             "description": "Register a handler to a given event.",
             "itemtype": "method",
             "name": "on",
@@ -683,7 +680,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 81,
+            "line": 79,
             "description": "Register a handler to a given event that will\nfire before the handlers registerd with `on`.",
             "itemtype": "method",
             "name": "before",
@@ -710,7 +707,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 96,
+            "line": 94,
             "description": "Remove a handler from a given event.",
             "itemtype": "method",
             "name": "off",
@@ -731,7 +728,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 116,
+            "line": 114,
             "description": "Trigger a given event, causing all handlers\nfor that event to be fired.",
             "itemtype": "method",
             "name": "trigger",
@@ -749,6 +746,7 @@
             "file": "src/jskit.js",
             "line": 12,
             "description": "Returns a new Application object.",
+            "static": 1,
             "itemtype": "method",
             "name": "createApplication",
             "return": {

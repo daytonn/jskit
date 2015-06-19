@@ -1,6 +1,4 @@
 /**
- * Controller
- *
  * @module JSKit
  * @class Controller
 */
@@ -171,7 +169,7 @@ JSKit.Controller = (function() {
      * Factory function to create fresh controller objects
      * with the given attributes.
      *
-     * @method JSKit.Controller.create
+     * @method create
      * @static
      * @param {Object} [attrs={}]
      *

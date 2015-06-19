@@ -15,9 +15,11 @@
 }
 
 .flag.private {
-  padding: .25em .5em;
+  padding: 0 .25em;
   background: #FC323F;
   color: white;
+  font-size: 80%;
+  display: inline-block;
   border-radius: $default-border-radius;
 }
 
@@ -32,21 +34,23 @@
 .page-header {
   h1 {
     font-size: 2.0em;
-    color: #8DA6CE;
+    color: $header-color;
     padding-bottom: .25em;
-    border-bottom: solid 1px #8DA6CE;
+    border-bottom: solid 4px $header-underline-color;
   }
 }
 
-.method.item {
+.method {
   @include span-columns(8 of 8);
 
   .method-header {
-
+    @include clearfix;
   }
 
   .method-content {
-    display: none;
+    border-bottom: solid 1px $header-underline-color;
+    padding-bottom: 2em;
+    margin-bottom: 2em;
   }
 
   .method-signature {
@@ -57,9 +61,10 @@
     }
 
     .name {
+      font-family: "Helvetica";
       font-size: 1.75em;
       font-weight: bold;
-      color: #FF6400;
+      color: $header-color;
     }
   }
 
@@ -67,9 +72,23 @@
     @include clearfix;
     line-height: .75em;
 
-    li {
+    .arg {
+      font-weight: bold;
       float: left;
       font-size: 1.25em;
+      color: #FF4C00;
+
+      .comma {
+        color: black;
+      }
+
+      .default {
+        color: #FF4C00;
+      }
+
+      .optional {
+        color: #4C4C4C;
+      }
     }
   }
 
@@ -77,9 +96,20 @@
     @include span-columns(2 of 8);
     @include omega;
     font-size: 1em;
-    display: none;
   }
 
+  .params {
+    margin-top: 1em;
+
+    h4 {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .returns {
+    margin-top: 2em;
+  }
 
   .params-list {
     .param {
@@ -122,4 +152,47 @@
       float: left;
     }
   }
+}
+
+%class-heading {
+  font-size: 1.5em;
+  font-weight: 1.5em;
+  border-bottom: solid 1px $header-underline-color;
+  padding-bottom: .5em;
+}
+
+#properties {
+  margin-bottom: 2em;
+
+  h2 {
+    @extend %class-heading;
+  }
+}
+
+#static-methods {
+  margin-bottom: 2em;
+
+  h2 {
+    @extend %class-heading;
+  }
+}
+
+#methods {
+  margin-bottom: 2em;
+
+  h2 {
+    @extend %class-heading;
+  }
+}
+
+#properties-table {
+  font-size: 90%;
+
+  td {
+    padding: 0;
+  }
+}
+
+.module-name {
+  margin-bottom: 2em;
 }

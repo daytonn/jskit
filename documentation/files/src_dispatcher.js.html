@@ -3,58 +3,51 @@
 <head>
     <meta charset="utf-8">
     <title>src/dispatcher.js</title>
-    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../assets/vendor/highlight/styles/github.css">
 </head>
 <body>
     <header id="header">
-        <h1/>
+        <h1>
 
-            
+            JSKit API Documentation
         </h1>
-        <p class="navbar-text">API Docs for Version: <b></b></p>
-
-        <form>
-            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Application", "classes/Controller", "classes/ControllerFactory", "classes/Dispatcher", "classes/JSKit", "modules/JSKit"]'>
-        </form>
     </header>
     <section id="content">
         <aside id="sidebar">
-            <div>
-                <div id="sidebar">
-                <div id="classes">
-                    <ul id="api-classes" class="nav nav-list">
-                            <li><a href="../classes/Application.html">Application</a></li>
-                            <li><a href="../classes/Controller.html">Controller</a></li>
-                            <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
-                            <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
-                            <li><a href="../classes/JSKit.html">JSKit</a></li>
-                    </ul>
-                </div>
-                </div>
-            </div>
+            <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/Application.html">Application</a></li>
+                <li><a href="../classes/Controller.html">Controller</a></li>
+                <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
+                <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
+                <li><a href="../classes/JSKit.html">JSKit</a></li>
+            </ul>
         </aside>
         <section id="layout-content">
             <div id="options">
                 <form id="options-form" class="form-inline pull-right">
-                    <div class="button-group">
-                      <label>
-                        <input type="radio" name="button-group" value="item" checked>
-                        <span class="button-group-item">Inherited</span>
-                      </label>
-                      <label>
-                        <input type="radio" name="button-group" value="other-item">
-                        <span class="button-group-item">Protected</span>
-                      </label>
-                      <label>
-                        <input type="radio" name="button-group" value="other-item">
-                        <span class="button-group-item">Private</span>
-                      </label>
-                      <label>
-                        <input type="radio" name="button-group" value="third">
-                        <span class="button-group-item">Deprecatec</span>
-                      </label>
-                    </div>
+                  <div class="button-group">
+                    <label>
+                      <input type="checkbox" name="button-group" value="inherited">
+                      <span class="button-group-item">Inherited</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="static" checked>
+                      <span class="button-group-item">Static</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="protected">
+                      <span class="button-group-item">Protected</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="private">
+                      <span class="button-group-item">Private</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="deprecated">
+                      <span class="button-group-item">Deprecated</span>
+                    </label>
+                  </div>
                 </form>
                 
             </div>
@@ -65,8 +58,6 @@
             <div class="file">
                 <pre class="prettyprint linenums">
             /**
-             * Controller
-             *
              * @module JSKit
              * @class Dispatcher
             */
@@ -79,7 +70,7 @@
             
                 @method getEventHandlers
                 @param {Dispatcher} dispatcher
-                @param {String} eventName Event name for which you wish to find handlers
+                @param {String} eventName event name for which you wish to find handlers
                 @return {Array} handler functions for the given event
               */
               function getEventHandlers(dispatcher, eventName) {
@@ -92,7 +83,7 @@
             
                 @method createHandlerObject
                 @param {Object,Function} context &#x60;this&#x60; context for handler function (defaults to &#x60;null&#x60;)
-                @param {Function} handler Function to handle event
+                @param {Function} handler function to handle event
                 @return {Object} handler object with &#x60;handler&#x60; and &#x60;context&#x60;
               */
               function createHandlerObject(context, handler) {
@@ -107,9 +98,9 @@
                 Add an event handler to the array of registered handlers.
             
                 @method registerHandler
-                @param {Array} registeredHandlers Array of registered handlers for an event
-                @param {Function} eventHandler Function to handle event
-                @param {String} [method=push] Method to add the handler to the array
+                @param {Array} registeredHandlers registered handlers for an event
+                @param {Function} eventHandler to handle event
+                @param {String} [method=&quot;push&quot;] method to add the handler to the array
               */
               function registerHandler(registeredHandlers, eventHandler, method) {
                 method = method || &quot;push&quot;;
@@ -123,7 +114,7 @@
                   Create a new Dispatcher object.
             
                   @static
-                  @method Dispatcher.create
+                  @method create
                   @return {Dispatcher}
                 */
                 create: function() {
@@ -211,4 +202,7 @@
         </footer>
     </section>
     <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/lodash.js"></script>
+    <script src="../assets/vendor/highlight/highlight.pack.js"></script>
+    <script src="../assets/js/main.js"></script>
 </html>

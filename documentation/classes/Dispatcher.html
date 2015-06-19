@@ -3,58 +3,51 @@
 <head>
     <meta charset="utf-8">
     <title>Dispatcher</title>
-    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../assets/vendor/highlight/styles/github.css">
 </head>
 <body>
     <header id="header">
-        <h1/>
+        <h1>
 
-            
+            JSKit API Documentation
         </h1>
-        <p class="navbar-text">API Docs for Version: <b></b></p>
-
-        <form>
-            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Application", "classes/Controller", "classes/ControllerFactory", "classes/Dispatcher", "classes/JSKit", "modules/JSKit"]'>
-        </form>
     </header>
     <section id="content">
         <aside id="sidebar">
-            <div>
-                <div id="sidebar">
-                <div id="classes">
-                    <ul id="api-classes" class="nav nav-list">
-                            <li><a href="../classes/Application.html">Application</a></li>
-                            <li><a href="../classes/Controller.html">Controller</a></li>
-                            <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
-                            <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
-                            <li><a href="../classes/JSKit.html">JSKit</a></li>
-                    </ul>
-                </div>
-                </div>
-            </div>
+            <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/Application.html">Application</a></li>
+                <li><a href="../classes/Controller.html">Controller</a></li>
+                <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
+                <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
+                <li><a href="../classes/JSKit.html">JSKit</a></li>
+            </ul>
         </aside>
         <section id="layout-content">
             <div id="options">
                 <form id="options-form" class="form-inline pull-right">
-                    <div class="button-group">
-                      <label>
-                        <input type="radio" name="button-group" value="item" checked>
-                        <span class="button-group-item">Inherited</span>
-                      </label>
-                      <label>
-                        <input type="radio" name="button-group" value="other-item">
-                        <span class="button-group-item">Protected</span>
-                      </label>
-                      <label>
-                        <input type="radio" name="button-group" value="other-item">
-                        <span class="button-group-item">Private</span>
-                      </label>
-                      <label>
-                        <input type="radio" name="button-group" value="third">
-                        <span class="button-group-item">Deprecatec</span>
-                      </label>
-                    </div>
+                  <div class="button-group">
+                    <label>
+                      <input type="checkbox" name="button-group" value="inherited">
+                      <span class="button-group-item">Inherited</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="static" checked>
+                      <span class="button-group-item">Static</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="protected">
+                      <span class="button-group-item">Protected</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="private">
+                      <span class="button-group-item">Private</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="button-group" value="deprecated">
+                      <span class="button-group-item">Deprecated</span>
+                    </label>
+                  </div>
                 </form>
                 
             </div>
@@ -64,16 +57,12 @@
             
             
             
-            	<div class="well well-small">
+            	<div class="module-name">
                         Module: <a href="../modules/JSKit.html">JSKit</a>
                 </div>
             
             
             
-            <div class="yuidoc-class-description">
-            <p>Controller</p>
-            
-            </div>
             
             <!-- table of contents -->
             
@@ -98,7 +87,7 @@
             		<li>
             			<strong>Static Methods</strong>
             			<ul>
-            				<li><a href="#method-Dispatcher.create"><span class="im">Dispatcher.Dispatcher.create</span>()</a></li>
+            				<li><a href="#method-create"><span class="im">Dispatcher.create</span>()</a></li>
             			</ul>
             		</li>
             	</ul>
@@ -107,24 +96,82 @@
             <!-- details -->
             
             
+            
+            
+                <div id="static-methods" class="page-section hidden">
+                    <h2>Static Methods</h2>
+                    <div>
+                             <div id="method-create" class="method item">
+                            	<div class="method-header">
+                            		<div class="method-signature">
+                            
+                            			<span class="name"><code>Dispatcher.create</code></span>
+                            
+                            				<span class="paren">()</span>
+                            
+                            				<span class="returns-inline">
+                            					<span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
+                            				</span>
+                            		</div>
+                            
+                            
+                            
+                            
+                            
+                            		<div class="meta">
+                            					<p>
+                            					defined in
+                            			<a href="../files/src_dispatcher.js.html#l54"><code>src&#x2F;dispatcher.js:54</code></a>
+                            			</p>
+                            
+                            
+                            
+                            		</div>
+                            	</div>
+                            
+                            	<div class="method-content">
+                            	  	<div class="description"><p>Create a new Dispatcher object.</p>
+                            </div>
+                            
+                            
+                            	  	<div class="returns">
+                            	  		<strong>returns:</strong>
+                            
+                            	  		<div class="returns-description">
+                            	  					<span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
+                            	  		</div>
+                            	  	</div>
+                            
+                            	</div>
+                            </div>
+                    </div>
+                </div>
+            
                 <div id="methods" class="page-section">
-                    <h2 class="off-left">Methods</h2>
-                    <div class="item-list">
-                        <div id="method-before" class="method item">
+                    <h2>Methods</h2>
+                    <div>
+                         <div id="method-before" class="method item">
                         	<div class="method-header">
                         		<div class="method-signature">
+                        
                         			<span class="name"><code>before</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
-                        								<code>eventName</code>
+                        								<code>
+                        									eventName<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code>handler</code>
+                        								<code>
+                        									handler<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code class="optional">context</code>
+                        								<code class="optional">
+                        									context
+                        								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
@@ -135,11 +182,10 @@
                         
                         
                         
-                        
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_dispatcher.js.html#l81"><code>src&#x2F;dispatcher.js:81</code></a>
+                        			<a href="../files/src_dispatcher.js.html#l79"><code>src&#x2F;dispatcher.js:79</code></a>
                         			</p>
                         
                         
@@ -153,14 +199,8 @@
                         </div>
                         
                         	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
                         	  		<table class="params-list">
-                        	  			<thead>
-                        	  				<tr>
-                        	  					<th>Parameter</th>
-                        	  					<th>Type</th>
-                        	  					<th>Description</th>
-                        	  				</tr>
-                        	  			</thead>
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
@@ -202,18 +242,23 @@
                         
                         	</div>
                         </div>
-                        <div id="method-createHandlerObject" class="method item">
+                         <div id="method-createHandlerObject" class="method item">
                         	<div class="method-header">
                         		<div class="method-signature">
+                        
                         			<span class="name"><code>createHandlerObject</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
-                        								<code>context</code>
+                        								<code>
+                        									context<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code>handler</code>
+                        								<code>
+                        									handler
+                        								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
@@ -227,11 +272,10 @@
                         
                         
                         
-                        
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_dispatcher.js.html#l24"><code>src&#x2F;dispatcher.js:24</code></a>
+                        			<a href="../files/src_dispatcher.js.html#l22"><code>src&#x2F;dispatcher.js:22</code></a>
                         			</p>
                         
                         
@@ -244,14 +288,8 @@
                         </div>
                         
                         	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
                         	  		<table class="params-list">
-                        	  			<thead>
-                        	  				<tr>
-                        	  					<th>Parameter</th>
-                        	  					<th>Type</th>
-                        	  					<th>Description</th>
-                        	  				</tr>
-                        	  			</thead>
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
@@ -271,7 +309,7 @@
                         	  						</td>
                         	  						<td class="type">Function</td>
                         	  						<td class="description">
-                        	  								<div class="param-description"><p>Function to handle event</p>
+                        	  								<div class="param-description"><p>function to handle event</p>
                         </div>
                         	  						</td>
                         	  					</tr>
@@ -291,18 +329,23 @@
                         
                         	</div>
                         </div>
-                        <div id="method-getEventHandlers" class="method item">
+                         <div id="method-getEventHandlers" class="method item">
                         	<div class="method-header">
                         		<div class="method-signature">
+                        
                         			<span class="name"><code>getEventHandlers</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
-                        								<code>dispatcher</code>
+                        								<code>
+                        									dispatcher<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code>eventName</code>
+                        								<code>
+                        									eventName
+                        								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
@@ -316,11 +359,10 @@
                         
                         
                         
-                        
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_dispatcher.js.html#l11"><code>src&#x2F;dispatcher.js:11</code></a>
+                        			<a href="../files/src_dispatcher.js.html#l9"><code>src&#x2F;dispatcher.js:9</code></a>
                         			</p>
                         
                         
@@ -333,14 +375,8 @@
                         </div>
                         
                         	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
                         	  		<table class="params-list">
-                        	  			<thead>
-                        	  				<tr>
-                        	  					<th>Parameter</th>
-                        	  					<th>Type</th>
-                        	  					<th>Description</th>
-                        	  				</tr>
-                        	  			</thead>
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
@@ -359,7 +395,7 @@
                         	  						</td>
                         	  						<td class="type">String</td>
                         	  						<td class="description">
-                        	  								<div class="param-description"><p>Event name for which you wish to find handlers</p>
+                        	  								<div class="param-description"><p>event name for which you wish to find handlers</p>
                         </div>
                         	  						</td>
                         	  					</tr>
@@ -379,18 +415,23 @@
                         
                         	</div>
                         </div>
-                        <div id="method-off" class="method item">
+                         <div id="method-off" class="method item">
                         	<div class="method-header">
                         		<div class="method-signature">
+                        
                         			<span class="name"><code>off</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
-                        								<code>eventName</code>
+                        								<code>
+                        									eventName<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code>handler</code>
+                        								<code>
+                        									handler
+                        								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
@@ -401,11 +442,10 @@
                         
                         
                         
-                        
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_dispatcher.js.html#l96"><code>src&#x2F;dispatcher.js:96</code></a>
+                        			<a href="../files/src_dispatcher.js.html#l94"><code>src&#x2F;dispatcher.js:94</code></a>
                         			</p>
                         
                         
@@ -418,14 +458,8 @@
                         </div>
                         
                         	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
                         	  		<table class="params-list">
-                        	  			<thead>
-                        	  				<tr>
-                        	  					<th>Parameter</th>
-                        	  					<th>Type</th>
-                        	  					<th>Description</th>
-                        	  				</tr>
-                        	  			</thead>
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
@@ -456,21 +490,28 @@
                         
                         	</div>
                         </div>
-                        <div id="method-on" class="method item">
+                         <div id="method-on" class="method item">
                         	<div class="method-header">
                         		<div class="method-signature">
+                        
                         			<span class="name"><code>on</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
-                        								<code>eventName</code>
+                        								<code>
+                        									eventName<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code>handler</code>
+                        								<code>
+                        									handler<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code class="optional">context</code>
+                        								<code class="optional">
+                        									context
+                        								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
@@ -481,11 +522,10 @@
                         
                         
                         
-                        
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_dispatcher.js.html#l67"><code>src&#x2F;dispatcher.js:67</code></a>
+                        			<a href="../files/src_dispatcher.js.html#l65"><code>src&#x2F;dispatcher.js:65</code></a>
                         			</p>
                         
                         
@@ -498,14 +538,8 @@
                         </div>
                         
                         	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
                         	  		<table class="params-list">
-                        	  			<thead>
-                        	  				<tr>
-                        	  					<th>Parameter</th>
-                        	  					<th>Type</th>
-                        	  					<th>Description</th>
-                        	  				</tr>
-                        	  			</thead>
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
@@ -547,21 +581,28 @@
                         
                         	</div>
                         </div>
-                        <div id="method-registerHandler" class="method item">
+                         <div id="method-registerHandler" class="method item">
                         	<div class="method-header">
                         		<div class="method-signature">
+                        
                         			<span class="name"><code>registerHandler</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
-                        								<code>registeredHandlers</code>
+                        								<code>
+                        									registeredHandlers<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code>eventHandler</code>
+                        								<code>
+                        									eventHandler<span class="comma">,&nbsp;</span>
+                        								</code>
                         						</li>
                         						<li class="arg">
-                        								<code class="optional">method=push</code>
+                        								<code class="optional">
+                        									method=<span class="default">&quot;push&quot;</span>
+                        								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
@@ -572,11 +613,10 @@
                         
                         
                         
-                        
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_dispatcher.js.html#l40"><code>src&#x2F;dispatcher.js:40</code></a>
+                        			<a href="../files/src_dispatcher.js.html#l38"><code>src&#x2F;dispatcher.js:38</code></a>
                         			</p>
                         
                         
@@ -589,14 +629,8 @@
                         </div>
                         
                         	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
                         	  		<table class="params-list">
-                        	  			<thead>
-                        	  				<tr>
-                        	  					<th>Parameter</th>
-                        	  					<th>Type</th>
-                        	  					<th>Description</th>
-                        	  				</tr>
-                        	  			</thead>
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
@@ -605,7 +639,7 @@
                         	  						</td>
                         	  						<td class="type">Array</td>
                         	  						<td class="description">
-                        	  								<div class="param-description"><p>Array of registered handlers for an event</p>
+                        	  								<div class="param-description"><p>registered handlers for an event</p>
                         </div>
                         	  						</td>
                         	  					</tr>
@@ -616,18 +650,18 @@
                         	  						</td>
                         	  						<td class="type">Function</td>
                         	  						<td class="description">
-                        	  								<div class="param-description"><p>Function to handle event</p>
+                        	  								<div class="param-description"><p>to handle event</p>
                         </div>
                         	  						</td>
                         	  					</tr>
                         	  					<tr class="param">
                         	  						<td>
                         	  								<span class="param-name optional">method</code>
-                        	  								<em class="flag optional" title="This parameter is optional.">(optional defaults to: <code>push</code>)</em>
+                        	  								<em class="flag optional" title="This parameter is optional.">(optional defaults to: <code>&quot;push&quot;</code>)</em>
                         	  						</td>
                         	  						<td class="type">String</td>
                         	  						<td class="description">
-                        	  								<div class="param-description"><p>Method to add the handler to the array</p>
+                        	  								<div class="param-description"><p>method to add the handler to the array</p>
                         </div>
                         	  						</td>
                         	  					</tr>
@@ -638,15 +672,18 @@
                         
                         	</div>
                         </div>
-                        <div id="method-trigger" class="method item">
+                         <div id="method-trigger" class="method item">
                         	<div class="method-header">
                         		<div class="method-signature">
+                        
                         			<span class="name"><code>trigger</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
-                        								<code>eventName</code>
+                        								<code>
+                        									eventName
+                        								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
@@ -657,11 +694,10 @@
                         
                         
                         
-                        
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_dispatcher.js.html#l116"><code>src&#x2F;dispatcher.js:116</code></a>
+                        			<a href="../files/src_dispatcher.js.html#l114"><code>src&#x2F;dispatcher.js:114</code></a>
                         			</p>
                         
                         
@@ -675,14 +711,8 @@
                         </div>
                         
                         	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
                         	  		<table class="params-list">
-                        	  			<thead>
-                        	  				<tr>
-                        	  					<th>Parameter</th>
-                        	  					<th>Type</th>
-                        	  					<th>Description</th>
-                        	  				</tr>
-                        	  			</thead>
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
@@ -705,57 +735,6 @@
                     </div>
                 </div>
             
-            
-            
-            
-                <div id="static-methods" class="page-section">
-                    <h2 class="off-left">Static Methods</h2>
-                    <div class="item-list">
-                	        <div id="method-Dispatcher.create" class="method item">
-                	        	<div class="method-header">
-                	        		<div class="method-signature">
-                	        			<span class="name"><code>Dispatcher.Dispatcher.create</code></span>
-                	        
-                	        				<span class="paren">()</span>
-                	        
-                	        				<span class="returns-inline">
-                	        					<span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
-                	        				</span>
-                	        		</div>
-                	        
-                	        
-                	        
-                	        
-                	        
-                	        
-                	        		<div class="meta">
-                	        					<p>
-                	        					defined in
-                	        			<a href="../files/src_dispatcher.js.html#l56"><code>src&#x2F;dispatcher.js:56</code></a>
-                	        			</p>
-                	        
-                	        
-                	        
-                	        		</div>
-                	        	</div>
-                	        
-                	        	<div class="method-content">
-                	        	  	<div class="description"><p>Create a new Dispatcher object.</p>
-                	        </div>
-                	        
-                	        
-                	        	  	<div class="returns">
-                	        	  		<strong>returns:</strong>
-                	        
-                	        	  		<div class="returns-description">
-                	        	  					<span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
-                	        	  		</div>
-                	        	  	</div>
-                	        
-                	        	</div>
-                	        </div>
-                    </div>
-                </div>
         </section>
         <footer id="footer">
             <div class="inner">
@@ -764,4 +743,7 @@
         </footer>
     </section>
     <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+    <script src="../assets/vendor/lodash.js"></script>
+    <script src="../assets/vendor/highlight/highlight.pack.js"></script>
+    <script src="../assets/js/main.js"></script>
 </html>

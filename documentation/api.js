@@ -13,8 +13,7 @@ YUI.add("yuidoc-meta", function(Y) {
     "allModules": [
         {
             "displayName": "JSKit",
-            "name": "JSKit",
-            "description": "Application"
+            "name": "JSKit"
         }
     ]
 } };

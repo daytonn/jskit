@@ -95,5 +95,9 @@ module.exports = {
 		}
 
 		return ret;
+	},
+
+	last: function(array, item) {
+		debugger
 	}
 };

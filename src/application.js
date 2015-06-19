@@ -1,6 +1,4 @@
 /**
- * Application
- *
  * @module JSKit
  * @class Application
 */
@@ -35,7 +33,7 @@ JSKit.Application = (function() {
     /**
      * Creates a new application object.
      *
-     * @method JSKit.Application.create
+     * @method create
      * @static
      * @return {Object} Application object
     */
@@ -66,7 +64,7 @@ JSKit.Application = (function() {
          * @method createController
          * @param {String} name Name of the controller
          * @param {Object} [attributes={}] Controller attributes
-         * @return {Controller} controller created
+         * @return {Controller}
         */
         createController: function(name, attrs) {
           attrs = attrs || {};
@@ -80,9 +78,10 @@ JSKit.Application = (function() {
             /**
              * Creates a fresh controller object with the original defaults
              *
+             * @static
              * @method create
              * @param {Object} [attributes]
-             * @return {Controller} controller
+             * @return {Controller}
             */
             create: function(attributes) {
               attributes = attributes || { name: name };

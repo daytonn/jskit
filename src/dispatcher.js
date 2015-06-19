@@ -1,6 +1,4 @@
 /**
- * Controller
- *
  * @module JSKit
  * @class Dispatcher
 */
@@ -13,7 +11,7 @@ JSKit.Dispatcher = (function() {
 
     @method getEventHandlers
     @param {Dispatcher} dispatcher
-    @param {String} eventName Event name for which you wish to find handlers
+    @param {String} eventName event name for which you wish to find handlers
     @return {Array} handler functions for the given event
   */
   function getEventHandlers(dispatcher, eventName) {
@@ -26,7 +24,7 @@ JSKit.Dispatcher = (function() {
 
     @method createHandlerObject
     @param {Object,Function} context `this` context for handler function (defaults to `null`)
-    @param {Function} handler Function to handle event
+    @param {Function} handler function to handle event
     @return {Object} handler object with `handler` and `context`
   */
   function createHandlerObject(context, handler) {
@@ -41,9 +39,9 @@ JSKit.Dispatcher = (function() {
     Add an event handler to the array of registered handlers.
 
     @method registerHandler
-    @param {Array} registeredHandlers Array of registered handlers for an event
-    @param {Function} eventHandler Function to handle event
-    @param {String} [method=push] Method to add the handler to the array
+    @param {Array} registeredHandlers registered handlers for an event
+    @param {Function} eventHandler to handle event
+    @param {String} [method="push"] method to add the handler to the array
   */
   function registerHandler(registeredHandlers, eventHandler, method) {
     method = method || "push";
@@ -57,7 +55,7 @@ JSKit.Dispatcher = (function() {
       Create a new Dispatcher object.
 
       @static
-      @method Dispatcher.create
+      @method create
       @return {Dispatcher}
     */
     create: function() {
