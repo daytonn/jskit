@@ -1,0 +1,763 @@
+{
+    "project": {},
+    "files": {
+        "src/application.js": {
+            "name": "src/application.js",
+            "modules": {
+                "JSKit": 1
+            },
+            "classes": {
+                "Application": 1,
+                "ControllerFactory": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/controller.js": {
+            "name": "src/controller.js",
+            "modules": {},
+            "classes": {
+                "Controller": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/dispatcher.js": {
+            "name": "src/dispatcher.js",
+            "modules": {},
+            "classes": {
+                "Dispatcher": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/jskit.js": {
+            "name": "src/jskit.js",
+            "modules": {},
+            "classes": {
+                "JSKit": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "JSKit": {
+            "name": "JSKit",
+            "submodules": {},
+            "classes": {
+                "Application": 1,
+                "ControllerFactory": 1,
+                "Controller": 1,
+                "Dispatcher": 1,
+                "JSKit": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/jskit.js",
+            "line": 1,
+            "description": "Application"
+        }
+    },
+    "classes": {
+        "Application": {
+            "name": "Application",
+            "shortname": "Application",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "JSKit",
+            "namespace": "",
+            "file": "src/application.js",
+            "line": 1,
+            "description": "Application"
+        },
+        "ControllerFactory": {
+            "name": "ControllerFactory",
+            "shortname": "ControllerFactory",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "JSKit",
+            "namespace": "",
+            "file": "src/application.js",
+            "line": 76
+        },
+        "Controller": {
+            "name": "Controller",
+            "shortname": "Controller",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "JSKit",
+            "namespace": "",
+            "file": "src/controller.js",
+            "line": 1,
+            "description": "Controller"
+        },
+        "Dispatcher": {
+            "name": "Dispatcher",
+            "shortname": "Dispatcher",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "JSKit",
+            "namespace": "",
+            "file": "src/dispatcher.js",
+            "line": 1,
+            "description": "Controller"
+        },
+        "JSKit": {
+            "name": "JSKit",
+            "shortname": "JSKit",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "JSKit",
+            "namespace": "",
+            "file": "src/jskit.js",
+            "line": 1,
+            "description": "JSKit global namespace object"
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/application.js",
+            "line": 11,
+            "description": "Takes a string and creates a constant name\nby uppercasing and camel-casing each word\ndelimited by a space.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "constantize",
+            "params": [
+                {
+                    "name": "string",
+                    "description": "",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "\"\""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Application",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/application.js",
+            "line": 35,
+            "description": "Creates a new application object.",
+            "itemtype": "method",
+            "name": "JSKit.Application.create",
+            "static": 1,
+            "return": {
+                "description": "Application object",
+                "type": "Object"
+            },
+            "class": "Application",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/application.js",
+            "line": 45,
+            "description": "Controllers namespace to store Controller objects built at runtime",
+            "itemtype": "property",
+            "name": "Controllers",
+            "type": "Object",
+            "default": "{}",
+            "class": "Application",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/application.js",
+            "line": 53,
+            "description": "Dispatcher to subcribe and publish events",
+            "itemtype": "property",
+            "name": "Dispatcher",
+            "type": "Dispatcher",
+            "default": "Dispatcher",
+            "class": "Application",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/application.js",
+            "line": 61,
+            "description": "Creates a controller with the given name and attributes\nand returns it. It also saves a reference to the Controller\nfactory used to create the controller for testing purposes.",
+            "itemtype": "method",
+            "name": "createController",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name of the controller",
+                    "type": "String"
+                },
+                {
+                    "name": "attributes",
+                    "description": "Controller attributes",
+                    "type": "Object",
+                    "optional": true,
+                    "optdefault": "{}"
+                }
+            ],
+            "return": {
+                "description": "controller created",
+                "type": "Controller"
+            },
+            "class": "Application",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/application.js",
+            "line": 80,
+            "description": "Creates a fresh controller object with the original defaults",
+            "itemtype": "method",
+            "name": "create",
+            "params": [
+                {
+                    "name": "attributes",
+                    "description": "",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "controller",
+                "type": "Controller"
+            },
+            "class": "ControllerFactory",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 20,
+            "description": "Take a string and put underscores between names and delimiters",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "constantize",
+            "params": [
+                {
+                    "name": "string",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 33,
+            "description": "Register the controller's actions to the dispatcher",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "registerActions",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "",
+                    "type": "Controller"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 48,
+            "description": "Take an action string or mapped action and return\nan object containing the action name and method.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "mapAction",
+            "params": [
+                {
+                    "name": "action/mappedAction",
+                    "description": "",
+                    "type": "String,Object"
+                }
+            ],
+            "return": {
+                "description": "actionMap",
+                "type": "Object"
+            },
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 65,
+            "description": "Take a controller and an actionMap and determine if\nthe action is defined on the controller. If not, throw\nan error.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "ensureActionIsDefined",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "",
+                    "type": "Controller"
+                },
+                {
+                    "name": "actionMap",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 81,
+            "description": "Return an event name based on the controller properties\nthat make up an event name.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "actionEventName",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "",
+                    "type": "Controller"
+                },
+                {
+                    "name": "action",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "String"
+            },
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 100,
+            "description": "Iterate over the given controller's elements object\nand cache a reference to each selected element.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "cacheElements",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "",
+                    "type": "Controller"
+                },
+                {
+                    "name": "action",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 117,
+            "description": "Iterate over the given action's events and register\nthe event handlers on each element.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "registerEvents",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "",
+                    "type": "Controller"
+                },
+                {
+                    "name": "action",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 137,
+            "description": "Iterate over the controller's elements\nand register to cache each action's events.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "registerElementCaching",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "",
+                    "type": "Controller"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 153,
+            "description": "Iterate over the controller's events\nand register to handle each action's element events.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "registerControllerEvents",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "",
+                    "type": "Controller"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 170,
+            "description": "Factory function to create fresh controller objects\nwith the given attributes.",
+            "itemtype": "method",
+            "name": "JSKit.Controller.create",
+            "static": 1,
+            "params": [
+                {
+                    "name": "attrs",
+                    "description": "",
+                    "type": "Object",
+                    "optional": true,
+                    "optdefault": "{}"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Controller"
+            },
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 185,
+            "description": "Array of actions to be wired up.",
+            "itemtype": "property",
+            "name": "actions",
+            "type": "Array",
+            "default": "[]",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 193,
+            "description": "Namespace that controller events are namespaced under.",
+            "itemtype": "property",
+            "name": "namespace",
+            "type": "String",
+            "default": "\"\"",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 201,
+            "description": "Channel that controller events use under namespace.",
+            "itemtype": "property",
+            "name": "channel",
+            "type": "String",
+            "default": "\"controller\"",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 209,
+            "description": "Underscored name of controller for use in events.",
+            "itemtype": "property",
+            "name": "controllerEventName",
+            "type": "String",
+            "default": "\"controller\"",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 217,
+            "description": "Event dispatcher for registering events.",
+            "itemtype": "property",
+            "name": "dispatcher",
+            "type": "Dispatcher",
+            "default": "JSKit.Dispatcher.create()",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 225,
+            "description": "Object of element names/selectors to\ncache per action.",
+            "itemtype": "property",
+            "name": "elements",
+            "type": "Object",
+            "default": "{}",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 234,
+            "description": "Object of events for each action to\nregister on given elements.",
+            "itemtype": "property",
+            "name": "events",
+            "type": "Object",
+            "default": "{}",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 243,
+            "description": "String to seperate event name segments",
+            "itemtype": "property",
+            "name": "eventSeparator",
+            "type": "String",
+            "default": "\":\"",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 251,
+            "description": "Default implementation that commits no operation",
+            "itemtype": "method",
+            "name": "all",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 256,
+            "description": "Default implementation that commits no operation",
+            "itemtype": "method",
+            "name": "initialize",
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/dispatcher.js",
+            "line": 11,
+            "description": "Get all handler functions for a given dispatcher and event.",
+            "itemtype": "method",
+            "name": "getEventHandlers",
+            "params": [
+                {
+                    "name": "dispatcher",
+                    "description": "",
+                    "type": "Dispatcher"
+                },
+                {
+                    "name": "eventName",
+                    "description": "Event name for which you wish to find handlers",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "handler functions for the given event",
+                "type": "Array"
+            },
+            "class": "Dispatcher",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/dispatcher.js",
+            "line": 24,
+            "description": "Create a handler object that contains the context and handler function",
+            "itemtype": "method",
+            "name": "createHandlerObject",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "`this` context for handler function (defaults to `null`)",
+                    "type": "Object,Function"
+                },
+                {
+                    "name": "handler",
+                    "description": "Function to handle event",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "handler object with `handler` and `context`",
+                "type": "Object"
+            },
+            "class": "Dispatcher",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/dispatcher.js",
+            "line": 40,
+            "description": "Add an event handler to the array of registered handlers.",
+            "itemtype": "method",
+            "name": "registerHandler",
+            "params": [
+                {
+                    "name": "registeredHandlers",
+                    "description": "Array of registered handlers for an event",
+                    "type": "Array"
+                },
+                {
+                    "name": "eventHandler",
+                    "description": "Function to handle event",
+                    "type": "Function"
+                },
+                {
+                    "name": "method",
+                    "description": "Method to add the handler to the array",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "push"
+                }
+            ],
+            "class": "Dispatcher",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/dispatcher.js",
+            "line": 56,
+            "description": "Create a new Dispatcher object.",
+            "static": 1,
+            "itemtype": "method",
+            "name": "Dispatcher.create",
+            "return": {
+                "description": "",
+                "type": "Dispatcher"
+            },
+            "class": "Dispatcher",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/dispatcher.js",
+            "line": 67,
+            "description": "Register a handler to a given event.",
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "eventName",
+                    "description": "Name of the event",
+                    "type": "String"
+                },
+                {
+                    "name": "handler",
+                    "description": "Function to handle the event",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "`this` context of the handler",
+                    "type": "Controller",
+                    "optional": true
+                }
+            ],
+            "class": "Dispatcher",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/dispatcher.js",
+            "line": 81,
+            "description": "Register a handler to a given event that will\nfire before the handlers registerd with `on`.",
+            "itemtype": "method",
+            "name": "before",
+            "params": [
+                {
+                    "name": "eventName",
+                    "description": "Name of the event",
+                    "type": "String"
+                },
+                {
+                    "name": "handler",
+                    "description": "Function to handle the event",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "`this` context of the handler",
+                    "type": "Controller",
+                    "optional": true
+                }
+            ],
+            "class": "Dispatcher",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/dispatcher.js",
+            "line": 96,
+            "description": "Remove a handler from a given event.",
+            "itemtype": "method",
+            "name": "off",
+            "params": [
+                {
+                    "name": "eventName",
+                    "description": "Name of the event",
+                    "type": "String"
+                },
+                {
+                    "name": "handler",
+                    "description": "Function to unbind from the `event`",
+                    "type": "Function"
+                }
+            ],
+            "class": "Dispatcher",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/dispatcher.js",
+            "line": 116,
+            "description": "Trigger a given event, causing all handlers\nfor that event to be fired.",
+            "itemtype": "method",
+            "name": "trigger",
+            "params": [
+                {
+                    "name": "eventName",
+                    "description": "Name of the event",
+                    "type": "String"
+                }
+            ],
+            "class": "Dispatcher",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/jskit.js",
+            "line": 12,
+            "description": "Returns a new Application object.",
+            "itemtype": "method",
+            "name": "createApplication",
+            "return": {
+                "description": "",
+                "type": "Application"
+            },
+            "class": "JSKit",
+            "module": "JSKit"
+        }
+    ],
+    "warnings": []
+}

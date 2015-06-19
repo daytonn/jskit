@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Dispatcher</title>
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+</head>
+<body>
+    <header id="header">
+        <h1/>
+
+            
+        </h1>
+        <p class="navbar-text">API Docs for Version: <b></b></p>
+
+        <form>
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Application", "classes/Controller", "classes/ControllerFactory", "classes/Dispatcher", "classes/JSKit", "modules/JSKit"]'>
+        </form>
+    </header>
+    <section id="content">
+        <aside id="sidebar">
+            <div>
+                <div id="sidebar">
+                <div id="classes">
+                    <ul id="api-classes" class="nav nav-list">
+                            <li><a href="../classes/Application.html">Application</a></li>
+                            <li><a href="../classes/Controller.html">Controller</a></li>
+                            <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
+                            <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
+                            <li><a href="../classes/JSKit.html">JSKit</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </aside>
+        <section id="layout-content">
+            <div id="options">
+                <form id="options-form" class="form-inline pull-right">
+                    <div class="button-group">
+                      <label>
+                        <input type="radio" name="button-group" value="item" checked>
+                        <span class="button-group-item">Inherited</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Protected</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Private</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="third">
+                        <span class="button-group-item">Deprecatec</span>
+                      </label>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="page-header">
+                <h1>Dispatcher</h1>
+            </div>
+            
+            
+            
+            	<div class="well well-small">
+                        Module: <a href="../modules/JSKit.html">JSKit</a>
+                </div>
+            
+            
+            
+            <div class="yuidoc-class-description">
+            <p>Controller</p>
+            
+            </div>
+            
+            <!-- table of contents -->
+            
+            <div id="class-toc" class="page-section">
+            	<h2>Table of Contents</h2>
+                <ul>
+            		<li>
+            			<strong>Methods</strong>
+            			<ul>
+            				<li><a href="#method-before"><span class="im">before</span>(<span class="ia">eventName</span><span class="ia">handler</span><span class="ia">context</span>)</a></li>
+            				<li><a href="#method-createHandlerObject"><span class="im">createHandlerObject</span>(<span class="ia">context</span><span class="ia">handler</span>)</a></li>
+            				<li><a href="#method-getEventHandlers"><span class="im">getEventHandlers</span>(<span class="ia">dispatcher</span><span class="ia">eventName</span>)</a></li>
+            				<li><a href="#method-off"><span class="im">off</span>(<span class="ia">eventName</span><span class="ia">handler</span>)</a></li>
+            				<li><a href="#method-on"><span class="im">on</span>(<span class="ia">eventName</span><span class="ia">handler</span><span class="ia">context</span>)</a></li>
+            				<li><a href="#method-registerHandler"><span class="im">registerHandler</span>(<span class="ia">registeredHandlers</span><span class="ia">eventHandler</span><span class="ia">method</span>)</a></li>
+            				<li><a href="#method-trigger"><span class="im">trigger</span>(<span class="ia">eventName</span>)</a></li>
+            			</ul>
+            		</li>
+            
+            
+            
+            		<li>
+            			<strong>Static Methods</strong>
+            			<ul>
+            				<li><a href="#method-Dispatcher.create"><span class="im">Dispatcher.Dispatcher.create</span>()</a></li>
+            			</ul>
+            		</li>
+            	</ul>
+            </div>
+            
+            <!-- details -->
+            
+            
+                <div id="methods" class="page-section">
+                    <h2 class="off-left">Methods</h2>
+                    <div class="item-list">
+                        <div id="method-before" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>before</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>eventName</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>handler</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code class="optional">context</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_dispatcher.js.html#l81"><code>src&#x2F;dispatcher.js:81</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Register a handler to a given event that will
+                        fire before the handlers registerd with <code>on</code>.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">eventName</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Name of the event</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">handler</span>
+                        	  								<span class="type">Function</span>
+                        	  						</td>
+                        	  						<td class="type">Function</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Function to handle the event</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name optional">context</code>
+                        	  								<em class="flag optional" title="This parameter is optional.">(optional)</em>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p><code>this</code> context of the handler</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-createHandlerObject" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>createHandlerObject</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>context</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>handler</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        				<span class="returns-inline">
+                        					<span class="type">Object</span>
+                        				</span>
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_dispatcher.js.html#l24"><code>src&#x2F;dispatcher.js:24</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Create a handler object that contains the context and handler function</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">context</span>
+                        	  								<span class="type">Object,Function</span>
+                        	  						</td>
+                        	  						<td class="type">Object,Function</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p><code>this</code> context for handler function (defaults to <code>null</code>)</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">handler</span>
+                        	  								<span class="type">Function</span>
+                        	  						</td>
+                        	  						<td class="type">Function</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Function to handle event</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        	  	<div class="returns">
+                        	  		<strong>returns:</strong>
+                        
+                        	  		<div class="returns-description">
+                        	  					<span class="type">Object</span>:
+                        	  				<p>handler object with <code>handler</code> and <code>context</code></p>
+                        
+                        	  		</div>
+                        	  	</div>
+                        
+                        	</div>
+                        </div>
+                        <div id="method-getEventHandlers" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>getEventHandlers</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>dispatcher</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>eventName</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        				<span class="returns-inline">
+                        					<span class="type">Array</span>
+                        				</span>
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_dispatcher.js.html#l11"><code>src&#x2F;dispatcher.js:11</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Get all handler functions for a given dispatcher and event.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">dispatcher</span>
+                        	  								<span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">eventName</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Event name for which you wish to find handlers</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        	  	<div class="returns">
+                        	  		<strong>returns:</strong>
+                        
+                        	  		<div class="returns-description">
+                        	  					<span class="type">Array</span>:
+                        	  				<p>handler functions for the given event</p>
+                        
+                        	  		</div>
+                        	  	</div>
+                        
+                        	</div>
+                        </div>
+                        <div id="method-off" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>off</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>eventName</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>handler</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_dispatcher.js.html#l96"><code>src&#x2F;dispatcher.js:96</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Remove a handler from a given event.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">eventName</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Name of the event</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">handler</span>
+                        	  								<span class="type">Function</span>
+                        	  						</td>
+                        	  						<td class="type">Function</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Function to unbind from the <code>event</code></p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-on" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>on</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>eventName</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>handler</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code class="optional">context</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_dispatcher.js.html#l67"><code>src&#x2F;dispatcher.js:67</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Register a handler to a given event.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">eventName</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Name of the event</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">handler</span>
+                        	  								<span class="type">Function</span>
+                        	  						</td>
+                        	  						<td class="type">Function</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Function to handle the event</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name optional">context</code>
+                        	  								<em class="flag optional" title="This parameter is optional.">(optional)</em>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p><code>this</code> context of the handler</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-registerHandler" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>registerHandler</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>registeredHandlers</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>eventHandler</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code class="optional">method=push</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_dispatcher.js.html#l40"><code>src&#x2F;dispatcher.js:40</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Add an event handler to the array of registered handlers.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">registeredHandlers</span>
+                        	  								<span class="type">Array</span>
+                        	  						</td>
+                        	  						<td class="type">Array</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Array of registered handlers for an event</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">eventHandler</span>
+                        	  								<span class="type">Function</span>
+                        	  						</td>
+                        	  						<td class="type">Function</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Function to handle event</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name optional">method</code>
+                        	  								<em class="flag optional" title="This parameter is optional.">(optional defaults to: <code>push</code>)</em>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Method to add the handler to the array</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-trigger" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>trigger</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>eventName</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_dispatcher.js.html#l116"><code>src&#x2F;dispatcher.js:116</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Trigger a given event, causing all handlers
+                        for that event to be fired.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">eventName</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Name of the event</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+            
+            
+            
+            
+                <div id="static-methods" class="page-section">
+                    <h2 class="off-left">Static Methods</h2>
+                    <div class="item-list">
+                	        <div id="method-Dispatcher.create" class="method item">
+                	        	<div class="method-header">
+                	        		<div class="method-signature">
+                	        			<span class="name"><code>Dispatcher.Dispatcher.create</code></span>
+                	        
+                	        				<span class="paren">()</span>
+                	        
+                	        				<span class="returns-inline">
+                	        					<span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
+                	        				</span>
+                	        		</div>
+                	        
+                	        
+                	        
+                	        
+                	        
+                	        
+                	        		<div class="meta">
+                	        					<p>
+                	        					defined in
+                	        			<a href="../files/src_dispatcher.js.html#l56"><code>src&#x2F;dispatcher.js:56</code></a>
+                	        			</p>
+                	        
+                	        
+                	        
+                	        		</div>
+                	        	</div>
+                	        
+                	        	<div class="method-content">
+                	        	  	<div class="description"><p>Create a new Dispatcher object.</p>
+                	        </div>
+                	        
+                	        
+                	        	  	<div class="returns">
+                	        	  		<strong>returns:</strong>
+                	        
+                	        	  		<div class="returns-description">
+                	        	  					<span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
+                	        	  		</div>
+                	        	  	</div>
+                	        
+                	        	</div>
+                	        </div>
+                    </div>
+                </div>
+        </section>
+        <footer id="footer">
+            <div class="inner">
+                &copy; 2015 Dayton Nolan
+            </div>
+        </footer>
+    </section>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+</html>

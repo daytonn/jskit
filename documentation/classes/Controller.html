@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Controller</title>
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+</head>
+<body>
+    <header id="header">
+        <h1/>
+
+            
+        </h1>
+        <p class="navbar-text">API Docs for Version: <b></b></p>
+
+        <form>
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Application", "classes/Controller", "classes/ControllerFactory", "classes/Dispatcher", "classes/JSKit", "modules/JSKit"]'>
+        </form>
+    </header>
+    <section id="content">
+        <aside id="sidebar">
+            <div>
+                <div id="sidebar">
+                <div id="classes">
+                    <ul id="api-classes" class="nav nav-list">
+                            <li><a href="../classes/Application.html">Application</a></li>
+                            <li><a href="../classes/Controller.html">Controller</a></li>
+                            <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
+                            <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
+                            <li><a href="../classes/JSKit.html">JSKit</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </aside>
+        <section id="layout-content">
+            <div id="options">
+                <form id="options-form" class="form-inline pull-right">
+                    <div class="button-group">
+                      <label>
+                        <input type="radio" name="button-group" value="item" checked>
+                        <span class="button-group-item">Inherited</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Protected</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Private</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="third">
+                        <span class="button-group-item">Deprecatec</span>
+                      </label>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="page-header">
+                <h1>Controller</h1>
+            </div>
+            
+            
+            
+            	<div class="well well-small">
+                        Module: <a href="../modules/JSKit.html">JSKit</a>
+                </div>
+            
+            
+            
+            <div class="yuidoc-class-description">
+            <p>Controller</p>
+            
+            </div>
+            
+            <!-- table of contents -->
+            
+            <div id="class-toc" class="page-section">
+            	<h2>Table of Contents</h2>
+                <ul>
+            		<li>
+            			<strong>Methods</strong>
+            			<ul>
+            				<li><a href="#method-actionEventName"><span class="im">actionEventName</span>(<span class="ia">controller</span><span class="ia">action</span>)</a></li>
+            				<li><a href="#method-all"><span class="im">all</span>()</a></li>
+            				<li><a href="#method-cacheElements"><span class="im">cacheElements</span>(<span class="ia">controller</span><span class="ia">action</span>)</a></li>
+            				<li><a href="#method-constantize"><span class="im">constantize</span>(<span class="ia">string</span>)</a></li>
+            				<li><a href="#method-ensureActionIsDefined"><span class="im">ensureActionIsDefined</span>(<span class="ia">controller</span><span class="ia">actionMap</span>)</a></li>
+            				<li><a href="#method-initialize"><span class="im">initialize</span>()</a></li>
+            				<li><a href="#method-mapAction"><span class="im">mapAction</span>(<span class="ia">action/mappedAction</span>)</a></li>
+            				<li><a href="#method-registerActions"><span class="im">registerActions</span>(<span class="ia">controller</span>)</a></li>
+            				<li><a href="#method-registerControllerEvents"><span class="im">registerControllerEvents</span>(<span class="ia">controller</span>)</a></li>
+            				<li><a href="#method-registerElementCaching"><span class="im">registerElementCaching</span>(<span class="ia">controller</span>)</a></li>
+            				<li><a href="#method-registerEvents"><span class="im">registerEvents</span>(<span class="ia">controller</span><span class="ia">action</span>)</a></li>
+            			</ul>
+            		</li>
+            
+            		<li>
+            			<strong>Properties</strong>
+            			<ul>
+            				<li><a href="#prop-actions"><span class="ip">actions</span></a></li>
+            				<li><a href="#prop-channel"><span class="ip">channel</span></a></li>
+            				<li><a href="#prop-controllerEventName"><span class="ip">controllerEventName</span></a></li>
+            				<li><a href="#prop-dispatcher"><span class="ip">dispatcher</span></a></li>
+            				<li><a href="#prop-elements"><span class="ip">elements</span></a></li>
+            				<li><a href="#prop-events"><span class="ip">events</span></a></li>
+            				<li><a href="#prop-eventSeparator"><span class="ip">eventSeparator</span></a></li>
+            				<li><a href="#prop-namespace"><span class="ip">namespace</span></a></li>
+            			</ul>
+            		</li>
+            
+            
+            		<li>
+            			<strong>Static Methods</strong>
+            			<ul>
+            				<li><a href="#method-JSKit.Controller.create"><span class="im">Controller.JSKit.Controller.create</span>(<span class="ia">attrs</span>)</a></li>
+            			</ul>
+            		</li>
+            	</ul>
+            </div>
+            
+            <!-- details -->
+            
+            
+                <div id="methods" class="page-section">
+                    <h2 class="off-left">Methods</h2>
+                    <div class="item-list">
+                        <div id="method-actionEventName" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>actionEventName</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>controller</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>action</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        				<span class="returns-inline">
+                        					<span class="type"></span>
+                        				</span>
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l81"><code>src&#x2F;controller.js:81</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Return an event name based on the controller properties
+                        that make up an event name.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">action</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        	  	<div class="returns">
+                        	  		<strong>returns:</strong>
+                        
+                        	  		<div class="returns-description">
+                        	  				<p>String</p>
+                        
+                        	  		</div>
+                        	  	</div>
+                        
+                        	</div>
+                        </div>
+                        <div id="method-all" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>all</code></span>
+                        
+                        				<span class="paren">()</span>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l251"><code>src&#x2F;controller.js:251</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Default implementation that commits no operation</p>
+                        </div>
+                        
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-cacheElements" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>cacheElements</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>controller</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>action</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l100"><code>src&#x2F;controller.js:100</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Iterate over the given controller's elements object
+                        and cache a reference to each selected element.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">action</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-constantize" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>constantize</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>string</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        				<span class="returns-inline">
+                        					<span class="type">String</span>
+                        				</span>
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l20"><code>src&#x2F;controller.js:20</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Take a string and put underscores between names and delimiters</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">string</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        	  	<div class="returns">
+                        	  		<strong>returns:</strong>
+                        
+                        	  		<div class="returns-description">
+                        	  					<span class="type">String</span>
+                        	  		</div>
+                        	  	</div>
+                        
+                        	</div>
+                        </div>
+                        <div id="method-ensureActionIsDefined" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>ensureActionIsDefined</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>controller</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>actionMap</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l65"><code>src&#x2F;controller.js:65</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Take a controller and an actionMap and determine if
+                        the action is defined on the controller. If not, throw
+                        an error.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">actionMap</span>
+                        	  								<span class="type">Object</span>
+                        	  						</td>
+                        	  						<td class="type">Object</td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-initialize" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>initialize</code></span>
+                        
+                        				<span class="paren">()</span>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l256"><code>src&#x2F;controller.js:256</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Default implementation that commits no operation</p>
+                        </div>
+                        
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-mapAction" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>mapAction</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>action/mappedAction</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        				<span class="returns-inline">
+                        					<span class="type">Object</span>
+                        				</span>
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l48"><code>src&#x2F;controller.js:48</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Take an action string or mapped action and return
+                        an object containing the action name and method.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">action/mappedAction</span>
+                        	  								<span class="type">String,Object</span>
+                        	  						</td>
+                        	  						<td class="type">String,Object</td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        	  	<div class="returns">
+                        	  		<strong>returns:</strong>
+                        
+                        	  		<div class="returns-description">
+                        	  					<span class="type">Object</span>:
+                        	  				<p>actionMap</p>
+                        
+                        	  		</div>
+                        	  	</div>
+                        
+                        	</div>
+                        </div>
+                        <div id="method-registerActions" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>registerActions</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>controller</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l33"><code>src&#x2F;controller.js:33</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Register the controller's actions to the dispatcher</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-registerControllerEvents" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>registerControllerEvents</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>controller</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l153"><code>src&#x2F;controller.js:153</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Iterate over the controller's events
+                        and register to handle each action's element events.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-registerElementCaching" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>registerElementCaching</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>controller</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l137"><code>src&#x2F;controller.js:137</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Iterate over the controller's elements
+                        and register to cache each action's events.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                        <div id="method-registerEvents" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>registerEvents</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>controller</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>action</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l117"><code>src&#x2F;controller.js:117</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Iterate over the given action's events and register
+                        the event handlers on each element.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">action</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div id="properties" class="page-section">
+                    <h2 class="off-left">Properties</h2>
+            
+                    <div class="item-list">
+                        <div id="prop-actions" class="property item">
+                            <h3 class="name"><code>actions</code></h3>
+                            <span class="type">Array</span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_controller.js.html#l185"><code>src&#x2F;controller.js:185</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>Array of actions to be wired up.</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> []</p>
+                        
+                        
+                        </div>
+                        <div id="prop-channel" class="property item">
+                            <h3 class="name"><code>channel</code></h3>
+                            <span class="type">String</span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_controller.js.html#l201"><code>src&#x2F;controller.js:201</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>Channel that controller events use under namespace.</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> &quot;controller&quot;</p>
+                        
+                        
+                        </div>
+                        <div id="prop-controllerEventName" class="property item">
+                            <h3 class="name"><code>controllerEventName</code></h3>
+                            <span class="type">String</span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_controller.js.html#l209"><code>src&#x2F;controller.js:209</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>Underscored name of controller for use in events.</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> &quot;controller&quot;</p>
+                        
+                        
+                        </div>
+                        <div id="prop-dispatcher" class="property item">
+                            <h3 class="name"><code>dispatcher</code></h3>
+                            <span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_controller.js.html#l217"><code>src&#x2F;controller.js:217</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>Event dispatcher for registering events.</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> JSKit.Dispatcher.create()</p>
+                        
+                        
+                        </div>
+                        <div id="prop-elements" class="property item">
+                            <h3 class="name"><code>elements</code></h3>
+                            <span class="type">Object</span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_controller.js.html#l225"><code>src&#x2F;controller.js:225</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>Object of element names/selectors to
+                        cache per action.</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> {}</p>
+                        
+                        
+                        </div>
+                        <div id="prop-events" class="property item">
+                            <h3 class="name"><code>events</code></h3>
+                            <span class="type">Object</span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_controller.js.html#l234"><code>src&#x2F;controller.js:234</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>Object of events for each action to
+                        register on given elements.</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> {}</p>
+                        
+                        
+                        </div>
+                        <div id="prop-eventSeparator" class="property item">
+                            <h3 class="name"><code>eventSeparator</code></h3>
+                            <span class="type">String</span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_controller.js.html#l243"><code>src&#x2F;controller.js:243</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>String to seperate event name segments</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> &quot;:&quot;</p>
+                        
+                        
+                        </div>
+                        <div id="prop-namespace" class="property item">
+                            <h3 class="name"><code>namespace</code></h3>
+                            <span class="type">String</span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_controller.js.html#l193"><code>src&#x2F;controller.js:193</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>Namespace that controller events are namespaced under.</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> &quot;&quot;</p>
+                        
+                        
+                        </div>
+                    </div>
+                </div>
+            
+            
+            
+                <div id="static-methods" class="page-section">
+                    <h2 class="off-left">Static Methods</h2>
+                    <div class="item-list">
+                	        <div id="method-JSKit.Controller.create" class="method item">
+                	        	<div class="method-header">
+                	        		<div class="method-signature">
+                	        			<span class="name"><code>Controller.JSKit.Controller.create</code></span>
+                	        
+                	        				<div class="args">
+                	        					<span class="paren">(</span><ul class="args-list inline commas">
+                	        						<li class="arg">
+                	        								<code class="optional">attrs={}</code>
+                	        						</li>
+                	        					</ul><span class="paren">)</span>
+                	        				</div>
+                	        
+                	        				<span class="returns-inline">
+                	        					<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                	        				</span>
+                	        		</div>
+                	        
+                	        
+                	        
+                	        
+                	        
+                	        
+                	        		<div class="meta">
+                	        					<p>
+                	        					defined in
+                	        			<a href="../files/src_controller.js.html#l170"><code>src&#x2F;controller.js:170</code></a>
+                	        			</p>
+                	        
+                	        
+                	        
+                	        		</div>
+                	        	</div>
+                	        
+                	        	<div class="method-content">
+                	        	  	<div class="description"><p>Factory function to create fresh controller objects
+                	        with the given attributes.</p>
+                	        </div>
+                	        
+                	        	  	<div class="params">
+                	        	  		<table class="params-list">
+                	        	  			<thead>
+                	        	  				<tr>
+                	        	  					<th>Parameter</th>
+                	        	  					<th>Type</th>
+                	        	  					<th>Description</th>
+                	        	  				</tr>
+                	        	  			</thead>
+                	        	  			<tbody>
+                	        	  					<tr class="param">
+                	        	  						<td>
+                	        	  								<span class="param-name optional">attrs</code>
+                	        	  								<em class="flag optional" title="This parameter is optional.">(optional defaults to: <code>{}</code>)</em>
+                	        	  						</td>
+                	        	  						<td class="type">Object</td>
+                	        	  						<td class="description">
+                	        	  								<p>&nbsp;</p>
+                	        	  						</td>
+                	        	  					</tr>
+                	        	  			</tbody>
+                	        	  		</table>
+                	        	  	</div>
+                	        
+                	        	  	<div class="returns">
+                	        	  		<strong>returns:</strong>
+                	        
+                	        	  		<div class="returns-description">
+                	        	  					<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                	        	  		</div>
+                	        	  	</div>
+                	        
+                	        	</div>
+                	        </div>
+                    </div>
+                </div>
+        </section>
+        <footer id="footer">
+            <div class="inner">
+                &copy; 2015 Dayton Nolan
+            </div>
+        </footer>
+    </section>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+</html>

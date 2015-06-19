@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Application</title>
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+</head>
+<body>
+    <header id="header">
+        <h1/>
+
+            
+        </h1>
+        <p class="navbar-text">API Docs for Version: <b></b></p>
+
+        <form>
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Application", "classes/Controller", "classes/ControllerFactory", "classes/Dispatcher", "classes/JSKit", "modules/JSKit"]'>
+        </form>
+    </header>
+    <section id="content">
+        <aside id="sidebar">
+            <div>
+                <div id="sidebar">
+                <div id="classes">
+                    <ul id="api-classes" class="nav nav-list">
+                            <li><a href="../classes/Application.html">Application</a></li>
+                            <li><a href="../classes/Controller.html">Controller</a></li>
+                            <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
+                            <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
+                            <li><a href="../classes/JSKit.html">JSKit</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </aside>
+        <section id="layout-content">
+            <div id="options">
+                <form id="options-form" class="form-inline pull-right">
+                    <div class="button-group">
+                      <label>
+                        <input type="radio" name="button-group" value="item" checked>
+                        <span class="button-group-item">Inherited</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Protected</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Private</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="third">
+                        <span class="button-group-item">Deprecatec</span>
+                      </label>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="page-header">
+                <h1>Application</h1>
+            </div>
+            
+            
+            
+            	<div class="well well-small">
+                        Module: <a href="../modules/JSKit.html">JSKit</a>
+                </div>
+            
+            
+            
+            <div class="yuidoc-class-description">
+            <p>Application</p>
+            
+            </div>
+            
+            <!-- table of contents -->
+            
+            <div id="class-toc" class="page-section">
+            	<h2>Table of Contents</h2>
+                <ul>
+            		<li>
+            			<strong>Methods</strong>
+            			<ul>
+            				<li><a href="#method-constantize"><span class="im">constantize</span>(<span class="ia">string</span>)</a></li>
+            				<li><a href="#method-createController"><span class="im">createController</span>(<span class="ia">name</span><span class="ia">attributes</span>)</a></li>
+            			</ul>
+            		</li>
+            
+            		<li>
+            			<strong>Properties</strong>
+            			<ul>
+            				<li><a href="#prop-Controllers"><span class="ip">Controllers</span></a></li>
+            				<li><a href="#prop-Dispatcher"><span class="ip">Dispatcher</span></a></li>
+            			</ul>
+            		</li>
+            
+            
+            		<li>
+            			<strong>Static Methods</strong>
+            			<ul>
+            				<li><a href="#method-JSKit.Application.create"><span class="im">Application.JSKit.Application.create</span>()</a></li>
+            			</ul>
+            		</li>
+            	</ul>
+            </div>
+            
+            <!-- details -->
+            
+            
+                <div id="methods" class="page-section">
+                    <h2 class="off-left">Methods</h2>
+                    <div class="item-list">
+                        <div id="method-constantize" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>constantize</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code class="optional">string=&quot;&quot;</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        				<span class="returns-inline">
+                        					<span class="type">String</span>
+                        				</span>
+                        		</div>
+                        
+                        
+                        			<span class="flag private">private</span>
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_application.js.html#l11"><code>src&#x2F;application.js:11</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Takes a string and creates a constant name
+                        by uppercasing and camel-casing each word
+                        delimited by a space.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name optional">string</code>
+                        	  								<em class="flag optional" title="This parameter is optional.">(optional defaults to: <code>&quot;&quot;</code>)</em>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<p>&nbsp;</p>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        	  	<div class="returns">
+                        	  		<strong>returns:</strong>
+                        
+                        	  		<div class="returns-description">
+                        	  					<span class="type">String</span>
+                        	  		</div>
+                        	  	</div>
+                        
+                        	</div>
+                        </div>
+                        <div id="method-createController" class="method item">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        			<span class="name"><code>createController</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>name</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code class="optional">attributes={}</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        				<span class="returns-inline">
+                        					<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        				</span>
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_application.js.html#l61"><code>src&#x2F;application.js:61</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Creates a controller with the given name and attributes
+                        and returns it. It also saves a reference to the Controller
+                        factory used to create the controller for testing purposes.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        	  		<table class="params-list">
+                        	  			<thead>
+                        	  				<tr>
+                        	  					<th>Parameter</th>
+                        	  					<th>Type</th>
+                        	  					<th>Description</th>
+                        	  				</tr>
+                        	  			</thead>
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">name</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Name of the controller</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name optional">attributes</code>
+                        	  								<em class="flag optional" title="This parameter is optional.">(optional defaults to: <code>{}</code>)</em>
+                        	  						</td>
+                        	  						<td class="type">Object</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>Controller attributes</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        	  	<div class="returns">
+                        	  		<strong>returns:</strong>
+                        
+                        	  		<div class="returns-description">
+                        	  					<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>:
+                        	  				<p>controller created</p>
+                        
+                        	  		</div>
+                        	  	</div>
+                        
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div id="properties" class="page-section">
+                    <h2 class="off-left">Properties</h2>
+            
+                    <div class="item-list">
+                        <div id="prop-Controllers" class="property item">
+                            <h3 class="name"><code>Controllers</code></h3>
+                            <span class="type">Object</span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_application.js.html#l45"><code>src&#x2F;application.js:45</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>Controllers namespace to store Controller objects built at runtime</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> {}</p>
+                        
+                        
+                        </div>
+                        <div id="prop-Dispatcher" class="property item">
+                            <h3 class="name"><code>Dispatcher</code></h3>
+                            <span class="type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></span>
+                        
+                        
+                        
+                        
+                        
+                            <div class="meta">
+                                        <p>
+                                        Defined in
+                                <a href="../files/src_application.js.html#l53"><code>src&#x2F;application.js:53</code></a>
+                                </p>
+                        
+                        
+                            </div>
+                        
+                            <div class="description">
+                                <p>Dispatcher to subcribe and publish events</p>
+                        
+                            </div>
+                        
+                                <p><strong>Default:</strong> Dispatcher</p>
+                        
+                        
+                        </div>
+                    </div>
+                </div>
+            
+            
+            
+                <div id="static-methods" class="page-section">
+                    <h2 class="off-left">Static Methods</h2>
+                    <div class="item-list">
+                	        <div id="method-JSKit.Application.create" class="method item">
+                	        	<div class="method-header">
+                	        		<div class="method-signature">
+                	        			<span class="name"><code>Application.JSKit.Application.create</code></span>
+                	        
+                	        				<span class="paren">()</span>
+                	        
+                	        				<span class="returns-inline">
+                	        					<span class="type">Object</span>
+                	        				</span>
+                	        		</div>
+                	        
+                	        
+                	        
+                	        
+                	        
+                	        
+                	        		<div class="meta">
+                	        					<p>
+                	        					defined in
+                	        			<a href="../files/src_application.js.html#l35"><code>src&#x2F;application.js:35</code></a>
+                	        			</p>
+                	        
+                	        
+                	        
+                	        		</div>
+                	        	</div>
+                	        
+                	        	<div class="method-content">
+                	        	  	<div class="description"><p>Creates a new application object.</p>
+                	        </div>
+                	        
+                	        
+                	        	  	<div class="returns">
+                	        	  		<strong>returns:</strong>
+                	        
+                	        	  		<div class="returns-description">
+                	        	  					<span class="type">Object</span>:
+                	        	  				<p>Application object</p>
+                	        
+                	        	  		</div>
+                	        	  	</div>
+                	        
+                	        	</div>
+                	        </div>
+                    </div>
+                </div>
+        </section>
+        <footer id="footer">
+            <div class="inner">
+                &copy; 2015 Dayton Nolan
+            </div>
+        </footer>
+    </section>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+</html>

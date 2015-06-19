@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/controller.js</title>
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+</head>
+<body>
+    <header id="header">
+        <h1/>
+
+            
+        </h1>
+        <p class="navbar-text">API Docs for Version: <b></b></p>
+
+        <form>
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Application", "classes/Controller", "classes/ControllerFactory", "classes/Dispatcher", "classes/JSKit", "modules/JSKit"]'>
+        </form>
+    </header>
+    <section id="content">
+        <aside id="sidebar">
+            <div>
+                <div id="sidebar">
+                <div id="classes">
+                    <ul id="api-classes" class="nav nav-list">
+                            <li><a href="../classes/Application.html">Application</a></li>
+                            <li><a href="../classes/Controller.html">Controller</a></li>
+                            <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
+                            <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
+                            <li><a href="../classes/JSKit.html">JSKit</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </aside>
+        <section id="layout-content">
+            <div id="options">
+                <form id="options-form" class="form-inline pull-right">
+                    <div class="button-group">
+                      <label>
+                        <input type="radio" name="button-group" value="item" checked>
+                        <span class="button-group-item">Inherited</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Protected</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Private</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="third">
+                        <span class="button-group-item">Deprecatec</span>
+                      </label>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="page-header">
+                <h1>src/controller.js <small>File</small></h1>
+            </div>
+            
+            <div class="file">
+                <pre class="prettyprint linenums">
+            /**
+             * Controller
+             *
+             * @module JSKit
+             * @class Controller
+            */
+            JSKit.Controller = (function() {
+              var bindAll = _.bindAll;
+              var compact = _.compact;
+              var defaults = _.defaults;
+              var each = _.each;
+              var first = _.first;
+              var functions = _.functions;
+              var isFunc = _.isFunction;
+              var isObject = _.isObject;
+              var keys = _.keys;
+              var uniq = _.uniq;
+              var values = _.values;
+            
+              /**
+               * Take a string and put underscores between names and delimiters
+               *
+               * @private
+               * @method constantize
+               * @param {String} string
+               * @return {String}
+              */
+              function underscore(string) {
+                string = string || &quot;&quot;;
+                return string.replace(/([A-Z])/g, &quot; $1&quot;).replace(/^\s?/, &quot;&quot;).replace(/-|\s/g, &quot;_&quot;).toLowerCase();
+              }
+            
+              /**
+               * Register the controller&#x27;s actions to the dispatcher
+               *
+               * @private
+               * @method registerActions
+               * @param {Controller} controller
+              */
+              function registerActions(controller) {
+                each(controller.actions, function(action) {
+                  var actionMap = mapAction(action);
+                  ensureActionIsDefined(controller, actionMap);
+                  controller.dispatcher.on(actionEventName(controller, actionMap.name), controller[actionMap.method], controller);
+                }, controller);
+              }
+            
+              /**
+               * Take an action string or mapped action and return
+               * an object containing the action name and method.
+               *
+               * @private
+               * @method mapAction
+               * @param {String,Object} action/mappedAction
+               * @return {Object} actionMap
+              */
+              function mapAction(action) {
+                var isMappedAction = isObject(action);
+                var method = isMappedAction ? first(values(action)) : action;
+                var name = isMappedAction ? first(keys(action)) : action;
+            
+                return { name: name, method: method };
+              }
+            
+              /**
+               * Take a controller and an actionMap and determine if
+               * the action is defined on the controller. If not, throw
+               * an error.
+               *
+               * @private
+               * @method ensureActionIsDefined
+               * @param {Controller} controller
+               * @param {Object} actionMap
+              */
+              function ensureActionIsDefined(controller, actionMap) {
+                if (!isFunc(controller[actionMap.method])) {
+                  throw new Error(controller.name + &#x27; action &quot;&#x27; + actionMap.name + &quot;:&quot; + actionMap.method + &#x27;&quot; method is undefined&#x27;);
+                }
+              }
+            
+              /**
+               * Return an event name based on the controller properties
+               * that make up an event name.
+               *
+               * @private
+               * @method actionEventName
+               * @param {Controller} controller
+               * @param {String} action
+               * @return String
+              */
+              function actionEventName(controller, action) {
+                return compact([
+                  controller.namespace,
+                  controller.channel,
+                  controller.controllerEventName,
+                  action
+                ]).join(controller.eventSeparator);
+              }
+            
+              /**
+               * Iterate over the given controller&#x27;s elements object
+               * and cache a reference to each selected element.
+               *
+               * @private
+               * @method cacheElements
+               * @param {Controller} controller
+               * @param {String} action
+              */
+              function cacheElements(controller, action) {
+                if (controller.elements[action]) {
+                  each(controller.elements[action], function(selector, name) {
+                    controller[&quot;$&quot; + name] = $(selector);
+                  }, controller);
+                }
+              }
+            
+              /**
+               * Iterate over the given action&#x27;s events and register
+               * the event handlers on each element.
+               *
+               * @private
+               * @method registerEvents
+               * @param {Controller} controller
+               * @param {String} action
+              */
+              function registerEvents(controller, action) {
+                if (controller.events[action]) {
+                  each(controller.events[action], function(eventMap, element) {
+                    var evnt = first(keys(eventMap));
+                    var handler = controller[first(values(eventMap))];
+                    var $element = controller[&quot;$&quot; + element];
+                    $element.on(evnt, handler);
+                  }, controller);
+                }
+              }
+            
+              /**
+               * Iterate over the controller&#x27;s elements
+               * and register to cache each action&#x27;s events.
+               *
+               * @private
+               * @method registerElementCaching
+               * @param {Controller} controller
+              */
+              function registerElementCaching(controller) {
+                each(controller.elements, function(elements, action) {
+                  controller.dispatcher.before(actionEventName(controller, action), function() {
+                    cacheElements(controller, action);
+                  }, controller);
+                }, controller);
+              }
+            
+              /**
+               * Iterate over the controller&#x27;s events
+               * and register to handle each action&#x27;s element events.
+               *
+               * @private
+               * @method registerControllerEvents
+               * @param {Controller} controller
+              */
+              function registerControllerEvents(controller) {
+                each(controller.events, function(eventMap, action) {
+                  controller.dispatcher.on(actionEventName(controller, action), function() {
+                    registerEvents(controller, action);
+                  }, controller);
+                }, controller);
+              }
+            
+              return {
+                /**
+                 * Factory function to create fresh controller objects
+                 * with the given attributes.
+                 *
+                 * @method JSKit.Controller.create
+                 * @static
+                 * @param {Object} [attrs={}]
+                 *
+                 * @return {Controller}
+                */
+                create: function(attrs) {
+                  attrs = attrs || {};
+                  if (!attrs.name) throw new Error(&quot;Controller.create(name): name is undefined&quot;);
+            
+                  var controller = defaults(attrs, {
+                    /**
+                     * Array of actions to be wired up.
+                     *
+                     * @property actions
+                     * @type Array
+                     * @default []
+                    */
+                    actions: [],
+                    /**
+                     * Namespace that controller events are namespaced under.
+                     *
+                     * @property namespace
+                     * @type String
+                     * @default &quot;&quot;
+                    */
+                    namespace: &quot;&quot;,
+                    /**
+                     * Channel that controller events use under namespace.
+                     *
+                     * @property channel
+                     * @type String
+                     * @default &quot;controller&quot;
+                    */
+                    channel: &quot;controller&quot;,
+                    /**
+                     * Underscored name of controller for use in events.
+                     *
+                     * @property controllerEventName
+                     * @type String
+                     * @default &quot;controller&quot;
+                    */
+                    controllerEventName: underscore(attrs.name),
+                    /**
+                     * Event dispatcher for registering events.
+                     *
+                     * @property dispatcher
+                     * @type Dispatcher
+                     * @default JSKit.Dispatcher.create()
+                    */
+                    dispatcher: JSKit.Dispatcher.create(),
+                    /**
+                     * Object of element names/selectors to
+                     * cache per action.
+                     *
+                     * @property elements
+                     * @type Object
+                     * @default {}
+                    */
+                    elements: {},
+                    /**
+                     * Object of events for each action to
+                     * register on given elements.
+                     *
+                     * @property events
+                     * @type Object
+                     * @default {}
+                    */
+                    events: {},
+                    /**
+                     * String to seperate event name segments
+                     *
+                     * @property eventSeparator
+                     * @type String
+                     * @default &quot;:&quot;
+                    */
+                    eventSeparator: &quot;:&quot;,
+                    /**
+                     * Default implementation that commits no operation
+                     * @method all
+                    */
+                    all: function() {},
+                    /**
+                     * Default implementation that commits no operation
+                     * @method initialize
+                    */
+                    initialize: function() {}
+                  });
+                  bindAll(controller);
+                  controller.actions.unshift(&quot;all&quot;);
+                  registerElementCaching(controller);
+                  registerControllerEvents(controller);
+                  registerActions(controller);
+            
+                  controller.initialize();
+            
+                  return controller;
+                }
+              };
+            })();
+            
+                </pre>
+            </div>
+        </section>
+        <footer id="footer">
+            <div class="inner">
+                &copy; 2015 Dayton Nolan
+            </div>
+        </footer>
+    </section>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+</html>

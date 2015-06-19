@@ -1,0 +1,125 @@
+.inline {
+  display: inline-block;
+}
+
+.args {
+  display: inline-block;
+}
+
+.args-list {
+  display: inline-block;
+}
+
+.method-signature {
+  display: inline-block;
+}
+
+.flag.private {
+  padding: .25em .5em;
+  background: #FC323F;
+  color: white;
+  border-radius: $default-border-radius;
+}
+
+.private {
+  display: none;
+}
+
+#class-toc {
+  display: none;
+}
+
+.page-header {
+  h1 {
+    font-size: 2.0em;
+    color: #8DA6CE;
+    padding-bottom: .25em;
+    border-bottom: solid 1px #8DA6CE;
+  }
+}
+
+.method.item {
+  @include span-columns(8 of 8);
+
+  .method-header {
+
+  }
+
+  .method-content {
+    display: none;
+  }
+
+  .method-signature {
+    @include span-columns(6 of 8);
+
+    .returns-inline {
+      display: none;
+    }
+
+    .name {
+      font-size: 1.75em;
+      font-weight: bold;
+      color: #FF6400;
+    }
+  }
+
+  .args-list {
+    @include clearfix;
+    line-height: .75em;
+
+    li {
+      float: left;
+      font-size: 1.25em;
+    }
+  }
+
+  .meta {
+    @include span-columns(2 of 8);
+    @include omega;
+    font-size: 1em;
+    display: none;
+  }
+
+
+  .params-list {
+    .param {
+      em {
+        font-size: .9em;
+        color: #808080;
+
+        code {
+          text-decoration: none;
+          display: inline-block;
+          font-weight: bold;
+          margin-right: 3px;
+        }
+      }
+
+      .param-description {
+        font-style: italic;
+        color: #808080;
+      }
+    }
+  }
+
+  .description {
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .returns {
+    @include clearfix;
+
+    strong {
+      display: inline-block;
+      float: left;
+      margin-right: 1em;
+    }
+
+    .returns-description {
+      float: left;
+    }
+  }
+}

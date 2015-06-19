@@ -1,8 +1,7 @@
 var gulp = require("gulp");
-var docco = require("gulp-docco");
+var exec = require("gulp-exec");
 
 gulp.task("docs", function() {
-  return gulp.src("./src/*.js")
-    .pipe(docco())
-    .pipe(gulp.dest('./documentation'))
+  return gulp.src("./**/**")
+    .pipe(exec("npm run docs"));
 });

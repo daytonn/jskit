@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/dispatcher.js</title>
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+</head>
+<body>
+    <header id="header">
+        <h1/>
+
+            
+        </h1>
+        <p class="navbar-text">API Docs for Version: <b></b></p>
+
+        <form>
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Application", "classes/Controller", "classes/ControllerFactory", "classes/Dispatcher", "classes/JSKit", "modules/JSKit"]'>
+        </form>
+    </header>
+    <section id="content">
+        <aside id="sidebar">
+            <div>
+                <div id="sidebar">
+                <div id="classes">
+                    <ul id="api-classes" class="nav nav-list">
+                            <li><a href="../classes/Application.html">Application</a></li>
+                            <li><a href="../classes/Controller.html">Controller</a></li>
+                            <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
+                            <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
+                            <li><a href="../classes/JSKit.html">JSKit</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </aside>
+        <section id="layout-content">
+            <div id="options">
+                <form id="options-form" class="form-inline pull-right">
+                    <div class="button-group">
+                      <label>
+                        <input type="radio" name="button-group" value="item" checked>
+                        <span class="button-group-item">Inherited</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Protected</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="other-item">
+                        <span class="button-group-item">Private</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="button-group" value="third">
+                        <span class="button-group-item">Deprecatec</span>
+                      </label>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="page-header">
+                <h1>src/dispatcher.js <small>File</small></h1>
+            </div>
+            
+            <div class="file">
+                <pre class="prettyprint linenums">
+            /**
+             * Controller
+             *
+             * @module JSKit
+             * @class Dispatcher
+            */
+            JSKit.Dispatcher = (function() {
+              var contains = _.contains;
+              var pluck = _.pluck;
+            
+              /**
+                Get all handler functions for a given dispatcher and event.
+            
+                @method getEventHandlers
+                @param {Dispatcher} dispatcher
+                @param {String} eventName Event name for which you wish to find handlers
+                @return {Array} handler functions for the given event
+              */
+              function getEventHandlers(dispatcher, eventName) {
+                dispatcher.__events__[eventName] = dispatcher.__events__[eventName] || [];
+                return dispatcher.__events__[eventName];
+              }
+            
+              /**
+                Create a handler object that contains the context and handler function
+            
+                @method createHandlerObject
+                @param {Object,Function} context &#x60;this&#x60; context for handler function (defaults to &#x60;null&#x60;)
+                @param {Function} handler Function to handle event
+                @return {Object} handler object with &#x60;handler&#x60; and &#x60;context&#x60;
+              */
+              function createHandlerObject(context, handler) {
+                context = context || null;
+                return {
+                  context: context,
+                  handler: handler
+                };
+              }
+            
+              /**
+                Add an event handler to the array of registered handlers.
+            
+                @method registerHandler
+                @param {Array} registeredHandlers Array of registered handlers for an event
+                @param {Function} eventHandler Function to handle event
+                @param {String} [method=push] Method to add the handler to the array
+              */
+              function registerHandler(registeredHandlers, eventHandler, method) {
+                method = method || &quot;push&quot;;
+                if (!contains(pluck(registeredHandlers, &quot;handler&quot;), eventHandler.handler)) {
+                  registeredHandlers[method](eventHandler);
+                }
+              }
+            
+              return {
+                /**
+                  Create a new Dispatcher object.
+            
+                  @static
+                  @method Dispatcher.create
+                  @return {Dispatcher}
+                */
+                create: function() {
+                  return {
+                    __events__: {},
+            
+                    /**
+                      Register a handler to a given event.
+            
+                      @method on
+                      @param {String} eventName Name of the event
+                      @param {Function} handler Function to handle the event
+                      @param {Controller} [context] &#x60;this&#x60; context of the handler
+                    */
+                    on: function(eventName, handler, context) {
+                      var eventHandler = createHandlerObject(context, handler);
+                      var registeredHandlers = getEventHandlers(this, eventName);
+                      registerHandler(registeredHandlers, eventHandler);
+                    },
+            
+                    /**
+                      Register a handler to a given event that will
+                      fire before the handlers registerd with &#x60;on&#x60;.
+            
+                      @method before
+                      @param {String} eventName Name of the event
+                      @param {Function} handler Function to handle the event
+                      @param {Controller} [context] &#x60;this&#x60; context of the handler
+                    */
+                    before: function(eventName, handler, context) {
+                      var eventHandler = createHandlerObject(context, handler);
+                      var registeredHandlers = getEventHandlers(this, eventName);
+                      registerHandler(registeredHandlers, eventHandler, &quot;unshift&quot;);
+                    },
+            
+                    /**
+                      Remove a handler from a given event.
+            
+                      @method off
+                      @param {String} eventName Name of the event
+                      @param {Function} handler Function to unbind from the &#x60;event&#x60;
+                    */
+                    off: function(eventName, handler) {
+                      var registeredHandlers = this.__events__[eventName];
+                      var retainedHandlers = [];
+            
+                      if (handler) {
+                        this.__events__[eventName] = _.reject(registeredHandlers, function(eventHandler) {
+                          return eventHandler.handler !== handler;
+                        });
+                      } else {
+                        this.__events__[eventName] = [];
+                      }
+                    },
+            
+                    /**
+                      Trigger a given event, causing all handlers
+                      for that event to be fired.
+            
+                      @method trigger
+                      @param {String} eventName Name of the event
+                    */
+                    trigger: function(eventName) {
+                      var eventHhandlers = this.__events__[eventName] || [];
+                      var args = _.rest(arguments);
+            
+                      _.each(eventHhandlers, function(eventHandler) {
+                        var handler = eventHandler.handler;
+                        var context = eventHandler.context;
+                        handler.apply(context, args);
+                      });
+                    }
+                  };
+                }
+              };
+            })();
+            
+                </pre>
+            </div>
+        </section>
+        <footer id="footer">
+            <div class="inner">
+                &copy; 2015 Dayton Nolan
+            </div>
+        </footer>
+    </section>
+    <script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+</html>

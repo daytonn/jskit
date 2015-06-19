@@ -1,0 +1,34 @@
+#header {
+  @include outer-container;
+  @include row;
+}
+
+#content {
+  @include outer-container;
+  @include row;
+}
+
+#sidebar {
+  @include span-columns(4);
+}
+
+#layout-content {
+  @include span-columns(8);
+  @include omega;
+}
+
+#footer {
+  .inner {
+    @include outer-container;
+  }
+}
+
+#options-form {
+  @include clearfix;
+  @include fill-parent;
+
+  .button-group {
+    float: right;
+  }
+}
+
