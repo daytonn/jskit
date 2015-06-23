@@ -1,8 +1,8 @@
 /**
- * @module JSKit
+ * @module JSkit
  * @class Controller
 */
-JSKit.Controller = (function() {
+JSkit.Controller = (function() {
   var bindAll = _.bindAll;
   var compact = _.compact;
   var defaults = _.defaults;
@@ -230,9 +230,9 @@ JSKit.Controller = (function() {
          *
          * @property dispatcher
          * @type Dispatcher
-         * @default JSKit.Dispatcher.create()
+         * @default JSkit.Dispatcher.create()
         */
-        dispatcher: JSKit.Dispatcher.create(),
+        dispatcher: JSkit.Dispatcher.create(),
         /**
          * Object of element names/selectors to
          * cache per action.

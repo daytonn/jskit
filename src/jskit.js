@@ -1,12 +1,12 @@
 /**
- * JSKit global namespace object
+ * JSkit global namespace object
  *
- * @module JSKit
- * @class JSKit
+ * @module JSkit
+ * @class JSkit
 */
-var JSKit = (function() {
-  if (!_) throw new Error("JSKit: lodash or underscore is required");
-  if (!$) throw new Error("JSKit: jQuery or equivalent is required");
+var JSkit = (function() {
+  if (!_) throw new Error("JSkit: lodash or underscore is required");
+  if (!$) throw new Error("JSkit: jQuery or equivalent is required");
 
   return {
     /**
@@ -17,7 +17,7 @@ var JSKit = (function() {
      * @return {Application}
     */
     createApplication: function() {
-      return JSKit.Application.create();
+      return JSkit.Application.create();
     }
   };
 })();

@@ -1,12 +1,12 @@
 /**
- * JSKit global namespace object
+ * JSkit global namespace object
  *
- * @module JSKit
- * @class JSKit
+ * @module JSkit
+ * @class JSkit
 */
-var JSKit = (function() {
-  if (!_) throw new Error("JSKit: lodash or underscore is required");
-  if (!$) throw new Error("JSKit: jQuery or equivalent is required");
+var JSkit = (function() {
+  if (!_) throw new Error("JSkit: lodash or underscore is required");
+  if (!$) throw new Error("JSkit: jQuery or equivalent is required");
 
   return {
     /**
@@ -17,16 +17,16 @@ var JSKit = (function() {
      * @return {Application}
     */
     createApplication: function() {
-      return JSKit.Application.create();
+      return JSkit.Application.create();
     }
   };
 })();
 
 /**
- * @module JSKit
+ * @module JSkit
  * @class Dispatcher
 */
-JSKit.Dispatcher = (function() {
+JSkit.Dispatcher = (function() {
   var contains = _.contains;
   var pluck = _.pluck;
 
@@ -158,10 +158,10 @@ JSKit.Dispatcher = (function() {
 })();
 
 /**
- * @module JSKit
+ * @module JSkit
  * @class Controller
 */
-JSKit.Controller = (function() {
+JSkit.Controller = (function() {
   var bindAll = _.bindAll;
   var compact = _.compact;
   var defaults = _.defaults;
@@ -389,9 +389,9 @@ JSKit.Controller = (function() {
          *
          * @property dispatcher
          * @type Dispatcher
-         * @default JSKit.Dispatcher.create()
+         * @default JSkit.Dispatcher.create()
         */
-        dispatcher: JSKit.Dispatcher.create(),
+        dispatcher: JSkit.Dispatcher.create(),
         /**
          * Object of element names/selectors to
          * cache per action.
@@ -443,10 +443,10 @@ JSKit.Controller = (function() {
 })();
 
 /**
- * @module JSKit
+ * @module JSkit
  * @class Application
 */
-JSKit.Application = (function() {
+JSkit.Application = (function() {
   var extend = _.extend;
   var map = _.map;
 
@@ -482,7 +482,7 @@ JSKit.Application = (function() {
      * @return {Object} Application object
     */
     create: function() {
-      var dispatcher = JSKit.Dispatcher.create();
+      var dispatcher = JSkit.Dispatcher.create();
       return {
         /**
          * Controllers namespace to store Controller objects built at runtime
@@ -529,7 +529,7 @@ JSKit.Application = (function() {
             */
             create: function(attributes) {
               attributes = attributes || { name: name };
-              return JSKit.Controller.create(extend({}, attrs, attributes));
+              return JSkit.Controller.create(extend({}, attrs, attributes));
             }
           };
 

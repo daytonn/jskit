@@ -2,7 +2,7 @@ describe("Application", function() {
   var subject;
 
   beforeEach(function() {
-    subject = JSKit.Application.create();
+    subject = JSkit.Application.create();
   });
 
   it("has a Controllers namespace", function() {

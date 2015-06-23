@@ -12,7 +12,7 @@ describe("Dispatcher", function() {
       }
     };
     handler = sinon.spy();
-    subject = JSKit.Dispatcher.create();
+    subject = JSkit.Dispatcher.create();
   });
 
   describe("on", function() {

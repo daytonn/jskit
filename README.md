@@ -1,9 +1,9 @@
-JSKit
+JSkit
 =====
 
 [![npm version](https://badge.fury.io/js/jskit.svg)](http://badge.fury.io/js/jskit)
 
-JSKit is a tiny library to end the problem of jQuery soup and `$(document).ready()` mess. JSKit introduces a simple, clean, and easily testable way to architect basic javascript enhanced web pages. Based on a simple event system, JSKit allows your back-end application to seamlessly integrate your javacsript code with minimal coupling.
+JSkit is a tiny library to end the problem of jQuery soup and `$(document).ready()` mess. JSkit introduces a simple, clean, and easily testable way to architect basic javascript enhanced web pages. Based on a simple event system, JSkit allows your back-end application to seamlessly integrate your javacsript code with minimal coupling.
 
 Table of Contents
 -----------------
@@ -20,7 +20,7 @@ Installation
 
 ### Using NPM
 
-JSKit can be install using `npm`
+JSkit can be install using `npm`
 
 ```sh
 npm install jskit
@@ -69,15 +69,15 @@ Basic Usage
 
 ### Application
 
-A `JSKit.Application` object serves as the interface to your JSKit components. To create an application you simply call `JSKit.Application.create()`:
+A `JSkit.Application` object serves as the interface to your JSkit components. To create an application you simply call `JSkit.Application.create()`:
 
 ```js
-var App = JSKit.Application.create();
+var App = JSkit.Application.create();
 ```
 
 ### Dispatcher
 
-Every application has a `Dispatcher` that allows you to register and trigger events throughout your JSKit application. In fact, JSKit is basically a thin wrapper around the `Dispatcher` that allows you to coordinate your javascript with minimal friction.
+Every application has a `Dispatcher` that allows you to register and trigger events throughout your JSkit application. In fact, JSkit is basically a thin wrapper around the `Dispatcher` that allows you to coordinate your javascript with minimal friction.
 
 ```js
 App.Dispatcher.on("some-event-name", function() {
@@ -87,11 +87,11 @@ App.Dispatcher.on("some-event-name", function() {
 App.Dispatcher.trigger("some-event-name");
 ```
 
-Generally you will not have to manually register for events (`App.Dispatcher.on`) since JSKit `Controllers` register their own actions automatically.
+Generally you will not have to manually register for events (`App.Dispatcher.on`) since JSkit `Controllers` register their own actions automatically.
 
 ### Creating Controllers
 
-The basic component of a JSKit application is a Controller. Controllers are basically objects that map events to methods (actions). To create a controller, call `createController`:
+The basic component of a JSkit application is a Controller. Controllers are basically objects that map events to methods (actions). To create a controller, call `createController`:
 
 ```js
 App.createController("Posts", {
@@ -256,7 +256,7 @@ Every controller has an automatically wired `all` action. Other than being autom
 Testing
 -------
 
-JSKit is all about making testing javascript easier. When you create a controller with the `Application.createController` method. The created Controller's factory will be available on the `Application` object. Using the "Posts" controller example:
+JSkit is all about making testing javascript easier. When you create a controller with the `Application.createController` method. The created Controller's factory will be available on the `Application` object. Using the "Posts" controller example:
 
 ```js
 App.PostsController.create();

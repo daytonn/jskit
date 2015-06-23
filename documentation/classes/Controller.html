@@ -77,6 +77,7 @@
             				<li><a href="#method-all"><span class="im">all</span>()</a></li>
             				<li><a href="#method-cacheElements"><span class="im">cacheElements</span>(<span class="ia">controller</span><span class="ia">action</span>)</a></li>
             				<li><a href="#method-constantize"><span class="im">constantize</span>(<span class="ia">string</span>)</a></li>
+            				<li><a href="#method-createActionMap"><span class="im">createActionMap</span>(<span class="ia">method</span><span class="ia">action</span>)</a></li>
             				<li><a href="#method-ensureActionIsDefined"><span class="im">ensureActionIsDefined</span>(<span class="ia">controller</span><span class="ia">actionMap</span>)</a></li>
             				<li><a href="#method-initialize"><span class="im">initialize</span>()</a></li>
             				<li><a href="#method-mapAction"><span class="im">mapAction</span>(<span class="ia">action/mappedAction</span>)</a></li>
@@ -229,7 +230,7 @@
                             		<div class="meta">
                             					<p>
                             					defined in
-                            			<a href="../files/src_controller.js.html#l168"><code>src&#x2F;controller.js:168</code></a>
+                            			<a href="../files/src_controller.js.html#l181"><code>src&#x2F;controller.js:181</code></a>
                             			</p>
                             
                             
@@ -310,7 +311,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l79"><code>src&#x2F;controller.js:79</code></a>
+                        			<a href="../files/src_controller.js.html#l91"><code>src&#x2F;controller.js:91</code></a>
                         			</p>
                         
                         
@@ -379,7 +380,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l249"><code>src&#x2F;controller.js:249</code></a>
+                        			<a href="../files/src_controller.js.html#l262"><code>src&#x2F;controller.js:262</code></a>
                         			</p>
                         
                         
@@ -426,7 +427,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l98"><code>src&#x2F;controller.js:98</code></a>
+                        			<a href="../files/src_controller.js.html#l110"><code>src&#x2F;controller.js:110</code></a>
                         			</p>
                         
                         
@@ -499,7 +500,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l18"><code>src&#x2F;controller.js:18</code></a>
+                        			<a href="../files/src_controller.js.html#l21"><code>src&#x2F;controller.js:21</code></a>
                         			</p>
                         
                         
@@ -539,6 +540,82 @@
                         
                         	</div>
                         </div>
+                         <div id="method-createActionMap" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        				<span class="flag private">private</span>
+                        
+                        			<span class="name"><code>createActionMap</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>
+                        									method<span class="comma">,&nbsp;</span>
+                        								</code>
+                        						</li>
+                        						<li class="arg">
+                        								<code>
+                        									action
+                        								</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l63"><code>src&#x2F;controller.js:63</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Create a list of maps of action name/method pairs.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
+                        	  		<table class="params-list">
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">method</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>to map to action</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">action</span>
+                        	  								<span class="type">String</span>
+                        	  						</td>
+                        	  						<td class="type">String</td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>to map to method</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
                          <div id="method-ensureActionIsDefined" class="method item private">
                         	<div class="method-header">
                         		<div class="method-signature">
@@ -570,7 +647,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l63"><code>src&#x2F;controller.js:63</code></a>
+                        			<a href="../files/src_controller.js.html#l75"><code>src&#x2F;controller.js:75</code></a>
                         			</p>
                         
                         
@@ -632,7 +709,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l254"><code>src&#x2F;controller.js:254</code></a>
+                        			<a href="../files/src_controller.js.html#l267"><code>src&#x2F;controller.js:267</code></a>
                         			</p>
                         
                         
@@ -666,7 +743,7 @@
                         				</div>
                         
                         				<span class="returns-inline">
-                        					<span class="type">Object</span>
+                        					<span class="type">Array</span>
                         				</span>
                         		</div>
                         
@@ -677,7 +754,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l46"><code>src&#x2F;controller.js:46</code></a>
+                        			<a href="../files/src_controller.js.html#l50"><code>src&#x2F;controller.js:50</code></a>
                         			</p>
                         
                         
@@ -712,8 +789,8 @@
                         	  		<strong>returns:</strong>
                         
                         	  		<div class="returns-description">
-                        	  					<span class="type">Object</span>:
-                        	  				<p>actionMap</p>
+                        	  					<span class="type">Array</span>:
+                        	  				<p>action/event maps</p>
                         
                         	  		</div>
                         	  	</div>
@@ -746,7 +823,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l31"><code>src&#x2F;controller.js:31</code></a>
+                        			<a href="../files/src_controller.js.html#l34"><code>src&#x2F;controller.js:34</code></a>
                         			</p>
                         
                         
@@ -805,7 +882,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l151"><code>src&#x2F;controller.js:151</code></a>
+                        			<a href="../files/src_controller.js.html#l164"><code>src&#x2F;controller.js:164</code></a>
                         			</p>
                         
                         
@@ -865,7 +942,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l135"><code>src&#x2F;controller.js:135</code></a>
+                        			<a href="../files/src_controller.js.html#l148"><code>src&#x2F;controller.js:148</code></a>
                         			</p>
                         
                         
@@ -930,7 +1007,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l115"><code>src&#x2F;controller.js:115</code></a>
+                        			<a href="../files/src_controller.js.html#l127"><code>src&#x2F;controller.js:127</code></a>
                         			</p>
                         
                         

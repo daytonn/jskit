@@ -1,8 +1,8 @@
 /**
- * @module JSKit
+ * @module JSkit
  * @class Application
 */
-JSKit.Application = (function() {
+JSkit.Application = (function() {
   var extend = _.extend;
   var map = _.map;
 
@@ -38,7 +38,7 @@ JSKit.Application = (function() {
      * @return {Object} Application object
     */
     create: function() {
-      var dispatcher = JSKit.Dispatcher.create();
+      var dispatcher = JSkit.Dispatcher.create();
       return {
         /**
          * Controllers namespace to store Controller objects built at runtime
@@ -85,7 +85,7 @@ JSKit.Application = (function() {
             */
             create: function(attributes) {
               attributes = attributes || { name: name };
-              return JSKit.Controller.create(extend({}, attrs, attributes));
+              return JSkit.Controller.create(extend({}, attrs, attributes));
             }
           };
 

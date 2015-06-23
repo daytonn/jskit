@@ -239,7 +239,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 18,
+            "line": 21,
             "description": "Take a string and put underscores between names and delimiters",
             "access": "private",
             "tagname": "",
@@ -261,7 +261,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 31,
+            "line": 34,
             "description": "Register the controller's actions to the dispatcher",
             "access": "private",
             "tagname": "",
@@ -279,7 +279,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 46,
+            "line": 50,
             "description": "Take an action string or mapped action and return\nan object containing the action name and method.",
             "access": "private",
             "tagname": "",
@@ -293,8 +293,8 @@
                 }
             ],
             "return": {
-                "description": "actionMap",
-                "type": "Object"
+                "description": "action/event maps",
+                "type": "Array"
             },
             "class": "Controller",
             "module": "JSKit"
@@ -302,6 +302,29 @@
         {
             "file": "src/controller.js",
             "line": 63,
+            "description": "Create a list of maps of action name/method pairs.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "createActionMap",
+            "params": [
+                {
+                    "name": "method",
+                    "description": "to map to action",
+                    "type": "String"
+                },
+                {
+                    "name": "action",
+                    "description": "to map to method",
+                    "type": "String"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSKit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 75,
             "description": "Take a controller and an actionMap and determine if\nthe action is defined on the controller. If not, throw\nan error.",
             "access": "private",
             "tagname": "",
@@ -324,7 +347,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 79,
+            "line": 91,
             "description": "Return an event name based on the controller properties\nthat make up an event name.",
             "access": "private",
             "tagname": "",
@@ -350,7 +373,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 98,
+            "line": 110,
             "description": "Iterate over the given controller's elements object\nand cache a reference to each selected element.",
             "access": "private",
             "tagname": "",
@@ -373,7 +396,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 115,
+            "line": 127,
             "description": "Iterate over the given action's events and register\nthe event handlers on each element.",
             "access": "private",
             "tagname": "",
@@ -396,7 +419,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 135,
+            "line": 148,
             "description": "Iterate over the controller's elements\nand register to cache each action's events.",
             "access": "private",
             "tagname": "",
@@ -414,7 +437,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 151,
+            "line": 164,
             "description": "Iterate over the controller's events\nand register to handle each action's element events.",
             "access": "private",
             "tagname": "",
@@ -432,7 +455,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 168,
+            "line": 181,
             "description": "Factory function to create fresh controller objects\nwith the given attributes.",
             "itemtype": "method",
             "name": "create",
@@ -455,7 +478,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 183,
+            "line": 196,
             "description": "Array of actions to be wired up.",
             "itemtype": "property",
             "name": "actions",
@@ -466,7 +489,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 191,
+            "line": 204,
             "description": "Namespace that controller events are namespaced under.",
             "itemtype": "property",
             "name": "namespace",
@@ -477,7 +500,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 199,
+            "line": 212,
             "description": "Channel that controller events use under namespace.",
             "itemtype": "property",
             "name": "channel",
@@ -488,7 +511,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 207,
+            "line": 220,
             "description": "Underscored name of controller for use in events.",
             "itemtype": "property",
             "name": "controllerEventName",
@@ -499,7 +522,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 215,
+            "line": 228,
             "description": "Event dispatcher for registering events.",
             "itemtype": "property",
             "name": "dispatcher",
@@ -510,7 +533,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 223,
+            "line": 236,
             "description": "Object of element names/selectors to\ncache per action.",
             "itemtype": "property",
             "name": "elements",
@@ -521,7 +544,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 232,
+            "line": 245,
             "description": "Object of events for each action to\nregister on given elements.",
             "itemtype": "property",
             "name": "events",
@@ -532,7 +555,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 241,
+            "line": 254,
             "description": "String to seperate event name segments",
             "itemtype": "property",
             "name": "eventSeparator",
@@ -543,7 +566,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 249,
+            "line": 262,
             "description": "Default implementation that commits no operation",
             "itemtype": "method",
             "name": "all",
@@ -552,7 +575,7 @@
         },
         {
             "file": "src/controller.js",
-            "line": 254,
+            "line": 267,
             "description": "Default implementation that commits no operation",
             "itemtype": "method",
             "name": "initialize",

@@ -13,7 +13,7 @@ describe("Controller", function() {
 
   beforeEach(function() {
     $fixtures = $("#fixtures");
-    dispatcher = JSKit.Dispatcher.create();
+    dispatcher = JSkit.Dispatcher.create();
     testControllerDefaults = {
       name: "Test",
       actions: ["index", { mapped: "action", another: "anotherAction" }],
@@ -23,17 +23,17 @@ describe("Controller", function() {
       action: function() { actionCalled = true; },
       anotherAction: function() { anotherActionCalled = true; }
     };
-    subject = JSKit.Controller.create(testControllerDefaults);
+    subject = JSkit.Controller.create(testControllerDefaults);
   });
 
   describe("defaults", function() {
     beforeEach(function() {
-      subject = JSKit.Controller.create({ name: "Test" });
+      subject = JSkit.Controller.create({ name: "Test" });
     });
 
     it("requires a name", function() {
       expect(function() {
-        JSKit.Controller.create();
+        JSkit.Controller.create();
       }).to.throw(/name is undefined/);
     });
 
@@ -110,7 +110,7 @@ describe("Controller", function() {
     var initializeCalled;
 
     beforeEach(function() {
-      subject = JSKit.Controller.create(extend(testControllerDefaults, {
+      subject = JSkit.Controller.create(extend(testControllerDefaults, {
         initialize: function() { initializeCalled = true; }
       }));
     });
@@ -124,7 +124,7 @@ describe("Controller", function() {
     it("throws an error when an action is missing it's method", function() {
       expect(function() {
         var attrs = extend({}, testControllerDefaults, { index: undefined });
-        JSKit.Controller.create(attrs);
+        JSkit.Controller.create(attrs);
       }).to.throw("Test action \"index:index\" method is undefined");
     });
   });
@@ -132,7 +132,7 @@ describe("Controller", function() {
   describe("with namespace", function() {
     beforeEach(function() {
       var attrs = extend({}, testControllerDefaults, { namespace: "admin" });
-      subject = JSKit.Controller.create(attrs);
+      subject = JSkit.Controller.create(attrs);
     });
 
     it("has a namespace", function() {
@@ -148,7 +148,7 @@ describe("Controller", function() {
   describe("with channel", function() {
     beforeEach(function() {
       var attrs = extend({}, testControllerDefaults, { channel: "custom" });
-      subject = JSKit.Controller.create(attrs);
+      subject = JSkit.Controller.create(attrs);
     });
 
     it("has a channel", function() {
@@ -164,7 +164,7 @@ describe("Controller", function() {
   describe("with eventSeparator", function() {
     beforeEach(function() {
       var attrs = extend({}, testControllerDefaults, { eventSeparator: "." });
-      subject = JSKit.Controller.create(attrs);
+      subject = JSkit.Controller.create(attrs);
     });
 
     it("wires up the actions with the eventSeparator", function() {
@@ -176,7 +176,7 @@ describe("Controller", function() {
   describe("CamelCase controllers", function() {
     beforeEach(function() {
       var attrs = extend({}, testControllerDefaults, { name: "CamelCase" });
-      subject = JSKit.Controller.create(attrs);
+      subject = JSkit.Controller.create(attrs);
     });
 
     it("lowercases the controller name with underscores", function() {
@@ -193,7 +193,7 @@ describe("Controller", function() {
         actions: ["index", { foo: "bar" }],
         bar: function() { barCalled = true; }
       });
-      subject = JSKit.Controller.create(attrs);
+      subject = JSkit.Controller.create(attrs);
     });
 
     it("wires up mapped actions", function() {
@@ -210,7 +210,7 @@ describe("Controller", function() {
   describe("elements", function() {
     beforeEach(function() {
       $fixtures.append("<a id='element' href='#'>Test</a>");
-      subject = JSKit.Controller.create(extend({}, testControllerDefaults, {
+      subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
         elements: {
           index: { element: "#element" }
         }
@@ -229,7 +229,7 @@ describe("Controller", function() {
 
     beforeEach(function() {
       $fixtures.append("<a id='element' href='#'>Test</a>");
-      subject = JSKit.Controller.create(extend({}, testControllerDefaults, {
+      subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
         handleElementClick: function() { handleElementClickCalled = true; },
         elements: {
           index: { element: "#element" }
@@ -253,7 +253,7 @@ describe("Controller", function() {
       var handleElementKeyupCalled;
 
       beforeEach(function() {
-        subject = JSKit.Controller.create(extend({}, testControllerDefaults, {
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
           handleElementClick: function() { handleElementClickCalled = true; },
           handleElementKeyup: function() { handleElementKeyupCalled = true; },
 

@@ -1,8 +1,8 @@
 /**
- * @module JSKit
+ * @module JSkit
  * @class Dispatcher
 */
-JSKit.Dispatcher = (function() {
+JSkit.Dispatcher = (function() {
   var contains = _.contains;
   var pluck = _.pluck;
 
