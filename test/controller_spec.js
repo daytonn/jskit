@@ -8,6 +8,7 @@ describe("Controller", function() {
   var indexCalled;
   var allCalled;
   var actionCalled;
+  var anotherActionCalled;
   var $fixtures;
 
   beforeEach(function() {
@@ -15,11 +16,12 @@ describe("Controller", function() {
     dispatcher = JSKit.Dispatcher.create();
     testControllerDefaults = {
       name: "Test",
-      actions: ["index", { mapped: "action" }],
+      actions: ["index", { mapped: "action", another: "anotherAction" }],
       dispatcher: dispatcher,
       all: function() { allCalled = true; },
       index: function() { indexCalled = true; },
-      action: function() { actionCalled = true; }
+      action: function() { actionCalled = true; },
+      anotherAction: function() { anotherActionCalled = true; }
     };
     subject = JSKit.Controller.create(testControllerDefaults);
   });
@@ -91,6 +93,16 @@ describe("Controller", function() {
     it("automatically wires the all event", function() {
       dispatcher.trigger("controller:test:all");
       expect(allCalled).to.equal(true);
+    });
+
+    it("wires up mapped actions", function() {
+      dispatcher.trigger("controller:test:mapped");
+      expect(actionCalled).to.equal(true);
+    });
+
+    it("wires up mapped actions with multiple maps", function() {
+      dispatcher.trigger("controller:test:another");
+      expect(anotherActionCalled).to.equal(true);
     });
   });
 
@@ -235,6 +247,36 @@ describe("Controller", function() {
       subject.dispatcher.trigger("controller:test:index");
       subject.$element.trigger("click");
       expect(handleElementClickCalled).to.equal(true);
+    });
+
+    xdescribe("multiple events", function() {
+      var handleElementKeyupCalled;
+
+      beforeEach(function() {
+        subject = JSKit.Controller.create(extend({}, testControllerDefaults, {
+          handleElementClick: function() { handleElementClickCalled = true; },
+          handleElementKeyup: function() { handleElementKeyupCalled = true; },
+
+          elements: {
+            index: { element: "#element" }
+          },
+          events: {
+            index: {
+              element: { click: "handleElementClick", keyup: "handleElementKeyup" }
+            }
+          }
+        }));
+      });
+
+      it("wires up multiple events to the same element", function() {
+        subject.dispatcher.trigger("controller:test:index");
+
+        subject.$element.trigger("click");
+        expect(handleElementClickCalled).to.equal(true);
+
+        subject.$element.trigger("keyup");
+        expect(handleElementKeyupCalled).to.equal(true);
+      });
     });
   });
 });

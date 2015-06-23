@@ -167,10 +167,13 @@ JSKit.Controller = (function() {
   var defaults = _.defaults;
   var each = _.each;
   var first = _.first;
+  var flatten = _.flatten;
   var functions = _.functions;
   var isFunc = _.isFunction;
   var isObject = _.isObject;
   var keys = _.keys;
+  var map = _.map;
+  var pairs = _.pairs;
   var uniq = _.uniq;
   var values = _.values;
 
@@ -196,9 +199,10 @@ JSKit.Controller = (function() {
   */
   function registerActions(controller) {
     each(controller.actions, function(action) {
-      var actionMap = mapAction(action);
-      ensureActionIsDefined(controller, actionMap);
-      controller.dispatcher.on(actionEventName(controller, actionMap.name), controller[actionMap.method], controller);
+      each(mapAction(action), function(actionMap) {
+        ensureActionIsDefined(controller, actionMap);
+        controller.dispatcher.on(actionEventName(controller, actionMap.name), controller[actionMap.method], controller);
+      }, controller);
     }, controller);
   }
 
@@ -209,14 +213,22 @@ JSKit.Controller = (function() {
    * @private
    * @method mapAction
    * @param {String,Object} action/mappedAction
-   * @return {Object} actionMap
+   * @return {Array} action/event maps
   */
   function mapAction(action) {
-    var isMappedAction = isObject(action);
-    var method = isMappedAction ? first(values(action)) : action;
-    var name = isMappedAction ? first(keys(action)) : action;
+    return isObject(action) ? map(action, createActionMap) : [createActionMap(action, action)];
+  }
 
-    return { name: name, method: method };
+  /**
+   * Create a list of maps of action name/method pairs.
+   *
+   * @private
+   * @method createActionMap
+   * @param {String} method to map to action
+   * @param {String} action to map to method
+  */
+  function createActionMap(method, action) {
+    return { name: action, method: method };
   }
 
   /**
@@ -283,10 +295,11 @@ JSKit.Controller = (function() {
   function registerEvents(controller, action) {
     if (controller.events[action]) {
       each(controller.events[action], function(eventMap, element) {
-        var evnt = first(keys(eventMap));
-        var handler = controller[first(values(eventMap))];
-        var $element = controller["$" + element];
-        $element.on(evnt, handler);
+        each(eventMap, function(method, evnt) {
+          var handler = controller[method];
+          var $element = controller["$" + element];
+          $element.on(evnt, handler);
+        }, controller);
       }, controller);
     }
   }
