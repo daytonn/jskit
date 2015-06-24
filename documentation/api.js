@@ -5,15 +5,15 @@ YUI.add("yuidoc-meta", function(Y) {
         "Controller",
         "ControllerFactory",
         "Dispatcher",
-        "JSKit"
+        "JSkit"
     ],
     "modules": [
-        "JSKit"
+        "JSkit"
     ],
     "allModules": [
         {
-            "displayName": "JSKit",
-            "name": "JSKit"
+            "displayName": "JSkit",
+            "name": "JSkit"
         }
     ]
 } };

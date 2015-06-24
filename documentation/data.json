@@ -4,7 +4,7 @@
         "src/application.js": {
             "name": "src/application.js",
             "modules": {
-                "JSKit": 1
+                "JSkit": 1
             },
             "classes": {
                 "Application": 1,
@@ -35,22 +35,22 @@
             "name": "src/jskit.js",
             "modules": {},
             "classes": {
-                "JSKit": 1
+                "JSkit": 1
             },
             "fors": {},
             "namespaces": {}
         }
     },
     "modules": {
-        "JSKit": {
-            "name": "JSKit",
+        "JSkit": {
+            "name": "JSkit",
             "submodules": {},
             "classes": {
                 "Application": 1,
                 "ControllerFactory": 1,
                 "Controller": 1,
                 "Dispatcher": 1,
-                "JSKit": 1
+                "JSkit": 1
             },
             "fors": {},
             "namespaces": {},
@@ -68,7 +68,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "JSKit",
+            "module": "JSkit",
             "namespace": "",
             "file": "src/application.js",
             "line": 1
@@ -81,7 +81,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "JSKit",
+            "module": "JSkit",
             "namespace": "",
             "file": "src/application.js",
             "line": 74
@@ -94,7 +94,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "JSKit",
+            "module": "JSkit",
             "namespace": "",
             "file": "src/controller.js",
             "line": 1
@@ -107,24 +107,24 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "JSKit",
+            "module": "JSkit",
             "namespace": "",
             "file": "src/dispatcher.js",
             "line": 1
         },
-        "JSKit": {
-            "name": "JSKit",
-            "shortname": "JSKit",
+        "JSkit": {
+            "name": "JSkit",
+            "shortname": "JSkit",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "JSKit",
+            "module": "JSkit",
             "namespace": "",
             "file": "src/jskit.js",
             "line": 1,
-            "description": "JSKit global namespace object"
+            "description": "JSkit global namespace object"
         }
     },
     "classitems": [
@@ -150,7 +150,7 @@
                 "type": "String"
             },
             "class": "Application",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/application.js",
@@ -164,7 +164,7 @@
                 "type": "Object"
             },
             "class": "Application",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/application.js",
@@ -175,7 +175,7 @@
             "type": "Object",
             "default": "{}",
             "class": "Application",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/application.js",
@@ -186,7 +186,7 @@
             "type": "Dispatcher",
             "default": "Dispatcher",
             "class": "Application",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/application.js",
@@ -213,7 +213,7 @@
                 "type": "Controller"
             },
             "class": "Application",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/application.js",
@@ -235,7 +235,7 @@
                 "type": "Controller"
             },
             "class": "ControllerFactory",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -257,7 +257,7 @@
                 "type": "String"
             },
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -275,7 +275,7 @@
                 }
             ],
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -297,7 +297,7 @@
                 "type": "Array"
             },
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -320,7 +320,7 @@
                 }
             ],
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -343,7 +343,7 @@
                 }
             ],
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -369,7 +369,7 @@
                 "description": "String"
             },
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -392,7 +392,7 @@
                 }
             ],
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -415,7 +415,7 @@
                 }
             ],
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -433,7 +433,7 @@
                 }
             ],
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -451,7 +451,7 @@
                 }
             ],
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -474,7 +474,7 @@
                 "type": "Controller"
             },
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -485,7 +485,7 @@
             "type": "Array",
             "default": "[]",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -496,7 +496,7 @@
             "type": "String",
             "default": "\"\"",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -507,7 +507,7 @@
             "type": "String",
             "default": "\"controller\"",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -518,7 +518,7 @@
             "type": "String",
             "default": "\"controller\"",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -527,9 +527,9 @@
             "itemtype": "property",
             "name": "dispatcher",
             "type": "Dispatcher",
-            "default": "JSKit.Dispatcher.create()",
+            "default": "JSkit.Dispatcher.create()",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -540,7 +540,7 @@
             "type": "Object",
             "default": "{}",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -551,7 +551,7 @@
             "type": "Object",
             "default": "{}",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -562,7 +562,7 @@
             "type": "String",
             "default": "\":\"",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -571,7 +571,7 @@
             "itemtype": "method",
             "name": "all",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/controller.js",
@@ -580,7 +580,7 @@
             "itemtype": "method",
             "name": "initialize",
             "class": "Controller",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/dispatcher.js",
@@ -605,7 +605,7 @@
                 "type": "Array"
             },
             "class": "Dispatcher",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/dispatcher.js",
@@ -630,7 +630,7 @@
                 "type": "Object"
             },
             "class": "Dispatcher",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/dispatcher.js",
@@ -658,7 +658,7 @@
                 }
             ],
             "class": "Dispatcher",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/dispatcher.js",
@@ -672,7 +672,7 @@
                 "type": "Dispatcher"
             },
             "class": "Dispatcher",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/dispatcher.js",
@@ -699,7 +699,7 @@
                 }
             ],
             "class": "Dispatcher",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/dispatcher.js",
@@ -726,7 +726,7 @@
                 }
             ],
             "class": "Dispatcher",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/dispatcher.js",
@@ -747,7 +747,7 @@
                 }
             ],
             "class": "Dispatcher",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/dispatcher.js",
@@ -763,7 +763,7 @@
                 }
             ],
             "class": "Dispatcher",
-            "module": "JSKit"
+            "module": "JSkit"
         },
         {
             "file": "src/jskit.js",
@@ -776,8 +776,8 @@
                 "description": "",
                 "type": "Application"
             },
-            "class": "JSKit",
-            "module": "JSKit"
+            "class": "JSkit",
+            "module": "JSkit"
         }
     ],
     "warnings": []

@@ -21,7 +21,7 @@
                 <li><a href="../classes/Controller.html">Controller</a></li>
                 <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
                 <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
-                <li><a href="../classes/JSKit.html">JSKit</a></li>
+                <li><a href="../classes/JSkit.html">JSkit</a></li>
             </ul>
         </aside>
         <section id="layout-content">
@@ -59,10 +59,10 @@
             <div class="file">
                 <pre class="prettyprint linenums">
             /**
-             * @module JSKit
+             * @module JSkit
              * @class Application
             */
-            JSKit.Application = (function() {
+            JSkit.Application = (function() {
               var extend = _.extend;
               var map = _.map;
             
@@ -98,7 +98,7 @@
                  * @return {Object} Application object
                 */
                 create: function() {
-                  var dispatcher = JSKit.Dispatcher.create();
+                  var dispatcher = JSkit.Dispatcher.create();
                   return {
                     /**
                      * Controllers namespace to store Controller objects built at runtime
@@ -145,7 +145,7 @@
                         */
                         create: function(attributes) {
                           attributes = attributes || { name: name };
-                          return JSKit.Controller.create(extend({}, attrs, attributes));
+                          return JSkit.Controller.create(extend({}, attrs, attributes));
                         }
                       };
             

@@ -21,7 +21,7 @@
                 <li><a href="../classes/Controller.html">Controller</a></li>
                 <li><a href="../classes/ControllerFactory.html">ControllerFactory</a></li>
                 <li><a href="../classes/Dispatcher.html">Dispatcher</a></li>
-                <li><a href="../classes/JSKit.html">JSKit</a></li>
+                <li><a href="../classes/JSkit.html">JSkit</a></li>
             </ul>
         </aside>
         <section id="layout-content">
@@ -59,14 +59,14 @@
             <div class="file">
                 <pre class="prettyprint linenums">
             /**
-             * JSKit global namespace object
+             * JSkit global namespace object
              *
-             * @module JSKit
-             * @class JSKit
+             * @module JSkit
+             * @class JSkit
             */
-            var JSKit = (function() {
-              if (!_) throw new Error(&quot;JSKit: lodash or underscore is required&quot;);
-              if (!$) throw new Error(&quot;JSKit: jQuery or equivalent is required&quot;);
+            var JSkit = (function() {
+              if (!_) throw new Error(&quot;JSkit: lodash or underscore is required&quot;);
+              if (!$) throw new Error(&quot;JSkit: jQuery or equivalent is required&quot;);
             
               return {
                 /**
@@ -77,7 +77,7 @@
                  * @return {Application}
                 */
                 createApplication: function() {
-                  return JSKit.Application.create();
+                  return JSkit.Application.create();
                 }
               };
             })();
