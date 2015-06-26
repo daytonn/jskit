@@ -1,5 +1,10 @@
 {
-    "project": {},
+    "project": {
+        "name": "JSkit",
+        "description": "JSkit is a tiny library to thicken up jQuery soup.",
+        "version": "4.0.0",
+        "url": "http://daytonn.github.io/jskit"
+    },
     "files": {
         "src/application.js": {
             "name": "src/application.js",

@@ -1,0 +1,13 @@
+{
+  "name": "JSkit",
+  "description": "JSkit is a tiny library to thicken up jQuery soup.",
+  "version": "4.0.0",
+  "url": "http://daytonn.github.io/jskit",
+  "options": {
+    "outdir": "documentation",
+    "linkNatives": "true",
+    "paths": ["./src"],
+    "themedir" : "./node_modules/yuidoc-lucid-theme",
+    "helpers" : [ "./documentation-theme/helpers/helpers.js" ]
+  }
+}
