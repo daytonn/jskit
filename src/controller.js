@@ -13,8 +13,10 @@ JSkit.Controller = (function() {
   var isFunc = _.isFunction;
   var isObject = _.isObject;
   var keys = _.keys;
+  var last = _.last;
   var map = _.map;
   var pairs = _.pairs;
+  var reduce = _.reduce;
   var uniq = _.uniq;
   var values = _.values;
 
@@ -117,8 +119,8 @@ JSkit.Controller = (function() {
    * @param {String} action
   */
   function cacheElements(controller, action) {
-    if (controller.elements[action]) {
-      each(controller.elements[action], function(selector, name) {
+    if (reduceElements(controller.elements, first)[action]) {
+      each(reduceElements(controller.elements, first)[action], function(selector, name) {
         controller["$" + name] = $(selector);
       }, controller);
     }
@@ -134,8 +136,8 @@ JSkit.Controller = (function() {
    * @param {String} action
   */
   function registerEvents(controller, action) {
-    if (controller.events[action]) {
-      each(controller.events[action], function(eventMap, element) {
+    if (reduceElements(controller.elements, last)[action]) {
+      each(reduceElements(controller.elements, last)[action], function(eventMap, element) {
         each(eventMap, function(method, evnt) {
           var handler = controller[method];
           var $element = controller["$" + element];
@@ -154,7 +156,7 @@ JSkit.Controller = (function() {
    * @param {Controller} controller
   */
   function registerElementCaching(controller) {
-    each(controller.elements, function(elements, action) {
+    each(reduceElements(controller.elements, first), function(elements, action) {
       controller.dispatcher.before(actionEventName(controller, action), function() {
         cacheElements(controller, action);
       }, controller);
@@ -170,11 +172,33 @@ JSkit.Controller = (function() {
    * @param {Controller} controller
   */
   function registerControllerEvents(controller) {
-    each(controller.events, function(eventMap, action) {
+    each(reduceElements(controller.elements, last), function(eventMap, action) {
       controller.dispatcher.on(actionEventName(controller, action), function() {
         registerEvents(controller, action);
       }, controller);
     }, controller);
+  }
+
+  /**
+   * Reduce the controller's elements object into an object
+   * that only contains either the elements to cache or the
+   * events to register to that element.
+   *
+   * @private
+   *
+   * @method reduceElements
+   * @param {Object} controller's elements object
+   * @param {Function} function to grab either head or tail (first, last)
+   * @return {Object}
+  */
+  function reduceElements(elements, accessMethod) {
+    return reduce(elements, function(memo, value, key) {
+      memo[key] = {};
+      each(value, function(v, k) {
+        memo[key][k] = accessMethod(flatten([v]));
+      });
+      return memo;
+    }, {});
   }
 
   return {
@@ -250,14 +274,6 @@ JSkit.Controller = (function() {
          * @type Object
          * @default {}
         */
-        events: {},
-        /**
-         * String to seperate event name segments
-         *
-         * @property eventSeparator
-         * @type String
-         * @default ":"
-        */
         eventSeparator: ":",
         /**
          * Default implementation that commits no operation
@@ -272,6 +288,7 @@ JSkit.Controller = (function() {
       });
       bindAll(controller);
       controller.actions.unshift("all");
+
       registerElementCaching(controller);
       registerControllerEvents(controller);
       registerActions(controller);

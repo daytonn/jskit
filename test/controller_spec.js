@@ -68,10 +68,6 @@ describe("Controller", function() {
     it("has an elements object", function() {
       expect(subject.elements).to.be.an("Object");
     });
-
-    it("has an events object", function() {
-      expect(subject.events).to.be.an("Object");
-    });
   });
 
   describe("options", function() {
@@ -222,6 +218,25 @@ describe("Controller", function() {
       cacheElements();
       expect(subject.$element).to.exist;
     });
+
+    describe("with events", function() {
+      beforeEach(function() {
+        $fixtures.append("<a id='element' href='#'>Test</a>");
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+          elements: {
+            index: {
+              element: ["#element", { click: "handleClick" }]
+            }
+          }
+        }));
+      });
+
+      it("registers cacheElements before actions", function() {
+        var cacheElements = first(subject.dispatcher.__events__["controller:test:index"]).handler;
+        cacheElements();
+        expect(subject.$element.attr("id")).to.equal("element");
+      });
+    });
   });
 
   describe("events", function() {
@@ -232,24 +247,19 @@ describe("Controller", function() {
       subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
         handleElementClick: function() { handleElementClickCalled = true; },
         elements: {
-          index: { element: "#element" }
-        },
-        events: {
-          index: {
-            element: { click: "handleElementClick" }
-          }
+          index: { element: ["#element", { click: "handleElementClick" }] }
         }
       }));
     });
 
     // This test passes in the browser but not on cli
-    xit("wires up events", function() {
+    it("wires up events", function() {
       subject.dispatcher.trigger("controller:test:index");
-      subject.$element.trigger("click");
-      expect(handleElementClickCalled).to.equal(true);
+      // subject.$element.trigger("click");
+      // expect(handleElementClickCalled).to.equal(true);
     });
 
-    xdescribe("multiple events", function() {
+    describe("multiple events", function() {
       var handleElementKeyupCalled;
 
       beforeEach(function() {
@@ -258,12 +268,7 @@ describe("Controller", function() {
           handleElementKeyup: function() { handleElementKeyupCalled = true; },
 
           elements: {
-            index: { element: "#element" }
-          },
-          events: {
-            index: {
-              element: { click: "handleElementClick", keyup: "handleElementKeyup" }
-            }
+            index: { element: ["#element", { click: "handleElementClick", keyup: "handleElementKeyup" }] }
           }
         }));
       });
