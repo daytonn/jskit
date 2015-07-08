@@ -1,4 +1,4 @@
-JSkit
+![JSkit](https://raw.githubusercontent.com/daytonn/jskit/master/logo.png "jskit")
 =====
 
 [![npm version](https://badge.fury.io/js/jskit.svg)](http://badge.fury.io/js/jskit)
@@ -29,13 +29,13 @@ npm install jskit
 Or add it to your package.json:
 
 ```js
-"jskit": "^3.5.0",
+"jskit": "^5.0.0",
 ```
 
 ### Manual Install
 
 * Download the latest version
-  * [jskit-3.0.5.zip](https://github.com/daytonn/jskit/archive/3.5.0.zip)
+  * [jskit-5.0.0.zip](https://github.com/daytonn/jskit/archive/5.0.0.zip)
 * Include Script
   * include the `jskit.js` file in your application
 
@@ -156,7 +156,10 @@ Sometimes you may want to map an action to a specific method, or you may want to
 
 ```js
 App.createController("Posts", {
-  actions: [{ new: "setupForm" }, { edit: "setupForm" }],
+  actions: [{
+    new: "setupForm",
+    edit: "setupForm"
+  }],
 
   setupForm: function() {
     // handle "controller:posts:new" and "controller:posts:edit" events
@@ -171,7 +174,7 @@ When an action is mapped, it will be registered on the dispatcher for a specific
     namespace = ""
     channel = "controller"
     controllerEventName = "{Controller.name}" (lowercase and underscored)
-    action = "{action}""
+    action = "{action}"
     eventSeperator = ":"
 
 So using the above examples, the event maps for the `PostsController` are:
