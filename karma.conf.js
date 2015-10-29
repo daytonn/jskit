@@ -2,13 +2,14 @@ module.exports = function(config) {
   config.set({
     basePath: "",
     frameworks: [
-      "mocha-debug",
       "mocha",
       "sinon-chai"
     ],
     files: [
       "node_modules/lodash/index.js",
       "node_modules/jquery/dist/jquery.js",
+      "node_modules/chai-jq/chai-jq.js",
+      "node_modules/chai-fuzzy/index.js",
       "test/test_helper.js",
       "dist/jskit.js",
       "test/**/*_spec.js"
@@ -20,7 +21,12 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ["Chrome", "Safari", "Firefox"],
-    singleRun: false
+    browsers: ["Chrome"],
+    singleRun: false,
+    client: {
+      mocha: {
+        reporter: 'html'
+      }
+    },
   });
 };

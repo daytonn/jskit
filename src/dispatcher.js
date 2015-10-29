@@ -5,6 +5,7 @@
 JSkit.Dispatcher = (function() {
   var contains = _.contains;
   var pluck = _.pluck;
+  var each = _.each;
 
   /**
     Get all handler functions for a given dispatcher and event.
@@ -122,7 +123,7 @@ JSkit.Dispatcher = (function() {
           var eventHhandlers = this.__events__[eventName] || [];
           var args = _.rest(arguments);
 
-          _.each(eventHhandlers, function(eventHandler) {
+          each(eventHhandlers, function(eventHandler) {
             var handler = eventHandler.handler;
             var context = eventHandler.context;
             handler.apply(context, args);

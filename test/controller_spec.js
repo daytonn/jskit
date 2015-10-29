@@ -2,6 +2,7 @@ describe("Controller", function() {
   var extend = _.extend;
   var last = _.last;
   var first = _.first;
+  var each = _.each;
   var dispatcher;
   var subject;
   var testControllerDefaults;
@@ -81,9 +82,18 @@ describe("Controller", function() {
   });
 
   describe("actions", function() {
+    it("normalizes the actions", function() {
+      expect(subject.__actions__).to.be.like([
+        { name: "all", method: "all" },
+        { name: "index", method: "index" },
+        { name: "mapped", method: "action" },
+        { name: "another", method: "anotherAction" }
+      ]);
+    });
+
     it("registers action methods on the dispatcher", function() {
       subject.dispatcher.trigger("controller:test:index");
-      expect(indexCalled).to.equal(true);
+      expect(indexCalled).to.be.true;
     });
 
     it("automatically wires the all event", function() {
@@ -99,6 +109,12 @@ describe("Controller", function() {
     it("wires up mapped actions with multiple maps", function() {
       dispatcher.trigger("controller:test:another");
       expect(anotherActionCalled).to.equal(true);
+    });
+  });
+
+  describe("actionEventName", function() {
+    it("returns the event string for a given action", function() {
+      expect(subject.actionEventName("index")).to.equal("controller:test:index");
     });
   });
 
@@ -213,33 +229,92 @@ describe("Controller", function() {
       }));
     });
 
-    it("registers cacheElements before actions", function() {
-      var cacheElements = first(subject.dispatcher.__events__["controller:test:index"]).handler;
-      cacheElements();
-      expect(subject.$element).to.exist;
+    it("creates a normalized list of elements", function() {
+      expect(subject.__elements__).to.be.like({
+        index: { element: "#element" }
+      });
     });
 
     describe("with events", function() {
       beforeEach(function() {
-        $fixtures.append("<a id='element' href='#'>Test</a>");
         subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
           elements: {
-            index: {
-              element: ["#element", { click: "handleClick" }]
-            }
+            index: { element: ["#element", { click: "handleClick" }] }
           }
         }));
       });
 
-      it("registers cacheElements before actions", function() {
-        var cacheElements = first(subject.dispatcher.__events__["controller:test:index"]).handler;
-        cacheElements();
-        expect(subject.$element.attr("id")).to.equal("element");
+      it("creates a normalized list of elements", function() {
+        expect(subject.__elements__).to.be.like({
+          index: { element: "#element" }
+        });
+      });
+
+      it("creates a normalized list of events", function() {
+        expect(subject.__events__).to.be.like({
+          index: {
+            $element: { click: "handleClick" }
+          }
+        });
       });
     });
   });
 
-  describe("events", function() {
+  describe("cacheElements", function() {
+    var subject;
+    beforeEach(function() {
+      $fixtures.append("<a id='element' href='#'>Test</a>");
+      subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+        elements: {
+          index: { element: "#element" }
+        }
+      }));
+    });
+
+    it("caches the elements for a given action", function() {
+      subject.cacheElements("index");
+      expect(subject.$element).to.have.$attr("id", "element");
+    });
+
+    it("throws an error if called with no action", function() {
+      expect(function() {
+        subject.cacheElements();
+      }).to.throw("JSkit.Controller.cacheElements: action is undefined");
+    });
+
+    it("throws an error if the element is not in the DOM", function() {
+      subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+        elements: {
+          index: { element: "#non-existent" }
+        }
+      }));
+
+      expect(function() {
+        subject.cacheElements("index");
+      }).to.throw("JSkit.Controller.cacheElements: #non-existent is not in the DOM");
+    });
+
+    describe("without jQuery", function() {
+      var _jQuery;
+      beforeEach(function() {
+        _jQuery = jQuery;
+        window.jQuery = undefined;
+      });
+
+      afterEach(function() {
+        window.jQuery = _jQuery;
+      });
+
+      it("throws an error", function() {
+        expect(function() {
+          subject.cacheElements("index");
+        }).to.throw("JSkit.Controller.cacheElements: jQuery is required to use element cacheing");
+      });
+    });
+  });
+
+
+  describe("registerEvents", function() {
     var handleElementClickCalled;
 
     beforeEach(function() {
@@ -252,11 +327,15 @@ describe("Controller", function() {
       }));
     });
 
-    // This test passes in the browser but not on cli
+    it("caches the elements", function() {
+      subject.registerEvents("index");
+      expect(subject.$element).to.have.$attr("id", "element");
+    });
+
     it("wires up events", function() {
-      subject.dispatcher.trigger("controller:test:index");
-      // subject.$element.trigger("click");
-      // expect(handleElementClickCalled).to.equal(true);
+      subject.registerEvents("index");
+      subject.$element.trigger("click");
+      expect(handleElementClickCalled).to.equal(true);
     });
 
     describe("multiple events", function() {
@@ -274,7 +353,7 @@ describe("Controller", function() {
       });
 
       it("wires up multiple events to the same element", function() {
-        subject.dispatcher.trigger("controller:test:index");
+        subject.registerEvents("index");
 
         subject.$element.trigger("click");
         expect(handleElementClickCalled).to.equal(true);
