@@ -164,9 +164,11 @@ JSkit.Dispatcher = (function() {
 */
 JSkit.Controller = (function() {
   var bindAll = _.bindAll;
+  var cloneDeep = _.cloneDeep;
   var compact = _.compact;
   var defaults = _.defaults;
   var each = _.each;
+  var extend = _.extend;
   var first = _.first;
   var flatten = _.flatten;
   var includes = _.includes;
@@ -178,14 +180,6 @@ JSkit.Controller = (function() {
   var map = _.map;
   var reduce = _.reduce;
   var underscore = _.snakeCase;
-
-  function flatMap(list, iterator, context) {
-    return flatten(map(list, iterator, context));
-  }
-
-  function key(object) {
-    return first(keys(object));
-  }
 
   function actionEventName(controller, action) {
     return compact([
@@ -300,11 +294,26 @@ JSkit.Controller = (function() {
     }
   }
 
+  function restrictKeywords(attrs) {
+    var keywords = [
+      "registerEvents",
+      "registerActions",
+      "cacheElements",
+      "actionEventName"
+    ];
+
+    each(keys(attrs), function(keyword) {
+      if (includes(keywords, keyword)) {
+        throw new Error("JSkit.Controller.create: " + keyword + " is a restricted keyword");
+      }
+    })
+  }
+
   return {
     create: function(attrs) {
-      attrs = attrs || {};
+      attrs = extend({}, attrs);
       if (!attrs.name) throw new Error("JSkit.Controller: name is undefined");
-
+      restrictKeywords(attrs);
       var controller = defaults(attrs, {
         actions: [],
         channel: "controller",

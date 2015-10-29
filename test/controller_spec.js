@@ -79,6 +79,36 @@ describe("Controller", function() {
     it("has a mapped action", function() {
       expect(last(subject.actions).mapped).to.equal("action");
     });
+
+    it("restricts keywords", function() {
+      expect(function() {
+        JSkit.Controller.create(extend({}, testControllerDefaults, {
+          name: "Test",
+          registerEvents: "invalid"
+        }));
+      }).to.throw("JSkit.Controller.create: registerEvents is a restricted keyword");
+
+      expect(function() {
+        JSkit.Controller.create(extend({}, testControllerDefaults, {
+          name: "Test",
+          registerActions: "invalid"
+        }));
+      }).to.throw("JSkit.Controller.create: registerActions is a restricted keyword");
+
+      expect(function() {
+        JSkit.Controller.create(extend({}, testControllerDefaults, {
+          name: "Test",
+          cacheElements: "invalid"
+        }));
+      }).to.throw("JSkit.Controller.create: cacheElements is a restricted keyword");
+
+      expect(function() {
+        JSkit.Controller.create(extend({}, testControllerDefaults, {
+          name: "Test",
+          actionEventName: "invalid"
+        }));
+      }).to.throw("JSkit.Controller.create: actionEventName is a restricted keyword");
+    });
   });
 
   describe("actions", function() {
