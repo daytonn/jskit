@@ -19,14 +19,6 @@ JSkit.Controller = (function() {
   var reduce = _.reduce;
   var underscore = _.snakeCase;
 
-  function flatMap(list, iterator, context) {
-    return flatten(map(list, iterator, context));
-  }
-
-  function key(object) {
-    return first(keys(object));
-  }
-
   function actionEventName(controller, action) {
     return compact([
       controller.namespace,
@@ -37,29 +29,29 @@ JSkit.Controller = (function() {
   }
 
   function normalizeActions(controller) {
-    controller.__actions__ = flatMap(controller.actions, function(action) {
-      return mapAction(action);
-    });
+    controller.__actions__ = flatten(map(controller.actions, function(action) {
+      return normalizeAction(action);
+    }));
   }
 
-  function mapAction(action) {
-    return isObject(action) ? map(action, createActionMap) : [createActionMap(action, action)];
+  function normalizeAction(action) {
+    return isObject(action) ? map(action, createActionObject) : [createActionObject(action, action)];
   }
 
-  function createActionMap(method, action) {
+  function createActionObject(method, action) {
     return { name: action, method: method };
   }
 
-  function ensureActionIsDefined(controller, actionMap) {
-    if (!isFunction(controller[actionMap.method])) {
-      throw new Error(controller.name + ' action "' + actionMap.name + ":" + actionMap.method + '" method is undefined');
+  function ensureActionIsDefined(controller, action) {
+    if (!isFunction(controller[action.method])) {
+      throw new Error(controller.name + ' action "' + action.name + ":" + action.method + '" method is undefined');
     }
   }
 
   function registerActions(controller) {
-    each(controller.__actions__, function(actionMap) {
-      ensureActionIsDefined(controller, actionMap);
-      controller.dispatcher.on(actionEventName(controller, actionMap.name), controller[actionMap.method], controller);
+    each(controller.__actions__, function(action) {
+      ensureActionIsDefined(controller, action);
+      controller.dispatcher.on(actionEventName(controller, action.name), controller[action.method], controller);
     });
   }
 
@@ -98,14 +90,19 @@ JSkit.Controller = (function() {
   }
 
   function cacheElements(controller, action) {
-    if (!jQuery) throw new Error("JSkit.Controller.cacheElements: jQuery is required to use element cacheing");
     if (!action) throw new Error("JSkit.Controller.cacheElements: action is undefined");
 
     var actionElements = controller.__elements__[action];
     if (actionElements) {
       each(actionElements, function(selector, name) {
-        var element = controller["$" + name] = $(selector);
-        if (!element.length) throw new Error("JSkit.Controller.cacheElements: " + selector + " is not in the DOM")
+        var finder = $ ? $ : function(selector) {
+          return document.querySelectorAll(selector);
+        };
+        var element = controller["$" + name] = finder(selector);
+
+        if (!element.length) {
+          throw new Error("JSkit.Controller.cacheElements: " + selector + " is not in the DOM");
+        }
       });
     }
   }

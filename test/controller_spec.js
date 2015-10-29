@@ -24,7 +24,7 @@ describe("Controller", function() {
       action: function() { actionCalled = true; },
       anotherAction: function() { anotherActionCalled = true; }
     };
-    subject = JSkit.Controller.create(testControllerDefaults);
+    subject = JSkit.Controller.create(extend({}, testControllerDefaults));
   });
 
   describe("defaults", function() {
@@ -295,20 +295,23 @@ describe("Controller", function() {
     });
 
     describe("without jQuery", function() {
-      var _jQuery;
+      var originalJQuery;
+      var dollar;
       beforeEach(function() {
-        _jQuery = jQuery;
+        originalJQuery = window.jQuery;
+        dollar = window.$;
         window.jQuery = undefined;
+        window.$ = undefined;
       });
 
       afterEach(function() {
-        window.jQuery = _jQuery;
+        window.jQuery = originalJQuery;
+        window.$ = dollar;
       });
 
-      it("throws an error", function() {
-        expect(function() {
-          subject.cacheElements("index");
-        }).to.throw("JSkit.Controller.cacheElements: jQuery is required to use element cacheing");
+      it("falls back to querySelectorAll", function() {
+        subject.cacheElements("index");
+        expect(subject.$element.children).to.eq(document.querySelectorAll("#element").children);
       });
     });
   });
