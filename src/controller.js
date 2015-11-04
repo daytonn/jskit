@@ -113,7 +113,7 @@ JSkit.Controller = (function() {
   function decorateCacheElements(controller) {
     controller.cacheElements = function(action) {
       return cacheElements(controller, action);
-    }
+    };
   }
 
   function registerEvents(controller, action) {
@@ -139,13 +139,13 @@ JSkit.Controller = (function() {
       each(events, function(handler, evnt) {
         on(evnt, controller[handler]);
       });
-    }
+    };
   }
 
   function decorateRegisterEvents(controller) {
     controller.registerEvents = function(action) {
       return registerEvents(controller, action);
-    }
+    };
   }
 
   function restrictKeywords(attrs) {
@@ -160,7 +160,7 @@ JSkit.Controller = (function() {
       if (includes(keywords, keyword)) {
         throw new Error("JSkit.Controller.create: " + keyword + " is a restricted keyword");
       }
-    })
+    });
   }
 
   return {
@@ -196,5 +196,5 @@ JSkit.Controller = (function() {
 
       return controller;
     }
-  }
+  };
 })();
