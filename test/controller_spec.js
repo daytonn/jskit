@@ -395,5 +395,28 @@ describe("Controller", function() {
         expect(handleElementKeyupCalled).to.equal(true);
       });
     });
+
+    describe("function event targets", function() {
+      var handleElementClickCalled;
+
+      beforeEach(function() {
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+          handleElementClick: function() { handleElementClickCalled = true; },
+          elements: {
+            index: { 
+              element: ["#element", function(on) {
+                on("click", this.handleElementClick);
+              }]
+            }
+          }
+        }));
+      });
+
+      it("wires up the events prescribed by the function", function() {
+        subject.registerEvents("index");
+        subject.$element.trigger("click");
+        expect(handleElementClickCalled).to.equal(true);
+      });
+    });
   });
 });

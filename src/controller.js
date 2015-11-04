@@ -3,6 +3,7 @@
  * @class Controller
 */
 JSkit.Controller = (function() {
+  var bind = _.bind;
   var bindAll = _.bindAll;
   var cloneDeep = _.cloneDeep;
   var compact = _.compact;
@@ -123,9 +124,22 @@ JSkit.Controller = (function() {
   }
 
   function registerElementEvents(controller, element, events) {
-    each(events, function(handler, evnt) {
-      controller[element].on(evnt, controller[handler]);
-    });
+    var eventsBinder = bind(eventsBinderFor(events), controller);
+    var on = bind($.prototype.on, controller[element]);
+    eventsBinder(on);
+  }
+
+  function eventsBinderFor(events) {
+    if(events instanceof Function) {
+      return events;
+    } 
+
+    return function(on) {
+      var controller = this;
+      each(events, function(handler, evnt) {
+        on(evnt, controller[handler]);
+      });
+    }
   }
 
   function decorateRegisterEvents(controller) {
