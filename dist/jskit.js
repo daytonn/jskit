@@ -163,6 +163,7 @@ JSkit.Dispatcher = (function() {
  * @class Controller
 */
 JSkit.Controller = (function() {
+  var bind = _.bind;
   var bindAll = _.bindAll;
   var cloneDeep = _.cloneDeep;
   var compact = _.compact;
@@ -272,7 +273,7 @@ JSkit.Controller = (function() {
   function decorateCacheElements(controller) {
     controller.cacheElements = function(action) {
       return cacheElements(controller, action);
-    }
+    };
   }
 
   function registerEvents(controller, action) {
@@ -283,15 +284,28 @@ JSkit.Controller = (function() {
   }
 
   function registerElementEvents(controller, element, events) {
-    each(events, function(handler, evnt) {
-      controller[element].on(evnt, controller[handler]);
-    });
+    var eventsBinder = bind(eventsBinderFor(events), controller);
+    var on = bind($.prototype.on, controller[element]);
+    eventsBinder(on);
+  }
+
+  function eventsBinderFor(events) {
+    if(events instanceof Function) {
+      return events;
+    } 
+
+    return function(on) {
+      var controller = this;
+      each(events, function(handler, evnt) {
+        on(evnt, controller[handler]);
+      });
+    };
   }
 
   function decorateRegisterEvents(controller) {
     controller.registerEvents = function(action) {
       return registerEvents(controller, action);
-    }
+    };
   }
 
   function restrictKeywords(attrs) {
@@ -306,7 +320,7 @@ JSkit.Controller = (function() {
       if (includes(keywords, keyword)) {
         throw new Error("JSkit.Controller.create: " + keyword + " is a restricted keyword");
       }
-    })
+    });
   }
 
   return {
@@ -342,7 +356,7 @@ JSkit.Controller = (function() {
 
       return controller;
     }
-  }
+  };
 })();
 
 /**
