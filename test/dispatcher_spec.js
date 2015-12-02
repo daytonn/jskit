@@ -29,6 +29,11 @@ describe("Dispatcher", function() {
       subject.on("some-event", handler);
       expect(subject.__events__["some-event"].length).to.equal(1);
     });
+
+    it("registers a handler with the same function but different context", function() {
+      subject.on("some-event", handler, {});
+      expect(subject.__events__["some-event"].length).to.equal(2);
+    });
   });
 
   describe("before", function() {
