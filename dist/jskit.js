@@ -27,8 +27,7 @@ var JSkit = (function() {
  * @class Dispatcher
 */
 JSkit.Dispatcher = (function() {
-  var contains = _.contains;
-  var pluck = _.pluck;
+  var any = _.any;
   var each = _.each;
 
   /**
@@ -70,7 +69,7 @@ JSkit.Dispatcher = (function() {
   */
   function registerHandler(registeredHandlers, eventHandler, method) {
     method = method || "push";
-    if (!contains(pluck(registeredHandlers, "handler"), eventHandler.handler)) {
+    if (!any(registeredHandlers, eventHandler)) {
       registeredHandlers[method](eventHandler);
     }
   }
