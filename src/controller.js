@@ -1,7 +1,3 @@
-/**
-  @module JSkit
-  @class Controller
-*/
 JSkit.Controller = (function() {
   var bind = _.bind;
   var bindAll = _.bindAll;
@@ -22,15 +18,21 @@ JSkit.Controller = (function() {
   var reduce = _.reduce;
   var underscore = _.snakeCase;
 
-  /**
-    Get the full event name for a given controller and action.
+  function restrictKeywords(attrs) {
+    var keywords = [
+      "registerEvents",
+      "registerActions",
+      "cacheElements",
+      "actionEventName"
+    ];
 
-    @private
-    @method actionEventName
-    @param controller {Object} object to check for the given action
-    @param action {String} name to look up on given controller
-    @return {String} Full event name for a given controller's action
-  */
+    each(keys(attrs), function(keyword) {
+      if (includes(keywords, keyword)) {
+        throw new Error("JSkit.Controller.create: " + keyword + " is a restricted keyword");
+      }
+    });
+  }
+
   function actionEventName(controller, action) {
     return compact([
       controller.namespace,
@@ -40,65 +42,30 @@ JSkit.Controller = (function() {
     ]).join(controller.eventSeparator);
   }
 
-  /**
-    Normalize object and string actions into an array of tuples.
+  function registerAllAction(controller) {
+    if (!includes(controller.actions, "all")) controller.actions.unshift("all");
+  }
 
-    @private
-    @method normalizeActions
-    @param controller {Object} whose actions you wish to normalize
-  */
   function normalizeActions(controller) {
     controller.__actions__ = flatten(map(controller.actions, function(action) {
       return normalizeAction(action);
     }));
   }
 
-  /**
-    Normalize the given action into an action object.
-
-    @private
-    @method normalizeAction
-    @param action {String} you wish to normalize
-    @return {Array} array of normalized action objects
-  */
   function normalizeAction(action) {
     return isObject(action) ? map(action, createActionObject) : [createActionObject(action, action)];
   }
 
-  /**
-    Create an action object from the given method and action.
-
-    @private
-    @method createActionObject
-    @param method {String} associated with the given action
-    @param name {String} of the given action
-    @return {Object} object with the name and method of the given action
-  */
   function createActionObject(method, name) {
     return { name: name, method: method };
   }
 
-  /**
-    Throw an error if the action method is not defined on the given controller.
-
-    @private
-    @method ensureActionIsDefined
-    @param controller {Object} to ensure has the given action method
-    @param {Srtring}
-  */
   function ensureActionIsDefined(controller, action) {
     if (!isFunction(controller[action.method])) {
       throw new Error(controller.name + ' action "' + action.name + ":" + action.method + '" method is undefined');
     }
   }
 
-  /**
-    Register all the action for a given controller.
-
-    @private
-    @method registerActions
-    @param controller {Object} to register actions on
-  */
   function registerActions(controller) {
     each(controller.__actions__, function(action) {
       ensureActionIsDefined(controller, action);
@@ -106,13 +73,6 @@ JSkit.Controller = (function() {
     });
   }
 
-  /**
-    Normalize the element objects for a given controller.
-
-    @private
-    @method normalizeControllerElements
-    @param controller {Object} to normalize elements of
-  */
   function normalizeControllerElements(controller) {
     controller.__elements__ = reduce(controller.elements, function(memo, elements, action) {
       memo[action] = normalizeElements(elements);
@@ -120,14 +80,6 @@ JSkit.Controller = (function() {
     }, {});
   }
 
-  /**
-    Normalize the given elements to a common format.
-
-    @private
-    @method normalizeElements
-    @param elements {Object} object to normalize
-    @return {Object} normalized elements object
-  */
   function normalizeElements(elements) {
     return reduce(elements, function(memo, selector, name) {
       if (_.isArray(selector)) selector = first(selector);
@@ -136,13 +88,6 @@ JSkit.Controller = (function() {
     }, {});
   }
 
-  /**
-    Normalize the event for a given controller.
-
-    @private
-    @method normalizeControllerEvents
-    @param controller controller {Object} with which to register events
-  */
   function normalizeControllerEvents(controller) {
     controller.__events__ = reduce(controller.elements, function(memo, elements, action) {
       memo[action] = normalizeEvents(elements);
@@ -150,14 +95,6 @@ JSkit.Controller = (function() {
     }, {});
   }
 
-
-  /**
-    Normalize the given events into a common format.
-
-    @private
-    @method normalizeEvents
-    @param elements {Object} object of events to normalize
-  */
   function normalizeEvents(elements) {
     return reduce(elements, function(memo, selector, name) {
       if (_.isArray(selector)) memo["$" + name] = last(selector);
@@ -166,25 +103,6 @@ JSkit.Controller = (function() {
     }, {});
   }
 
-  /**
-    Automatically register the all action.
-
-    @private
-    @method registerAllAction
-    @param controller {Controller}
-  */
-  function registerAllAction(controller) {
-    if (!includes(controller.actions, "all")) controller.actions.unshift("all");
-  }
-
-  /**
-    Convenience method to determine whether a given action is
-    a mapped action
-
-    @private
-    @method isMappedAction
-    @param action {Object}
-  */
   function isMappedAction(action) {
     return action.name != action.method;
   }
@@ -193,13 +111,6 @@ JSkit.Controller = (function() {
     return document.querySelectorAll(selector);
   }
 
-  /**
-    Use jQuery or querySelector all to find a DOM element.
-
-    @private
-    @method findInDOM
-    @param selector {String}
-  */
   function findInDOM(selector) {
     var finder = $ ? $ : nativeFind;
     return finder(selector);
@@ -209,6 +120,7 @@ JSkit.Controller = (function() {
     if (!action) throw new Error("JSkit.Controller.cacheElements: action is undefined");
 
     var actionElements = controller.__elements__[action];
+
     if (actionElements) {
       each(actionElements, function(selector, name) {
         var element = controller["$" + name] = findInDOM(selector);
@@ -258,18 +170,12 @@ JSkit.Controller = (function() {
     };
   }
 
-  function restrictKeywords(attrs) {
-    var keywords = [
-      "registerEvents",
-      "registerActions",
-      "cacheElements",
-      "actionEventName"
-    ];
-
-    each(keys(attrs), function(keyword) {
-      if (includes(keywords, keyword)) {
-        throw new Error("JSkit.Controller.create: " + keyword + " is a restricted keyword");
-      }
+  function registerCacheElementsForActions(controller) {
+    each(controller.__actions__, function(action) {
+      var eventName = actionEventName(controller, action.name);
+      controller.dispatcher.before(eventName, function() {
+        return cacheElements(controller, action.name);
+      })
     });
   }
 
@@ -294,11 +200,16 @@ JSkit.Controller = (function() {
       });
 
       bindAll(controller);
+
       registerAllAction(controller);
       normalizeActions(controller);
       registerActions(controller);
+
       normalizeControllerElements(controller);
       normalizeControllerEvents(controller);
+
+      registerCacheElementsForActions(controller);
+
       decorateCacheElements(controller);
       decorateRegisterEvents(controller);
 

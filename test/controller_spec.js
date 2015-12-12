@@ -161,6 +161,38 @@ describe("Controller", function() {
     it("calls initialize when the controller is constructed", function() {
       expect(initializeCalled).to.equal(true);
     });
+
+    describe("elementCacheing registration", function() {
+      var subject;
+      beforeEach(function() {
+        $fixtures.append("<a id='element' href='#'>Test</a>");
+      });
+
+      it("caches the elements for a given action", function() {
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+          elements: { index: { element: "#element" }}
+        }));
+        subject.dispatcher.trigger("controller:test:index");
+        expect(subject.$element).to.have.$attr("id", "element");
+      });
+
+      it("caches the elements for a mapped action", function() {
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+          elements: { mapped: { element: "#element" }}
+        }));
+        subject.dispatcher.trigger("controller:test:mapped");
+        expect(subject.$element).to.have.$attr("id", "element");
+      });
+
+      it("caches the elements for all actions", function() {
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+          elements: { all: { element: "#element"} }
+        }));
+
+        subject.dispatcher.trigger("controller:test:all");
+        expect(subject.$element).to.have.$attr("id", "element");
+      });
+    });
   });
 
   describe("with missing action methods", function() {
