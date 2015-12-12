@@ -1,9 +1,7 @@
 html {
   box-sizing: border-box; }
 
-*,
-*::after,
-*::before {
+*, *::after, *::before {
   box-sizing: inherit; }
 
 button, input[type="button"], input[type="reset"], input[type="submit"],
@@ -29,11 +27,7 @@ button {
   user-select: none;
   vertical-align: middle;
   white-space: nowrap; }
-  button:hover,
-  button:focus, input[type="button"]:hover,
-  input[type="button"]:focus, input[type="reset"]:hover,
-  input[type="reset"]:focus, input[type="submit"]:hover,
-  input[type="submit"]:focus,
+  button:hover, button:focus, input[type="button"]:hover, input[type="button"]:focus, input[type="reset"]:hover, input[type="reset"]:focus, input[type="submit"]:hover, input[type="submit"]:focus,
   button:hover,
   button:focus {
     background-color: #2c5999;
@@ -181,12 +175,9 @@ a {
   color: #477dca;
   text-decoration: none;
   transition: color 0.1s linear; }
-  a:active,
-  a:focus,
-  a:hover {
+  a:active, a:focus, a:hover {
     color: #2c5999; }
-  a:active,
-  a:focus {
+  a:active, a:focus {
     outline: none; }
 
 hr {
@@ -230,8 +221,7 @@ picture {
           border-right: 1px solid #eeeeee;
           border-top: 1px solid silver;
           width: auto; } }
-      .button-group label .button-group-item:focus,
-      .button-group label .button-group-item:hover {
+      .button-group label .button-group-item:focus, .button-group label .button-group-item:hover {
         background-color: #f7f7f7; }
     .button-group label:first-child .button-group-item {
       border-top-left-radius: 3px;
@@ -272,7 +262,7 @@ picture {
   display: inline-block; }
 
 .flag.private {
-  padding: 0 0.25em;
+  padding: 0 .25em;
   background: #FC323F;
   color: white;
   font-size: 80%;
@@ -361,6 +351,8 @@ picture {
       display: inline-block;
       font-weight: bold;
       margin-right: 3px; }
+  .method .params-list .param td:first-child .type {
+    display: none; }
   .method .params-list .param .param-description {
     font-style: italic;
     color: #808080; }

@@ -15,6 +15,7 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "JSkit",
             "name": "JSkit"
         }
-    ]
+    ],
+    "elements": []
 } };
 });

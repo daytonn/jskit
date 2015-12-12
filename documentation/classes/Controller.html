@@ -74,197 +74,28 @@
             			<strong>Methods</strong>
             			<ul>
             				<li><a href="#method-actionEventName"><span class="im">actionEventName</span>(<span class="ia">controller</span><span class="ia">action</span>)</a></li>
-            				<li><a href="#method-all"><span class="im">all</span>()</a></li>
-            				<li><a href="#method-cacheElements"><span class="im">cacheElements</span>(<span class="ia">controller</span><span class="ia">action</span>)</a></li>
-            				<li><a href="#method-constantize"><span class="im">constantize</span>(<span class="ia">string</span>)</a></li>
-            				<li><a href="#method-createActionMap"><span class="im">createActionMap</span>(<span class="ia">method</span><span class="ia">action</span>)</a></li>
-            				<li><a href="#method-ensureActionIsDefined"><span class="im">ensureActionIsDefined</span>(<span class="ia">controller</span><span class="ia">actionMap</span>)</a></li>
-            				<li><a href="#method-initialize"><span class="im">initialize</span>()</a></li>
-            				<li><a href="#method-mapAction"><span class="im">mapAction</span>(<span class="ia">action/mappedAction</span>)</a></li>
-            				<li><a href="#method-reduceElements"><span class="im">reduceElements</span>(<span class="ia">controller&#x27;s</span><span class="ia">function</span>)</a></li>
+            				<li><a href="#method-createActionObject"><span class="im">createActionObject</span>(<span class="ia">method</span><span class="ia">name</span>)</a></li>
+            				<li><a href="#method-ensureActionIsDefined"><span class="im">ensureActionIsDefined</span>(<span class="ia">controller</span><span class="ia">UNKNOWN</span>)</a></li>
+            				<li><a href="#method-normalizeAction"><span class="im">normalizeAction</span>(<span class="ia">action</span>)</a></li>
+            				<li><a href="#method-normalizeActions"><span class="im">normalizeActions</span>(<span class="ia">controller</span>)</a></li>
+            				<li><a href="#method-normalizeControllerElements"><span class="im">normalizeControllerElements</span>(<span class="ia">controller</span>)</a></li>
+            				<li><a href="#method-normalizeControllerEvents"><span class="im">normalizeControllerEvents</span>(<span class="ia">controller</span>)</a></li>
+            				<li><a href="#method-normalizeElements"><span class="im">normalizeElements</span>(<span class="ia">elements</span>)</a></li>
+            				<li><a href="#method-normalizeEvents"><span class="im">normalizeEvents</span>(<span class="ia">elements</span>)</a></li>
             				<li><a href="#method-registerActions"><span class="im">registerActions</span>(<span class="ia">controller</span>)</a></li>
-            				<li><a href="#method-registerControllerEvents"><span class="im">registerControllerEvents</span>(<span class="ia">controller</span>)</a></li>
-            				<li><a href="#method-registerElementCaching"><span class="im">registerElementCaching</span>(<span class="ia">controller</span>)</a></li>
-            				<li><a href="#method-registerEvents"><span class="im">registerEvents</span>(<span class="ia">controller</span><span class="ia">action</span>)</a></li>
-            			</ul>
-            		</li>
-            
-            		<li>
-            			<strong>Properties</strong>
-            			<ul>
-            				<li><a href="#prop-actions"><span class="ip">actions</span></a></li>
-            				<li><a href="#prop-channel"><span class="ip">channel</span></a></li>
-            				<li><a href="#prop-controllerEventName"><span class="ip">controllerEventName</span></a></li>
-            				<li><a href="#prop-dispatcher"><span class="ip">dispatcher</span></a></li>
-            				<li><a href="#prop-elements"><span class="ip">elements</span></a></li>
-            				<li><a href="#prop-events"><span class="ip">events</span></a></li>
-            				<li><a href="#prop-namespace"><span class="ip">namespace</span></a></li>
             			</ul>
             		</li>
             
             
-            		<li>
-            			<strong>Static Methods</strong>
-            			<ul>
-            				<li><a href="#method-create"><span class="im">Controller.create</span>(<span class="ia">attrs</span>)</a></li>
-            			</ul>
-            		</li>
+            
             	</ul>
             </div>
             
             <!-- details -->
             
             
-                <div id="properties" class="page-section">
-                    <h2>Properties</h2>
-            
-                    <table id="properties-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                                <tr id="prop-actions" class="property item">
-                                    <td class="prop-name">
-                                        actions
-                                    </td>
-                                    <td class="prop-type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></td>
-                                    <td class="prop-description"><p>Array of actions to be wired up.</p>
-                                </td>
-                                </tr>
-                                <tr id="prop-channel" class="property item">
-                                    <td class="prop-name">
-                                        channel
-                                    </td>
-                                    <td class="prop-type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
-                                    <td class="prop-description"><p>Channel that controller events use under namespace.</p>
-                                </td>
-                                </tr>
-                                <tr id="prop-controllerEventName" class="property item">
-                                    <td class="prop-name">
-                                        controllerEventName
-                                    </td>
-                                    <td class="prop-type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
-                                    <td class="prop-description"><p>Underscored name of controller for use in events.</p>
-                                </td>
-                                </tr>
-                                <tr id="prop-dispatcher" class="property item">
-                                    <td class="prop-name">
-                                        dispatcher
-                                    </td>
-                                    <td class="prop-type"><a href="../classes/Dispatcher.html" class="crosslink">Dispatcher</a></td>
-                                    <td class="prop-description"><p>Event dispatcher for registering events.</p>
-                                </td>
-                                </tr>
-                                <tr id="prop-elements" class="property item">
-                                    <td class="prop-name">
-                                        elements
-                                    </td>
-                                    <td class="prop-type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
-                                    <td class="prop-description"><p>Object of element names/selectors to
-                                cache per action.</p>
-                                </td>
-                                </tr>
-                                <tr id="prop-events" class="property item">
-                                    <td class="prop-name">
-                                        events
-                                    </td>
-                                    <td class="prop-type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
-                                    <td class="prop-description"><p>Object of events for each action to
-                                register on given elements.</p>
-                                </td>
-                                </tr>
-                                <tr id="prop-namespace" class="property item">
-                                    <td class="prop-name">
-                                        namespace
-                                    </td>
-                                    <td class="prop-type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
-                                    <td class="prop-description"><p>Namespace that controller events are namespaced under.</p>
-                                </td>
-                                </tr>
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
             
             
-                <div id="static-methods" class="page-section hidden">
-                    <h2>Static Methods</h2>
-                    <div>
-                             <div id="method-create" class="method item">
-                            	<div class="method-header">
-                            		<div class="method-signature">
-                            
-                            			<span class="name"><code>Controller.create</code></span>
-                            
-                            				<div class="args">
-                            					<span class="paren">(</span><ul class="args-list inline commas">
-                            						<li class="arg">
-                            								<code class="optional">
-                            									attrs=<span class="default">{}</span>
-                            								</code>
-                            						</li>
-                            					</ul><span class="paren">)</span>
-                            				</div>
-                            
-                            				<span class="returns-inline">
-                            					<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
-                            				</span>
-                            		</div>
-                            
-                            
-                            
-                            
-                            
-                            		<div class="meta">
-                            					<p>
-                            					defined in
-                            			<a href="../files/src_controller.js.html#l205"><code>src&#x2F;controller.js:205</code></a>
-                            			</p>
-                            
-                            
-                            
-                            		</div>
-                            	</div>
-                            
-                            	<div class="method-content">
-                            	  	<div class="description"><p>Factory function to create fresh controller objects
-                            with the given attributes.</p>
-                            </div>
-                            
-                            	  	<div class="params">
-                            		  	<h4>Parameters: </h4>
-                            	  		<table class="params-list">
-                            	  			<tbody>
-                            	  					<tr class="param">
-                            	  						<td>
-                            	  								<span class="param-name optional">attrs</code>
-                            	  								<em class="flag optional" title="This parameter is optional.">(optional defaults to: <code>{}</code>)</em>
-                            	  						</td>
-                            	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
-                            	  						<td class="description">
-                            	  								<p>&nbsp;</p>
-                            	  						</td>
-                            	  					</tr>
-                            	  			</tbody>
-                            	  		</table>
-                            	  	</div>
-                            
-                            	  	<div class="returns">
-                            	  		<strong>returns:</strong>
-                            
-                            	  		<div class="returns-description">
-                            	  					<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
-                            	  		</div>
-                            	  	</div>
-                            
-                            	</div>
-                            </div>
-                    </div>
-                </div>
             
                 <div id="methods" class="page-section">
                     <h2>Methods</h2>
@@ -292,7 +123,7 @@
                         				</div>
                         
                         				<span class="returns-inline">
-                        					<span class="type"></span>
+                        					<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                         				</span>
                         		</div>
                         
@@ -303,7 +134,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l93"><code>src&#x2F;controller.js:93</code></a>
+                        			<a href="../files/src_controller.js.html#l25"><code>src&#x2F;controller.js:25</code></a>
                         			</p>
                         
                         
@@ -312,8 +143,7 @@
                         	</div>
                         
                         	<div class="method-content">
-                        	  	<div class="description"><p>Return an event name based on the controller properties
-                        that make up an event name.</p>
+                        	  	<div class="description"><p>Get the full event name for a given controller and action.</p>
                         </div>
                         
                         	  	<div class="params">
@@ -323,21 +153,23 @@
                         	  					<tr class="param">
                         	  						<td>
                         	  								<span class="param-name">controller</span>
-                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                         	  						</td>
-                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
                         	  						<td class="description">
-                        	  								<p>&nbsp;</p>
+                        	  								<div class="param-description"><p>object to check for the given action</p>
+                        </div>
                         	  						</td>
                         	  					</tr>
                         	  					<tr class="param">
                         	  						<td>
                         	  								<span class="param-name">action</span>
-                        	  								<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                         	  						</td>
-                        	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
                         	  						<td class="description">
-                        	  								<p>&nbsp;</p>
+                        	  								<div class="param-description"><p>name to look up on given controller</p>
+                        </div>
                         	  						</td>
                         	  					</tr>
                         	  			</tbody>
@@ -348,196 +180,20 @@
                         	  		<strong>returns:</strong>
                         
                         	  		<div class="returns-description">
-                        	  				<p>String</p>
+                        	  					<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>:
+                        	  				<p>Full event name for a given controller's action</p>
                         
                         	  		</div>
                         	  	</div>
                         
                         	</div>
                         </div>
-                         <div id="method-all" class="method item">
-                        	<div class="method-header">
-                        		<div class="method-signature">
-                        
-                        			<span class="name"><code>all</code></span>
-                        
-                        				<span class="paren">()</span>
-                        
-                        		</div>
-                        
-                        
-                        
-                        
-                        
-                        		<div class="meta">
-                        					<p>
-                        					defined in
-                        			<a href="../files/src_controller.js.html#l278"><code>src&#x2F;controller.js:278</code></a>
-                        			</p>
-                        
-                        
-                        
-                        		</div>
-                        	</div>
-                        
-                        	<div class="method-content">
-                        	  	<div class="description"><p>Default implementation that commits no operation</p>
-                        </div>
-                        
-                        
-                        
-                        	</div>
-                        </div>
-                         <div id="method-cacheElements" class="method item private">
+                         <div id="method-createActionObject" class="method item private">
                         	<div class="method-header">
                         		<div class="method-signature">
                         				<span class="flag private">private</span>
                         
-                        			<span class="name"><code>cacheElements</code></span>
-                        
-                        				<div class="args">
-                        					<span class="paren">(</span><ul class="args-list inline commas">
-                        						<li class="arg">
-                        								<code>
-                        									controller<span class="comma">,&nbsp;</span>
-                        								</code>
-                        						</li>
-                        						<li class="arg">
-                        								<code>
-                        									action
-                        								</code>
-                        						</li>
-                        					</ul><span class="paren">)</span>
-                        				</div>
-                        
-                        		</div>
-                        
-                        
-                        
-                        
-                        
-                        		<div class="meta">
-                        					<p>
-                        					defined in
-                        			<a href="../files/src_controller.js.html#l112"><code>src&#x2F;controller.js:112</code></a>
-                        			</p>
-                        
-                        
-                        
-                        		</div>
-                        	</div>
-                        
-                        	<div class="method-content">
-                        	  	<div class="description"><p>Iterate over the given controller's elements object
-                        and cache a reference to each selected element.</p>
-                        </div>
-                        
-                        	  	<div class="params">
-                        		  	<h4>Parameters: </h4>
-                        	  		<table class="params-list">
-                        	  			<tbody>
-                        	  					<tr class="param">
-                        	  						<td>
-                        	  								<span class="param-name">controller</span>
-                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
-                        	  						</td>
-                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
-                        	  						<td class="description">
-                        	  								<p>&nbsp;</p>
-                        	  						</td>
-                        	  					</tr>
-                        	  					<tr class="param">
-                        	  						<td>
-                        	  								<span class="param-name">action</span>
-                        	  								<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                        	  						</td>
-                        	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
-                        	  						<td class="description">
-                        	  								<p>&nbsp;</p>
-                        	  						</td>
-                        	  					</tr>
-                        	  			</tbody>
-                        	  		</table>
-                        	  	</div>
-                        
-                        
-                        	</div>
-                        </div>
-                         <div id="method-constantize" class="method item private">
-                        	<div class="method-header">
-                        		<div class="method-signature">
-                        				<span class="flag private">private</span>
-                        
-                        			<span class="name"><code>constantize</code></span>
-                        
-                        				<div class="args">
-                        					<span class="paren">(</span><ul class="args-list inline commas">
-                        						<li class="arg">
-                        								<code>
-                        									string
-                        								</code>
-                        						</li>
-                        					</ul><span class="paren">)</span>
-                        				</div>
-                        
-                        				<span class="returns-inline">
-                        					<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                        				</span>
-                        		</div>
-                        
-                        
-                        
-                        
-                        
-                        		<div class="meta">
-                        					<p>
-                        					defined in
-                        			<a href="../files/src_controller.js.html#l23"><code>src&#x2F;controller.js:23</code></a>
-                        			</p>
-                        
-                        
-                        
-                        		</div>
-                        	</div>
-                        
-                        	<div class="method-content">
-                        	  	<div class="description"><p>Take a string and put underscores between names and delimiters</p>
-                        </div>
-                        
-                        	  	<div class="params">
-                        		  	<h4>Parameters: </h4>
-                        	  		<table class="params-list">
-                        	  			<tbody>
-                        	  					<tr class="param">
-                        	  						<td>
-                        	  								<span class="param-name">string</span>
-                        	  								<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                        	  						</td>
-                        	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
-                        	  						<td class="description">
-                        	  								<p>&nbsp;</p>
-                        	  						</td>
-                        	  					</tr>
-                        	  			</tbody>
-                        	  		</table>
-                        	  	</div>
-                        
-                        	  	<div class="returns">
-                        	  		<strong>returns:</strong>
-                        
-                        	  		<div class="returns-description">
-                        	  					<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                        	  		</div>
-                        	  	</div>
-                        
-                        	</div>
-                        </div>
-                         <div id="method-createActionMap" class="method item private">
-                        	<div class="method-header">
-                        		<div class="method-signature">
-                        				<span class="flag private">private</span>
-                        
-                        			<span class="name"><code>createActionMap</code></span>
+                        			<span class="name"><code>createActionObject</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
@@ -548,12 +204,15 @@
                         						</li>
                         						<li class="arg">
                         								<code>
-                        									action
+                        									name
                         								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
                         
+                        				<span class="returns-inline">
+                        					<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        				</span>
                         		</div>
                         
                         
@@ -563,7 +222,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l65"><code>src&#x2F;controller.js:65</code></a>
+                        			<a href="../files/src_controller.js.html#l68"><code>src&#x2F;controller.js:68</code></a>
                         			</p>
                         
                         
@@ -572,7 +231,7 @@
                         	</div>
                         
                         	<div class="method-content">
-                        	  	<div class="description"><p>Create a list of maps of action name/method pairs.</p>
+                        	  	<div class="description"><p>Create an action object from the given method and action.</p>
                         </div>
                         
                         	  	<div class="params">
@@ -582,22 +241,22 @@
                         	  					<tr class="param">
                         	  						<td>
                         	  								<span class="param-name">method</span>
-                        	  								<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                         	  						</td>
-                        	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
                         	  						<td class="description">
-                        	  								<div class="param-description"><p>to map to action</p>
+                        	  								<div class="param-description"><p>associated with the given action</p>
                         </div>
                         	  						</td>
                         	  					</tr>
                         	  					<tr class="param">
                         	  						<td>
-                        	  								<span class="param-name">action</span>
-                        	  								<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                        	  								<span class="param-name">name</span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                         	  						</td>
-                        	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
                         	  						<td class="description">
-                        	  								<div class="param-description"><p>to map to method</p>
+                        	  								<div class="param-description"><p>of the given action</p>
                         </div>
                         	  						</td>
                         	  					</tr>
@@ -605,6 +264,15 @@
                         	  		</table>
                         	  	</div>
                         
+                        	  	<div class="returns">
+                        	  		<strong>returns:</strong>
+                        
+                        	  		<div class="returns-description">
+                        	  					<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                        	  				<p>object with the name and method of the given action</p>
+                        
+                        	  		</div>
+                        	  	</div>
                         
                         	</div>
                         </div>
@@ -624,7 +292,7 @@
                         						</li>
                         						<li class="arg">
                         								<code>
-                        									actionMap
+                        									UNKNOWN
                         								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
@@ -639,7 +307,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l77"><code>src&#x2F;controller.js:77</code></a>
+                        			<a href="../files/src_controller.js.html#l81"><code>src&#x2F;controller.js:81</code></a>
                         			</p>
                         
                         
@@ -648,9 +316,7 @@
                         	</div>
                         
                         	<div class="method-content">
-                        	  	<div class="description"><p>Take a controller and an actionMap and determine if
-                        the action is defined on the controller. If not, throw
-                        an error.</p>
+                        	  	<div class="description"><p>Throw an error if the action method is not defined on the given controller.</p>
                         </div>
                         
                         	  	<div class="params">
@@ -660,19 +326,20 @@
                         	  					<tr class="param">
                         	  						<td>
                         	  								<span class="param-name">controller</span>
-                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                         	  						</td>
-                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
                         	  						<td class="description">
-                        	  								<p>&nbsp;</p>
+                        	  								<div class="param-description"><p>to ensure has the given action method</p>
+                        </div>
                         	  						</td>
                         	  					</tr>
                         	  					<tr class="param">
                         	  						<td>
-                        	  								<span class="param-name">actionMap</span>
-                        	  								<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        	  								<span class="param-name">UNKNOWN</span>
+                        	  								<span class="type">Srtring</span>
                         	  						</td>
-                        	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
+                        	  						<td class="type">Srtring</td>
                         	  						<td class="description">
                         	  								<p>&nbsp;</p>
                         	  						</td>
@@ -684,58 +351,25 @@
                         
                         	</div>
                         </div>
-                         <div id="method-initialize" class="method item">
-                        	<div class="method-header">
-                        		<div class="method-signature">
-                        
-                        			<span class="name"><code>initialize</code></span>
-                        
-                        				<span class="paren">()</span>
-                        
-                        		</div>
-                        
-                        
-                        
-                        
-                        
-                        		<div class="meta">
-                        					<p>
-                        					defined in
-                        			<a href="../files/src_controller.js.html#l283"><code>src&#x2F;controller.js:283</code></a>
-                        			</p>
-                        
-                        
-                        
-                        		</div>
-                        	</div>
-                        
-                        	<div class="method-content">
-                        	  	<div class="description"><p>Default implementation that commits no operation</p>
-                        </div>
-                        
-                        
-                        
-                        	</div>
-                        </div>
-                         <div id="method-mapAction" class="method item private">
+                         <div id="method-normalizeAction" class="method item private">
                         	<div class="method-header">
                         		<div class="method-signature">
                         				<span class="flag private">private</span>
                         
-                        			<span class="name"><code>mapAction</code></span>
+                        			<span class="name"><code>normalizeAction</code></span>
                         
                         				<div class="args">
                         					<span class="paren">(</span><ul class="args-list inline commas">
                         						<li class="arg">
                         								<code>
-                        									action/mappedAction
+                        									action
                         								</code>
                         						</li>
                         					</ul><span class="paren">)</span>
                         				</div>
                         
                         				<span class="returns-inline">
-                        					<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+                        					<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
                         				</span>
                         		</div>
                         
@@ -746,7 +380,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l52"><code>src&#x2F;controller.js:52</code></a>
+                        			<a href="../files/src_controller.js.html#l56"><code>src&#x2F;controller.js:56</code></a>
                         			</p>
                         
                         
@@ -755,8 +389,7 @@
                         	</div>
                         
                         	<div class="method-content">
-                        	  	<div class="description"><p>Take an action string or mapped action and return
-                        an object containing the action name and method.</p>
+                        	  	<div class="description"><p>Normalize the given action into an action object.</p>
                         </div>
                         
                         	  	<div class="params">
@@ -765,101 +398,12 @@
                         	  			<tbody>
                         	  					<tr class="param">
                         	  						<td>
-                        	  								<span class="param-name">action/mappedAction</span>
-                        	  								<span class="type">String,Object</span>
+                        	  								<span class="param-name">action</span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                         	  						</td>
-                        	  						<td class="type">String,Object</td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
                         	  						<td class="description">
-                        	  								<p>&nbsp;</p>
-                        	  						</td>
-                        	  					</tr>
-                        	  			</tbody>
-                        	  		</table>
-                        	  	</div>
-                        
-                        	  	<div class="returns">
-                        	  		<strong>returns:</strong>
-                        
-                        	  		<div class="returns-description">
-                        	  					<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>:
-                        	  				<p>action/event maps</p>
-                        
-                        	  		</div>
-                        	  	</div>
-                        
-                        	</div>
-                        </div>
-                         <div id="method-reduceElements" class="method item private">
-                        	<div class="method-header">
-                        		<div class="method-signature">
-                        				<span class="flag private">private</span>
-                        
-                        			<span class="name"><code>reduceElements</code></span>
-                        
-                        				<div class="args">
-                        					<span class="paren">(</span><ul class="args-list inline commas">
-                        						<li class="arg">
-                        								<code>
-                        									controller&#x27;s<span class="comma">,&nbsp;</span>
-                        								</code>
-                        						</li>
-                        						<li class="arg">
-                        								<code>
-                        									function
-                        								</code>
-                        						</li>
-                        					</ul><span class="paren">)</span>
-                        				</div>
-                        
-                        				<span class="returns-inline">
-                        					<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-                        				</span>
-                        		</div>
-                        
-                        
-                        
-                        
-                        
-                        		<div class="meta">
-                        					<p>
-                        					defined in
-                        			<a href="../files/src_controller.js.html#l182"><code>src&#x2F;controller.js:182</code></a>
-                        			</p>
-                        
-                        
-                        
-                        		</div>
-                        	</div>
-                        
-                        	<div class="method-content">
-                        	  	<div class="description"><p>Reduce the controller's elements object into an object
-                        that only contains either the elements to cache or the
-                        events to register to that element.</p>
-                        </div>
-                        
-                        	  	<div class="params">
-                        		  	<h4>Parameters: </h4>
-                        	  		<table class="params-list">
-                        	  			<tbody>
-                        	  					<tr class="param">
-                        	  						<td>
-                        	  								<span class="param-name">controller&#x27;s</span>
-                        	  								<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-                        	  						</td>
-                        	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
-                        	  						<td class="description">
-                        	  								<div class="param-description"><p>elements object</p>
-                        </div>
-                        	  						</td>
-                        	  					</tr>
-                        	  					<tr class="param">
-                        	  						<td>
-                        	  								<span class="param-name">function</span>
-                        	  								<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                        	  						</td>
-                        	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></td>
-                        	  						<td class="description">
-                        	  								<div class="param-description"><p>to grab either head or tail (first, last)</p>
+                        	  								<div class="param-description"><p>you wish to normalize</p>
                         </div>
                         	  						</td>
                         	  					</tr>
@@ -871,9 +415,323 @@
                         	  		<strong>returns:</strong>
                         
                         	  		<div class="returns-description">
-                        	  					<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        	  					<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>:
+                        	  				<p>array of normalized action objects</p>
+                        
                         	  		</div>
                         	  	</div>
+                        
+                        	</div>
+                        </div>
+                         <div id="method-normalizeActions" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        				<span class="flag private">private</span>
+                        
+                        			<span class="name"><code>normalizeActions</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>
+                        									controller
+                        								</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l43"><code>src&#x2F;controller.js:43</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Normalize object and string actions into an array of tuples.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
+                        	  		<table class="params-list">
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>whose actions you wish to normalize</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                         <div id="method-normalizeControllerElements" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        				<span class="flag private">private</span>
+                        
+                        			<span class="name"><code>normalizeControllerElements</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>
+                        									controller
+                        								</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l109"><code>src&#x2F;controller.js:109</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Normalize the element objects for a given controller.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
+                        	  		<table class="params-list">
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>to normalize elements of</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                         <div id="method-normalizeControllerEvents" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        				<span class="flag private">private</span>
+                        
+                        			<span class="name"><code>normalizeControllerEvents</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>
+                        									controller
+                        								</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l139"><code>src&#x2F;controller.js:139</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Normalize the event for a given controller.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
+                        	  		<table class="params-list">
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">controller</span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>controller  with which to register events</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        
+                        	</div>
+                        </div>
+                         <div id="method-normalizeElements" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        				<span class="flag private">private</span>
+                        
+                        			<span class="name"><code>normalizeElements</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>
+                        									elements
+                        								</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        				<span class="returns-inline">
+                        					<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        				</span>
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l123"><code>src&#x2F;controller.js:123</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Normalize the given elements to a common format.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
+                        	  		<table class="params-list">
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">elements</span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>object to normalize</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
+                        	  	<div class="returns">
+                        	  		<strong>returns:</strong>
+                        
+                        	  		<div class="returns-description">
+                        	  					<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                        	  				<p>normalized elements object</p>
+                        
+                        	  		</div>
+                        	  	</div>
+                        
+                        	</div>
+                        </div>
+                         <div id="method-normalizeEvents" class="method item private">
+                        	<div class="method-header">
+                        		<div class="method-signature">
+                        				<span class="flag private">private</span>
+                        
+                        			<span class="name"><code>normalizeEvents</code></span>
+                        
+                        				<div class="args">
+                        					<span class="paren">(</span><ul class="args-list inline commas">
+                        						<li class="arg">
+                        								<code>
+                        									elements
+                        								</code>
+                        						</li>
+                        					</ul><span class="paren">)</span>
+                        				</div>
+                        
+                        		</div>
+                        
+                        
+                        
+                        
+                        
+                        		<div class="meta">
+                        					<p>
+                        					defined in
+                        			<a href="../files/src_controller.js.html#l154"><code>src&#x2F;controller.js:154</code></a>
+                        			</p>
+                        
+                        
+                        
+                        		</div>
+                        	</div>
+                        
+                        	<div class="method-content">
+                        	  	<div class="description"><p>Normalize the given events into a common format.</p>
+                        </div>
+                        
+                        	  	<div class="params">
+                        		  	<h4>Parameters: </h4>
+                        	  		<table class="params-list">
+                        	  			<tbody>
+                        	  					<tr class="param">
+                        	  						<td>
+                        	  								<span class="param-name">elements</span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        	  						</td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
+                        	  						<td class="description">
+                        	  								<div class="param-description"><p>object of events to normalize</p>
+                        </div>
+                        	  						</td>
+                        	  					</tr>
+                        	  			</tbody>
+                        	  		</table>
+                        	  	</div>
+                        
                         
                         	</div>
                         </div>
@@ -903,7 +761,7 @@
                         		<div class="meta">
                         					<p>
                         					defined in
-                        			<a href="../files/src_controller.js.html#l36"><code>src&#x2F;controller.js:36</code></a>
+                        			<a href="../files/src_controller.js.html#l95"><code>src&#x2F;controller.js:95</code></a>
                         			</p>
                         
                         
@@ -912,7 +770,7 @@
                         	</div>
                         
                         	<div class="method-content">
-                        	  	<div class="description"><p>Register the controller's actions to the dispatcher</p>
+                        	  	<div class="description"><p>Register all the action for a given controller.</p>
                         </div>
                         
                         	  	<div class="params">
@@ -922,206 +780,12 @@
                         	  					<tr class="param">
                         	  						<td>
                         	  								<span class="param-name">controller</span>
-                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
+                        	  								<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                         	  						</td>
-                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
+                        	  						<td class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></td>
                         	  						<td class="description">
-                        	  								<p>&nbsp;</p>
-                        	  						</td>
-                        	  					</tr>
-                        	  			</tbody>
-                        	  		</table>
-                        	  	</div>
-                        
-                        
-                        	</div>
+                        	  								<div class="param-description"><p>to register actions on</p>
                         </div>
-                         <div id="method-registerControllerEvents" class="method item private">
-                        	<div class="method-header">
-                        		<div class="method-signature">
-                        				<span class="flag private">private</span>
-                        
-                        			<span class="name"><code>registerControllerEvents</code></span>
-                        
-                        				<div class="args">
-                        					<span class="paren">(</span><ul class="args-list inline commas">
-                        						<li class="arg">
-                        								<code>
-                        									controller
-                        								</code>
-                        						</li>
-                        					</ul><span class="paren">)</span>
-                        				</div>
-                        
-                        		</div>
-                        
-                        
-                        
-                        
-                        
-                        		<div class="meta">
-                        					<p>
-                        					defined in
-                        			<a href="../files/src_controller.js.html#l166"><code>src&#x2F;controller.js:166</code></a>
-                        			</p>
-                        
-                        
-                        
-                        		</div>
-                        	</div>
-                        
-                        	<div class="method-content">
-                        	  	<div class="description"><p>Iterate over the controller's events
-                        and register to handle each action's element events.</p>
-                        </div>
-                        
-                        	  	<div class="params">
-                        		  	<h4>Parameters: </h4>
-                        	  		<table class="params-list">
-                        	  			<tbody>
-                        	  					<tr class="param">
-                        	  						<td>
-                        	  								<span class="param-name">controller</span>
-                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
-                        	  						</td>
-                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
-                        	  						<td class="description">
-                        	  								<p>&nbsp;</p>
-                        	  						</td>
-                        	  					</tr>
-                        	  			</tbody>
-                        	  		</table>
-                        	  	</div>
-                        
-                        
-                        	</div>
-                        </div>
-                         <div id="method-registerElementCaching" class="method item private">
-                        	<div class="method-header">
-                        		<div class="method-signature">
-                        				<span class="flag private">private</span>
-                        
-                        			<span class="name"><code>registerElementCaching</code></span>
-                        
-                        				<div class="args">
-                        					<span class="paren">(</span><ul class="args-list inline commas">
-                        						<li class="arg">
-                        								<code>
-                        									controller
-                        								</code>
-                        						</li>
-                        					</ul><span class="paren">)</span>
-                        				</div>
-                        
-                        		</div>
-                        
-                        
-                        
-                        
-                        
-                        		<div class="meta">
-                        					<p>
-                        					defined in
-                        			<a href="../files/src_controller.js.html#l150"><code>src&#x2F;controller.js:150</code></a>
-                        			</p>
-                        
-                        
-                        
-                        		</div>
-                        	</div>
-                        
-                        	<div class="method-content">
-                        	  	<div class="description"><p>Iterate over the controller's elements
-                        and register to cache each action's events.</p>
-                        </div>
-                        
-                        	  	<div class="params">
-                        		  	<h4>Parameters: </h4>
-                        	  		<table class="params-list">
-                        	  			<tbody>
-                        	  					<tr class="param">
-                        	  						<td>
-                        	  								<span class="param-name">controller</span>
-                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
-                        	  						</td>
-                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
-                        	  						<td class="description">
-                        	  								<p>&nbsp;</p>
-                        	  						</td>
-                        	  					</tr>
-                        	  			</tbody>
-                        	  		</table>
-                        	  	</div>
-                        
-                        
-                        	</div>
-                        </div>
-                         <div id="method-registerEvents" class="method item private">
-                        	<div class="method-header">
-                        		<div class="method-signature">
-                        				<span class="flag private">private</span>
-                        
-                        			<span class="name"><code>registerEvents</code></span>
-                        
-                        				<div class="args">
-                        					<span class="paren">(</span><ul class="args-list inline commas">
-                        						<li class="arg">
-                        								<code>
-                        									controller<span class="comma">,&nbsp;</span>
-                        								</code>
-                        						</li>
-                        						<li class="arg">
-                        								<code>
-                        									action
-                        								</code>
-                        						</li>
-                        					</ul><span class="paren">)</span>
-                        				</div>
-                        
-                        		</div>
-                        
-                        
-                        
-                        
-                        
-                        		<div class="meta">
-                        					<p>
-                        					defined in
-                        			<a href="../files/src_controller.js.html#l129"><code>src&#x2F;controller.js:129</code></a>
-                        			</p>
-                        
-                        
-                        
-                        		</div>
-                        	</div>
-                        
-                        	<div class="method-content">
-                        	  	<div class="description"><p>Iterate over the given action's events and register
-                        the event handlers on each element.</p>
-                        </div>
-                        
-                        	  	<div class="params">
-                        		  	<h4>Parameters: </h4>
-                        	  		<table class="params-list">
-                        	  			<tbody>
-                        	  					<tr class="param">
-                        	  						<td>
-                        	  								<span class="param-name">controller</span>
-                        	  								<span class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></span>
-                        	  						</td>
-                        	  						<td class="type"><a href="../classes/Controller.html" class="crosslink">Controller</a></td>
-                        	  						<td class="description">
-                        	  								<p>&nbsp;</p>
-                        	  						</td>
-                        	  					</tr>
-                        	  					<tr class="param">
-                        	  						<td>
-                        	  								<span class="param-name">action</span>
-                        	  								<span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                        	  						</td>
-                        	  						<td class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></td>
-                        	  						<td class="description">
-                        	  								<p>&nbsp;</p>
                         	  						</td>
                         	  					</tr>
                         	  			</tbody>

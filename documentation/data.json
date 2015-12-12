@@ -50,6 +50,7 @@
         "JSkit": {
             "name": "JSkit",
             "submodules": {},
+            "elements": {},
             "classes": {
                 "Application": 1,
                 "ControllerFactory": 1,
@@ -132,6 +133,7 @@
             "description": "JSkit global namespace object"
         }
     },
+    "elements": {},
     "classitems": [
         {
             "file": "src/application.js",
@@ -244,116 +246,8 @@
         },
         {
             "file": "src/controller.js",
-            "line": 23,
-            "description": "Take a string and put underscores between names and delimiters",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "constantize",
-            "params": [
-                {
-                    "name": "string",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 36,
-            "description": "Register the controller's actions to the dispatcher",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "registerActions",
-            "params": [
-                {
-                    "name": "controller",
-                    "description": "",
-                    "type": "Controller"
-                }
-            ],
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 52,
-            "description": "Take an action string or mapped action and return\nan object containing the action name and method.",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "mapAction",
-            "params": [
-                {
-                    "name": "action/mappedAction",
-                    "description": "",
-                    "type": "String,Object"
-                }
-            ],
-            "return": {
-                "description": "action/event maps",
-                "type": "Array"
-            },
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 65,
-            "description": "Create a list of maps of action name/method pairs.",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "createActionMap",
-            "params": [
-                {
-                    "name": "method",
-                    "description": "to map to action",
-                    "type": "String"
-                },
-                {
-                    "name": "action",
-                    "description": "to map to method",
-                    "type": "String"
-                }
-            ],
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 77,
-            "description": "Take a controller and an actionMap and determine if\nthe action is defined on the controller. If not, throw\nan error.",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "ensureActionIsDefined",
-            "params": [
-                {
-                    "name": "controller",
-                    "description": "",
-                    "type": "Controller"
-                },
-                {
-                    "name": "actionMap",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 93,
-            "description": "Return an event name based on the controller properties\nthat make up an event name.",
+            "line": 25,
+            "description": "Get the full event name for a given controller and action.",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
@@ -361,125 +255,84 @@
             "params": [
                 {
                     "name": "controller",
-                    "description": "",
-                    "type": "Controller"
+                    "description": "object to check for the given action",
+                    "type": "Object"
                 },
                 {
                     "name": "action",
-                    "description": "",
+                    "description": "name to look up on given controller",
                     "type": "String"
                 }
             ],
             "return": {
-                "description": "String"
+                "description": "Full event name for a given controller's action",
+                "type": "String"
             },
             "class": "Controller",
             "module": "JSkit"
         },
         {
             "file": "src/controller.js",
-            "line": 112,
-            "description": "Iterate over the given controller's elements object\nand cache a reference to each selected element.",
+            "line": 43,
+            "description": "Normalize object and string actions into an array of tuples.",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
-            "name": "cacheElements",
+            "name": "normalizeActions",
             "params": [
                 {
                     "name": "controller",
-                    "description": "",
-                    "type": "Controller"
-                },
-                {
-                    "name": "action",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 129,
-            "description": "Iterate over the given action's events and register\nthe event handlers on each element.",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "registerEvents",
-            "params": [
-                {
-                    "name": "controller",
-                    "description": "",
-                    "type": "Controller"
-                },
-                {
-                    "name": "action",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 150,
-            "description": "Iterate over the controller's elements\nand register to cache each action's events.",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "registerElementCaching",
-            "params": [
-                {
-                    "name": "controller",
-                    "description": "",
-                    "type": "Controller"
-                }
-            ],
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 166,
-            "description": "Iterate over the controller's events\nand register to handle each action's element events.",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "registerControllerEvents",
-            "params": [
-                {
-                    "name": "controller",
-                    "description": "",
-                    "type": "Controller"
-                }
-            ],
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 182,
-            "description": "Reduce the controller's elements object into an object\nthat only contains either the elements to cache or the\nevents to register to that element.",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "reduceElements",
-            "params": [
-                {
-                    "name": "controller's",
-                    "description": "elements object",
+                    "description": "whose actions you wish to normalize",
                     "type": "Object"
-                },
+                }
+            ],
+            "class": "Controller",
+            "module": "JSkit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 56,
+            "description": "Normalize the given action into an action object.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "normalizeAction",
+            "params": [
                 {
-                    "name": "function",
-                    "description": "to grab either head or tail (first, last)",
-                    "type": "Function"
+                    "name": "action",
+                    "description": "you wish to normalize",
+                    "type": "String"
                 }
             ],
             "return": {
-                "description": "",
+                "description": "array of normalized action objects",
+                "type": "Array"
+            },
+            "class": "Controller",
+            "module": "JSkit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 68,
+            "description": "Create an action object from the given method and action.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "createActionObject",
+            "params": [
+                {
+                    "name": "method",
+                    "description": "associated with the given action",
+                    "type": "String"
+                },
+                {
+                    "name": "name",
+                    "description": "of the given action",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "object with the name and method of the given action",
                 "type": "Object"
             },
             "class": "Controller",
@@ -487,125 +340,124 @@
         },
         {
             "file": "src/controller.js",
-            "line": 205,
-            "description": "Factory function to create fresh controller objects\nwith the given attributes.",
+            "line": 81,
+            "description": "Throw an error if the action method is not defined on the given controller.",
+            "access": "private",
+            "tagname": "",
             "itemtype": "method",
-            "name": "create",
-            "static": 1,
+            "name": "ensureActionIsDefined",
             "params": [
                 {
-                    "name": "attrs",
+                    "name": "controller",
+                    "description": "to ensure has the given action method",
+                    "type": "Object"
+                },
+                {
+                    "name": "UNKNOWN",
                     "description": "",
-                    "type": "Object",
-                    "optional": true,
-                    "optdefault": "{}"
+                    "type": "Srtring"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSkit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 95,
+            "description": "Register all the action for a given controller.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "registerActions",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "to register actions on",
+                    "type": "Object"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSkit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 109,
+            "description": "Normalize the element objects for a given controller.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "normalizeControllerElements",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "to normalize elements of",
+                    "type": "Object"
+                }
+            ],
+            "class": "Controller",
+            "module": "JSkit"
+        },
+        {
+            "file": "src/controller.js",
+            "line": 123,
+            "description": "Normalize the given elements to a common format.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "normalizeElements",
+            "params": [
+                {
+                    "name": "elements",
+                    "description": "object to normalize",
+                    "type": "Object"
                 }
             ],
             "return": {
-                "description": "",
-                "type": "Controller"
+                "description": "normalized elements object",
+                "type": "Object"
             },
             "class": "Controller",
             "module": "JSkit"
         },
         {
             "file": "src/controller.js",
-            "line": 220,
-            "description": "Array of actions to be wired up.",
-            "itemtype": "property",
-            "name": "actions",
-            "type": "Array",
-            "default": "[]",
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 228,
-            "description": "Namespace that controller events are namespaced under.",
-            "itemtype": "property",
-            "name": "namespace",
-            "type": "String",
-            "default": "\"\"",
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 236,
-            "description": "Channel that controller events use under namespace.",
-            "itemtype": "property",
-            "name": "channel",
-            "type": "String",
-            "default": "\"controller\"",
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 244,
-            "description": "Underscored name of controller for use in events.",
-            "itemtype": "property",
-            "name": "controllerEventName",
-            "type": "String",
-            "default": "\"controller\"",
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 252,
-            "description": "Event dispatcher for registering events.",
-            "itemtype": "property",
-            "name": "dispatcher",
-            "type": "Dispatcher",
-            "default": "JSkit.Dispatcher.create()",
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 260,
-            "description": "Object of element names/selectors to\ncache per action.",
-            "itemtype": "property",
-            "name": "elements",
-            "type": "Object",
-            "default": "{}",
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 269,
-            "description": "Object of events for each action to\nregister on given elements.",
-            "itemtype": "property",
-            "name": "events",
-            "type": "Object",
-            "default": "{}",
-            "class": "Controller",
-            "module": "JSkit"
-        },
-        {
-            "file": "src/controller.js",
-            "line": 278,
-            "description": "Default implementation that commits no operation",
+            "line": 139,
+            "description": "Normalize the event for a given controller.",
+            "access": "private",
+            "tagname": "",
             "itemtype": "method",
-            "name": "all",
+            "name": "normalizeControllerEvents",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "controller  with which to register events",
+                    "type": "Object"
+                }
+            ],
             "class": "Controller",
             "module": "JSkit"
         },
         {
             "file": "src/controller.js",
-            "line": 283,
-            "description": "Default implementation that commits no operation",
+            "line": 154,
+            "description": "Normalize the given events into a common format.",
+            "access": "private",
+            "tagname": "",
             "itemtype": "method",
-            "name": "initialize",
+            "name": "normalizeEvents",
+            "params": [
+                {
+                    "name": "elements",
+                    "description": "object of events to normalize",
+                    "type": "Object"
+                }
+            ],
             "class": "Controller",
             "module": "JSkit"
         },
         {
             "file": "src/dispatcher.js",
-            "line": 9,
+            "line": 10,
             "description": "Get all handler functions for a given dispatcher and event.",
             "itemtype": "method",
             "name": "getEventHandlers",
@@ -630,7 +482,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 22,
+            "line": 23,
             "description": "Create a handler object that contains the context and handler function",
             "itemtype": "method",
             "name": "createHandlerObject",
@@ -655,7 +507,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 38,
+            "line": 39,
             "description": "Add an event handler to the array of registered handlers.",
             "itemtype": "method",
             "name": "registerHandler",
@@ -683,7 +535,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 54,
+            "line": 55,
             "description": "Create a new Dispatcher object.",
             "static": 1,
             "itemtype": "method",
@@ -697,7 +549,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 65,
+            "line": 66,
             "description": "Register a handler to a given event.",
             "itemtype": "method",
             "name": "on",
@@ -724,7 +576,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 79,
+            "line": 80,
             "description": "Register a handler to a given event that will\nfire before the handlers registerd with `on`.",
             "itemtype": "method",
             "name": "before",
@@ -751,7 +603,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 94,
+            "line": 95,
             "description": "Remove a handler from a given event.",
             "itemtype": "method",
             "name": "off",
@@ -772,7 +624,7 @@
         },
         {
             "file": "src/dispatcher.js",
-            "line": 114,
+            "line": 115,
             "description": "Trigger a given event, causing all handlers\nfor that event to be fired.",
             "itemtype": "method",
             "name": "trigger",
@@ -801,5 +653,10 @@
             "module": "JSkit"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "param name missing: {Srtring}",
+            "line": " src/controller.js:81"
+        }
+    ]
 }
