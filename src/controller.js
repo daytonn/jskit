@@ -189,6 +189,9 @@ JSkit.Controller = (function() {
     return action.name != action.method;
   }
 
+  function nativeFind(selector) {
+    return document.querySelectorAll(selector);
+  }
 
   /**
     Use jQuery or querySelector all to find a DOM element.
@@ -198,7 +201,7 @@ JSkit.Controller = (function() {
     @param selector {String}
   */
   function findInDOM(selector) {
-    var finder = $ ? $ : document.querySelectorAll;
+    var finder = $ ? $ : nativeFind;
     return finder(selector);
   }
 
