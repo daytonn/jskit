@@ -73,11 +73,11 @@ describe("Controller", function() {
 
   describe("options", function() {
     it("has an index action", function() {
-      expect(subject.actions).to.contain("index");
+      expect(subject).to.have.action("index");
     });
 
     it("has a mapped action", function() {
-      expect(last(subject.actions).mapped).to.equal("action");
+      expect(subject).to.have.action("mapped", "action");
     });
 
     it("restricts keywords", function() {
@@ -124,6 +124,7 @@ describe("Controller", function() {
     it("registers action methods on the dispatcher", function() {
       subject.dispatcher.trigger("controller:test:index");
       expect(indexCalled).to.be.true;
+
     });
 
     it("automatically wires the all event", function() {
@@ -294,15 +295,29 @@ describe("Controller", function() {
     var subject;
     beforeEach(function() {
       $fixtures.append("<a id='element' href='#'>Test</a>");
-      subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
-        elements: {
-          index: { element: "#element" }
-        }
-      }));
     });
 
     it("caches the elements for a given action", function() {
+      subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+        elements: { index: { element: "#element" }}
+      }));
       subject.cacheElements("index");
+      expect(subject.$element).to.have.$attr("id", "element");
+    });
+
+    it("caches the elements for a mapped action", function() {
+      subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+        elements: { mapped: { element: "#element" }}
+      }));
+      subject.cacheElements("mapped");
+      expect(subject.$element).to.have.$attr("id", "element");
+    });
+
+    it("caches the elements for all actions", function() {
+      subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+        elements: { all: { element: "#element"} }
+      }));
+      subject.cacheElements("all");
       expect(subject.$element).to.have.$attr("id", "element");
     });
 
@@ -332,6 +347,9 @@ describe("Controller", function() {
         dollar = window.$;
         window.jQuery = undefined;
         window.$ = undefined;
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+          elements: { index: { element: "#element" } }
+        }));
       });
 
       afterEach(function() {
@@ -355,6 +373,7 @@ describe("Controller", function() {
       subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
         handleElementClick: function() { handleElementClickCalled = true; },
         elements: {
+          mapped: { element: ["#element", { click: "handleElementClick" }]},
           index: { element: ["#element", { click: "handleElementClick" }] }
         }
       }));
@@ -362,6 +381,11 @@ describe("Controller", function() {
 
     it("caches the elements", function() {
       subject.registerEvents("index");
+      expect(subject.$element).to.have.$attr("id", "element");
+    });
+
+    it("caches the elements for mapped action", function() {
+      subject.registerEvents("mapped");
       expect(subject.$element).to.have.$attr("id", "element");
     });
 
@@ -403,7 +427,7 @@ describe("Controller", function() {
         subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
           handleElementClick: function() { handleElementClickCalled = true; },
           elements: {
-            index: { 
+            index: {
               element: ["#element", function(on) {
                 on("click", this.handleElementClick);
               }]

@@ -351,6 +351,8 @@ picture {
       display: inline-block;
       font-weight: bold;
       margin-right: 3px; }
+  .method .params-list .param td:first-child .type {
+    display: none; }
   .method .params-list .param .param-description {
     font-style: italic;
     color: #808080; }

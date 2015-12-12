@@ -125,6 +125,14 @@
         }
       }
 
+      td {
+        &:first-child {
+          .type {
+            display: none;
+          }
+        }
+      }
+
       .param-description {
         font-style: italic;
         color: #808080;

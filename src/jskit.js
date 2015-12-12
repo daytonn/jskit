@@ -6,7 +6,6 @@
 */
 var JSkit = (function() {
   if (!_) throw new Error("JSkit: lodash or underscore is required");
-  if (!$) throw new Error("JSkit: jQuery or equivalent is required");
 
   return {
     /**
