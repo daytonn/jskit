@@ -105,9 +105,9 @@ describe("Controller", function() {
       expect(function() {
         JSkit.Controller.create(extend({}, testControllerDefaults, {
           name: "Test",
-          actionEventName: "invalid"
+          eventNameForAction: "invalid"
         }));
-      }).to.throw("JSkit.Controller.create: actionEventName is a restricted keyword");
+      }).to.throw("JSkit.Controller.create: eventNameForAction is a restricted keyword");
     });
   });
 
@@ -143,9 +143,9 @@ describe("Controller", function() {
     });
   });
 
-  describe("actionEventName", function() {
+  describe("eventNameForAction", function() {
     it("returns the event string for a given action", function() {
-      expect(subject.actionEventName("index")).to.equal("controller:test:index");
+      expect(subject.eventNameForAction("index")).to.equal("controller:test:index");
     });
   });
 
@@ -191,6 +191,49 @@ describe("Controller", function() {
 
         subject.dispatcher.trigger("controller:test:all");
         expect(subject.$element).to.have.$attr("id", "element");
+      });
+    });
+
+    describe("element event handler registration", function() {
+      var subject;
+      var handleElementClickCalled = false;
+
+      beforeEach(function() {
+        $fixtures.append("<a id='element' href='#'>Test</a>");
+        handleElementClick = function() {
+          handleElementClickCalled = true;
+        };
+      });
+
+      it("registers the element handlers for an action", function() {
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+          elements: { index: { element: ["#element", { click: "handleElementClick" }] }},
+          handleElementClick: handleElementClick
+        }));
+
+        subject.dispatcher.trigger(subject.eventNameForAction("index"));
+        subject.$element.trigger("click");
+        expect(handleElementClickCalled).to.equal(true);
+      });
+
+      it("registers the element handlers for a mapped action", function() {
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+          elements: { mapped: { element: ["#element", { click: "handleElementClick" }] }}
+        }));
+
+        subject.dispatcher.trigger(subject.eventNameForAction("mapped"));
+        subject.$element.trigger("click");
+        expect(handleElementClickCalled).to.equal(true);
+      });
+
+      it("registers the element handlers for all actions", function() {
+        subject = JSkit.Controller.create(extend({}, testControllerDefaults, {
+          elements: { all: { element: ["#element", { click: "handleElementClick" }] }}
+        }));
+
+        subject.dispatcher.trigger(subject.eventNameForAction("all"));
+        subject.$element.trigger("click");
+        expect(handleElementClickCalled).to.equal(true);
       });
     });
   });

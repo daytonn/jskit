@@ -181,7 +181,7 @@ JSkit.Controller = (function() {
       "registerEvents",
       "registerActions",
       "cacheElements",
-      "actionEventName"
+      "eventNameForAction"
     ];
 
     each(keys(attrs), function(keyword) {
@@ -191,7 +191,7 @@ JSkit.Controller = (function() {
     });
   }
 
-  function actionEventName(controller, action) {
+  function eventNameForAction(controller, action) {
     return compact([
       controller.namespace,
       controller.channel,
@@ -227,7 +227,7 @@ JSkit.Controller = (function() {
   function registerActions(controller) {
     each(controller.__actions__, function(action) {
       ensureActionIsDefined(controller, action);
-      controller.dispatcher.on(actionEventName(controller, action.name), controller[action.method], controller);
+      controller.dispatcher.on(eventNameForAction(controller, action.name), controller[action.method], controller);
     });
   }
 
@@ -330,10 +330,16 @@ JSkit.Controller = (function() {
 
   function registerCacheElementsForActions(controller) {
     each(controller.__actions__, function(action) {
-      var eventName = actionEventName(controller, action.name);
+      var eventName = eventNameForAction(controller, action.name);
       controller.dispatcher.before(eventName, function() {
         return cacheElements(controller, action.name);
       })
+    });
+  }
+
+  function registerControllerElementEvents(controller) {
+    each(controller.__actions__, function(action) {
+      registerActionEvents(controller, action.name);
     });
   }
 
@@ -352,8 +358,8 @@ JSkit.Controller = (function() {
         namespace: "",
         initialize: function() {},
         all: function() {},
-        actionEventName: function(action) {
-          return actionEventName(this, action);
+        eventNameForAction: function(action) {
+          return eventNameForAction(this, action);
         }
       });
 
@@ -367,6 +373,7 @@ JSkit.Controller = (function() {
       normalizeControllerEvents(controller);
 
       registerCacheElementsForActions(controller);
+      registerControllerElementEvents(controller);
 
       decorateCacheElements(controller);
       decorateRegisterEvents(controller);
