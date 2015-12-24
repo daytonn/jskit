@@ -1,6 +1,6 @@
 {
   "name": "jskit",
-  "version": "5.1.0-rc2",
+  "version": "5.1.0",
   "description": "A simple answer to jQuery soup",
   "main": "dist/jskit.js",
   "scripts": {
