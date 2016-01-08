@@ -333,13 +333,16 @@ JSkit.Controller = (function() {
       var eventName = eventNameForAction(controller, action.name);
       controller.dispatcher.before(eventName, function() {
         return cacheElements(controller, action.name);
-      })
+      });
     });
   }
 
   function registerControllerElementEvents(controller) {
     each(controller.__actions__, function(action) {
-      registerActionEvents(controller, action.name);
+      var eventName = eventNameForAction(controller, action.name);
+      controller.dispatcher.before(eventName, function() {
+        return registerActionEvents(controller, action.name);
+      });
     });
   }
 
@@ -369,11 +372,11 @@ JSkit.Controller = (function() {
       normalizeActions(controller);
       registerActions(controller);
 
-      normalizeControllerElements(controller);
       normalizeControllerEvents(controller);
+      normalizeControllerElements(controller);
 
-      registerCacheElementsForActions(controller);
       registerControllerElementEvents(controller);
+      registerCacheElementsForActions(controller);
 
       decorateCacheElements(controller);
       decorateRegisterEvents(controller);
