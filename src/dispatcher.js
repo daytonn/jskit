@@ -3,7 +3,7 @@
  * @class Dispatcher
 */
 JSkit.Dispatcher = (function() {
-  var any = _.any;
+  var some = _.some;
   var each = _.each;
 
   /**
@@ -45,7 +45,7 @@ JSkit.Dispatcher = (function() {
   */
   function registerHandler(registeredHandlers, eventHandler, method) {
     method = method || "push";
-    if (!any(registeredHandlers, eventHandler)) {
+    if (!some(registeredHandlers, eventHandler)) {
       registeredHandlers[method](eventHandler);
     }
   }
