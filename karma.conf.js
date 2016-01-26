@@ -6,7 +6,7 @@ module.exports = function(config) {
       "sinon-chai"
     ],
     files: [
-      "node_modules/lodash/index.js",
+      "node_modules/lodash/lodash.js",
       "node_modules/jquery/dist/jquery.js",
       "node_modules/chai-jq/chai-jq.js",
       "node_modules/chai-fuzzy/index.js",

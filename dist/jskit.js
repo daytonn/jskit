@@ -28,6 +28,7 @@ var JSkit = (function() {
 JSkit.Dispatcher = (function() {
   var some = _.some;
   var each = _.each;
+  var tail = _.tail;
 
   /**
     Get all handler functions for a given dispatcher and event.
@@ -143,7 +144,7 @@ JSkit.Dispatcher = (function() {
         */
         trigger: function(eventName) {
           var eventHhandlers = this.__events__[eventName] || [];
-          var args = _.rest(arguments);
+          var args = tail(arguments);
 
           each(eventHhandlers, function(eventHandler) {
             var handler = eventHandler.handler;
@@ -175,6 +176,7 @@ JSkit.Controller = (function() {
   var map = _.map;
   var reduce = _.reduce;
   var underscore = _.snakeCase;
+  var functions = _.functions;
 
   function restrictKeywords(attrs) {
     var keywords = [
@@ -366,7 +368,9 @@ JSkit.Controller = (function() {
         }
       });
 
-      bindAll(controller);
+      each(functions(controller), function(func) {
+        bind(controller[func], controller);
+      });
 
       registerAllAction(controller);
       normalizeActions(controller);

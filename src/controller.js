@@ -17,6 +17,7 @@ JSkit.Controller = (function() {
   var map = _.map;
   var reduce = _.reduce;
   var underscore = _.snakeCase;
+  var functions = _.functions;
 
   function restrictKeywords(attrs) {
     var keywords = [
@@ -208,7 +209,9 @@ JSkit.Controller = (function() {
         }
       });
 
-      bindAll(controller);
+      each(functions(controller), function(func) {
+        bind(controller[func], controller);
+      });
 
       registerAllAction(controller);
       normalizeActions(controller);
