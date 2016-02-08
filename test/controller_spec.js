@@ -1,7 +1,5 @@
 describe("Controller", function() {
   var extend = _.extend;
-  var last = _.last;
-  var first = _.first;
   var each = _.each;
   var dispatcher;
   var subject;
@@ -236,6 +234,23 @@ describe("Controller", function() {
         expect(handleElementClickCalled).to.equal(true);
       });
     });
+
+    describe("method binding", function() {
+      beforeEach(function() {
+        subject = JSkit.Controller.create({
+          name: "Bind",
+          boundValue: "bind-test",
+          boundMethod: function() {
+            return this.boundValue;
+          }
+        });
+      });
+
+      it("binds methods to the controller", function() {
+        var reassigned = subject.boundMethod;
+        expect(reassigned()).to.equal("bind-test");
+      });
+    });
   });
 
   describe("with missing action methods", function() {
@@ -438,7 +453,6 @@ describe("Controller", function() {
       });
     });
   });
-
 
   describe("registerEvents", function() {
     var handleElementClickCalled;

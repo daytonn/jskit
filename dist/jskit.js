@@ -159,8 +159,6 @@ JSkit.Dispatcher = (function() {
 
 JSkit.Controller = (function() {
   var bind = _.bind;
-  var bindAll = _.bindAll;
-  var cloneDeep = _.cloneDeep;
   var compact = _.compact;
   var defaults = _.defaults;
   var each = _.each;
@@ -168,7 +166,6 @@ JSkit.Controller = (function() {
   var first = _.first;
   var flatten = _.flatten;
   var includes = _.includes;
-  var isArray = _.isArray;
   var isFunction = _.isFunction;
   var isObject = _.isObject;
   var keys = _.keys;
@@ -261,10 +258,6 @@ JSkit.Controller = (function() {
 
       return memo;
     }, {});
-  }
-
-  function isMappedAction(action) {
-    return action.name != action.method;
   }
 
   function nativeFind(selector) {
@@ -369,7 +362,7 @@ JSkit.Controller = (function() {
       });
 
       each(functions(controller), function(func) {
-        bind(controller[func], controller);
+        controller[func] = bind(controller[func], controller);
       });
 
       registerAllAction(controller);

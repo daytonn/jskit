@@ -1,0 +1,31 @@
+{
+  "rules": {
+    "indent": [2, 2],
+    "quotes": [2, "double"],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
+    "no-console": [0]
+  },
+  "ecmaFeatures": {
+    "modules": true,
+    "jsx": true
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jquery": true,
+    "mocha": true
+  },
+  "globals": {
+    "_": true,
+    "App": true,
+    "JSkit": true,
+    "expect": true,
+    "spyOn": true,
+    "stub": true,
+    "c3": true,
+    "moment": true
+  },
+  "extends": "eslint:recommended"
+ }
