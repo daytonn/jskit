@@ -1,32 +1,50 @@
 module.exports = function(config) {
   config.set({
-    basePath: "",
-    frameworks: [
-      "mocha",
-      "sinon-chai"
+    basePath: '',
+    frameworks: ['mocha'],
+    plugins: [
+      'karma-sinon',
+      'karma-chrome-launcher',
+      'karma-mocha',
+      'karma-sourcemap-loader',
+      require('karma-webpack')
     ],
-    files: [
-      "node_modules/lodash/lodash.js",
-      "node_modules/jquery/dist/jquery.js",
-      "node_modules/chai-jq/chai-jq.js",
-      "node_modules/chai-fuzzy/index.js",
-      "test/test_helper.js",
-      "dist/jskit.js",
-      "test/**/*_spec.js"
-    ],
+    files: ['test/bundle.js'],
     exclude: [],
-    preprocessors: {},
-    reporters: ["dots"],
+    preprocessors: {
+      'test/bundle.js': ['webpack', 'sourcemap']
+    },
+    webpack: {
+      devtool: 'inline-source-map',
+      module: {
+        loaders: [
+          {
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+            test: /\.js$/
+          },
+          {
+            test: /sinon\.js$/,
+            loader: "imports?define=>false"
+          }
+        ]
+      }
+    },
+    webpackMiddleware: {
+      noInfo: true,
+    },
+    reporters: ['progress'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ["Chrome"],
+    browsers: ['Chrome'],
     singleRun: false,
+    concurrency: Infinity,
     client: {
       mocha: {
         reporter: 'html'
       }
-    },
-  });
-};
+    }
+  })
+}

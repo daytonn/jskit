@@ -4,13 +4,10 @@
   "description": "A simple answer to jQuery soup",
   "main": "dist/jskit.js",
   "scripts": {
-    "start": "gulp build; karma start",
-    "watch": "gulp watch",
-    "build": "gulp build",
-    "test": "karma start --single-run",
-    "docs": "yuidoc -t documentation-theme -H documentation-theme/helpers/helpers.js ./src -o documentation",
-    "xdocs": "yuidoc ./src -o documentation",
-    "doc-server": "nodemon server.js"
+    "start": "karma start",
+    "watch": "webpack --watch",
+    "build": "webpack",
+    "test": "karma start --single-run"
   },
   "repository": {
     "type": "git",
@@ -23,34 +20,23 @@
   },
   "homepage": "https://github.com/daytonn/jskit",
   "devDependencies": {
-    "chai": "^3.4.0",
-    "chai-fuzzy": "^1.6.0",
-    "chai-jq": "0.0.8",
-    "express": "^4.13.3",
-    "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-exec": "^2.1.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.1.0",
-    "gulp-uglify": "^1.4.2",
-    "gulp-yuidoc": "^0.1.2",
-    "jquery": "^2.1.4",
-    "karma": "^0.13.14",
-    "karma-chrome-launcher": "^0.2.1",
-    "karma-firefox-launcher": "^0.1.6",
-    "karma-html2js-preprocessor": "^0.1.0",
-    "karma-mocha": "^0.2.0",
-    "karma-safari-launcher": "^0.1.1",
-    "karma-sinon-chai": "^1.1.0",
-    "mocha": "^2.3.3",
-    "nodemon": "^1.8.0",
-    "require-dir": "^0.3.0",
+    "babel-core": "^6.4.5",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "expect.js": "^0.3.1",
+    "imports-loader": "^0.6.5",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-cli": "^0.1.2",
+    "karma-mocha": "^0.2.1",
+    "karma-sinon": "^1.0.4",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.7.0",
+    "lodash": "^4.0.1",
     "sinon": "^1.17.2",
-    "sinon-chai": "^2.8.0",
-    "yuidoc-lucid-theme": "^0.1.1",
-    "yuidocjs": "^0.9.0"
+    "webpack": "^1.12.12"
   },
   "dependencies": {
-    "lodash": "^4.0.1"
+    "mocha": "^2.4.2"
   }
 }

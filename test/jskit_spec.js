@@ -1,11 +1,7 @@
-describe("JSkit", function() {
-  it("is an object", function() {
-    expect(JSkit).to.be.an("Object");
-  });
+import expect from 'expect.js'
 
-  describe("createApplication", function() {
-    it("returns an Application object", function() {
-      expect(JSkit.createApplication()).to.be.an("Object");
-    });
-  });
-});
+describe('JSkit', () => {
+  it('has tests', () => {
+    expect(true).to.be(true)
+  })
+})
