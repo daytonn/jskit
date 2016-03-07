@@ -1,97 +1,120 @@
-import expect from 'expect.js'
+import expect, { createSpy } from 'expect'
 import Dispatcher from '../src/dispatcher'
 import { first } from 'lodash'
-import { spy } from './test_helper'
 
 describe('Dispatcher', () => {
   let subject
-  let foreignContext
-  let handler
-  let handlerCalled
+
   beforeEach(() => {
-    foreignContext = {
-      value: 'foreign',
-      handler() { this.value = 'changed' }
-    }
-    handlerCalled = false
-    handler = () => { return handlerCalled = true }
     subject = Dispatcher.create()
   })
 
-  describe('on', function() {
-    beforeEach(function() {
+  describe('on', () => {
+    let handler
+    beforeEach(() => {
+      handler = () => {}
       subject.on('some-event', handler)
     })
 
-    it('registers a handler for an event', function() {
+    it('registers a handler for an event', () => {
       var eventHandler = first(subject.__events__['some-event']).handler
-      expect(eventHandler).to.equal(handler)
+      expect(eventHandler).toEqual(handler)
     })
 
-    it('does not double register a handler', function() {
+    it('does not double register a handler', () => {
       subject.on('some-event', handler)
-      expect(subject.__events__['some-event'].length).to.equal(1)
+      expect(subject.__events__['some-event'].length).toEqual(1)
     })
 
-    it('registers a handler with the same function but different context', function() {
+    it('registers a handler with the same function but different context', () => {
       subject.on('some-event', handler, {})
-      expect(subject.__events__['some-event'].length).to.equal(2)
+      expect(subject.__events__['some-event'].length).toEqual(2)
     })
   })
 
-  describe('before', function() {
+  describe('before', () => {
+    let handler
     let beforeHandler
 
-    beforeEach(function() {
+    beforeEach(() => {
+      handler = () => {}
       beforeHandler = () => {}
       subject.on('some-event', handler)
       subject.before('some-event', beforeHandler)
     })
 
-    it('prepends the handler to the events', function() {
-      expect(first(subject.__events__['some-event']).handler).to.equal(beforeHandler)
+    it('prepends the handler to the events', () => {
+      expect(first(subject.__events__['some-event']).handler).toEqual(beforeHandler)
     })
   })
 
-  describe('off', function() {
-    beforeEach(function() {
+  describe('off', () => {
+    let handler
+    beforeEach(() => {
+      handler = () => {}
+    })
+
+    it('removes all handlers from an event if only the event name is passed', () => {
+      subject.on('some-event', handler)
+      subject.off('some-event')
+
+      expect(subject.__events__['some-event'].length).toEqual(0)
+    })
+
+    it('removes an event handler if the hander is passed', () => {
+      let foreignContext = {
+        value: 'foreign',
+        handler() {}
+      }
+
+      subject.on('some-event', handler)
+      subject.on('some-event', foreignContext.handler)
+
+      subject.off('some-event', handler)
+
+      expect(subject.__events__['some-event'].length).toEqual(1)
+    })
+  })
+
+  describe('trigger', () => {
+    let handler
+    beforeEach(() => {
+      handler = createSpy()
       subject.on('some-event', handler)
     })
 
-    it('removes all handlers from an event if only the event name is passed', function() {
-      subject.off('some-event')
-      expect(subject.__events__['some-event'].length).to.equal(0)
+    it('triggers events', () => {
+      subject.trigger('some-event', 'one', 'two')
+      expect(handler).toHaveBeenCalled()
     })
 
-    it('removes an event handler if the hander is passed', function() {
-      subject.on('some-event', foreignContext.handler)
-      subject.off('some-event', handler)
-      expect(subject.__events__['some-event'].length).to.equal(1)
-    })
-  })
-
-  describe('trigger', function() {
-    beforeEach(function() {
+    it('deduplicates the handlers', () => {
       subject.on('some-event', handler)
       subject.trigger('some-event', 'one', 'two')
-      subject.on('boundHandler', foreignContext.handler, foreignContext)
-      subject.trigger('boundHandler')
+
+      expect(handler).toHaveBeenCalled()
+      expect(handler.calls.length).toEqual(1)
     })
 
-    it('triggers events', function() {
-      expect(handlerCalled).to.equal(true)
+    it('binds a context to the event handler', (done) => {
+      function handler() {
+        expect(this.value).toEqual('test')
+        done()
+      }
+
+      subject.on("boundHandler", handler, { value: 'test' })
+      subject.trigger("boundHandler")
     })
 
-    // it('deduplicates the handlers', function() {
-    //   expect(handler.callCount).to.equal(1)
-    // })
+    it('passes subsequent parameters to the handler', (done) => {
+      let handler = (one, two) => {
+        expect(one).toEqual('one')
+        expect(two).toEqual('two')
+        done()
+      }
 
-    // it('binds a context to the event handler', function() {
-    //   expect(foreignContext.value).to.equal('changed')
-    // })
-
-    // it('passes the tail of the arguments array to the handler', function() {
-    //   expect(handler.calledWith('one', 'two')).to.be.true
-    // })
+      subject.on('some-event', handler)
+      subject.trigger('some-event', 'one', 'two')
+    })
   })
 })

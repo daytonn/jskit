@@ -60,12 +60,11 @@ const Dispatcher = {
       },
 
       trigger(eventName) {
-        const eventHhandlers = this.__events__[eventName] || []
+        const eventHandlers = this.__events__[eventName] || []
         const args = tail(arguments)
 
-        each(eventHhandlers, function(eventHandler) {
-          const handler = eventHandler.handler
-          const context = eventHandler.context
+        eventHandlers.forEach((eventHandler) => {
+          const { handler, context } = eventHandler
           handler.apply(context, args)
         })
       }

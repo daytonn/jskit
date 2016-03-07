@@ -1,7 +1,7 @@
-import expect from 'expect.js'
+import expect from 'expect'
 
 describe('JSkit', () => {
   it('has tests', () => {
-    expect(true).to.be(true)
+    expect(true).toEqual(true)
   })
 })

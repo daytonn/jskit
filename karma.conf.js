@@ -9,10 +9,10 @@ module.exports = function(config) {
       'karma-sourcemap-loader',
       require('karma-webpack')
     ],
-    files: ['test/bundle.js'],
+    files: ['test/index.js'],
     exclude: [],
     preprocessors: {
-      'test/bundle.js': ['webpack', 'sourcemap']
+      'test/index.js': ['webpack', 'sourcemap']
     },
     webpack: {
       devtool: 'inline-source-map',
@@ -30,9 +30,7 @@ module.exports = function(config) {
         ]
       }
     },
-    webpackMiddleware: {
-      noInfo: true,
-    },
+    webpackMiddleware: { noInfo: true },
     reporters: ['progress'],
     port: 9876,
     colors: true,

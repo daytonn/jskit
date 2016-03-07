@@ -1,4 +1,9 @@
 module.exports = {
+  entry: './src/jskit.js',
+  output: {
+    path: './dist',
+    filename: 'jskit.js'
+  },
   module: {
     loaders: [
       {
@@ -7,7 +12,7 @@ module.exports = {
         loader: 'babel',
         cacheDirectory: true,
         query: {
-          presets: ['es2015']
+          presets: ['es2015', 'stage-0']
         }
       }
     ]
