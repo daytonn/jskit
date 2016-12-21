@@ -1,227 +1,432 @@
-JSkit.Controller = (function() {
-  var bind = _.bind;
-  var compact = _.compact;
-  var defaults = _.defaults;
-  var each = _.each;
-  var extend = _.extend;
-  var first = _.first;
-  var flatten = _.flatten;
-  var includes = _.includes;
-  var isFunction = _.isFunction;
-  var isObject = _.isObject;
-  var keys = _.keys;
-  var last = _.last;
-  var map = _.map;
-  var reduce = _.reduce;
-  var underscore = _.snakeCase;
-  var functions = _.functions;
+import Dispatcher from 'dispatcher'
 
-  function restrictKeywords(attrs) {
-    var keywords = [
-      "registerEvents",
-      "registerActions",
-      "cacheElements",
-      "eventNameForAction"
-    ];
+import {
+  compact,
+  each,
+  first,
+  flatten,
+  functions,
+  includes,
+  last,
+  mapObject,
+  reduce,
+} from 'list-comprehension'
 
-    each(keys(attrs), function(keyword) {
-      if (includes(keywords, keyword)) {
-        throw new Error("JSkit.Controller.create: " + keyword + " is a restricted keyword");
+import {
+    isFunction,
+    isObject,
+    snakeCase,
+} from 'utils'
+
+function restrictKeywords(attrs) {
+  var keywords = [
+    'registerEvents',
+    'registerActions',
+    'cacheElements',
+    'eventNameForAction'
+  ]
+
+  each(Object.keys(attrs), keyword => {
+    if (includes(keywords, keyword)) {
+      throw new Error(`Controller.create: ${keyword} is a restricted keyword`)
+    }
+  })
+}
+
+function eventNameForAction(controller, action) {
+  return compact([
+    controller.namespace,
+    controller.channel,
+    controller.controllerEventName,
+    action
+  ]).join(controller.eventSeparator)
+}
+
+function registerAllAction(controller) {
+  if (!includes(controller.actions, 'all')) controller.actions.unshift('all')
+}
+
+function normalizeActions(controller) {
+  controller.__actions__ = flatten(controller.actions.map(action => normalizeAction(action)))
+}
+
+function normalizeAction(action) {
+  return isObject(action) ? mapObject(action, createActionObject) : [createActionObject(action, action)]
+}
+
+function createActionObject(method, name) {
+  return { name: name, method: method }
+}
+
+function ensureActionIsDefined(controller, action) {
+  if (!isFunction(controller[action.method])) {
+    throw new Error(`${controller.name} action ${action.name}:${action.method} method is undefined`)
+  }
+}
+
+function registerActions(controller) {
+  each(controller.__actions__, action => {
+    ensureActionIsDefined(controller, action)
+    controller.dispatcher.on(eventNameForAction(controller, action.name), controller[action.method], controller)
+  })
+}
+
+function normalizeControllerElements(controller) {
+  controller.__elements__ = reduce(controller.elements, (memo, elements, action) => {
+    memo[action] = normalizeElements(elements)
+    return memo
+  }, {})
+}
+
+function normalizeElements(elements) {
+  return reduce(elements, (memo, selector, name) => {
+    memo[name] = _.isArray(selector) ? first(selector) : selector
+    return memo
+  }, {})
+}
+
+function normalizeControllerEvents(controller) {
+  controller.__events__ = reduce(controller.elements, (memo, elements, action) => {
+    memo[action] = normalizeEvents(elements)
+    return memo
+  }, {})
+}
+
+function normalizeEvents(elements) {
+  return reduce(elements, (memo, selector, name) => {
+    if (_.isArray(selector)) memo[`$${name}`] = last(selector)
+
+    return memo
+  }, {})
+}
+
+function nativeFind(selector) {
+  return document.querySelectorAll(selector)
+}
+
+function findInDOM(selector) {
+  var finder = $ ? $ : nativeFind
+  return finder(selector)
+}
+
+function cacheElements(controller, action) {
+  if (!action) throw new Error('Controller.cacheElements: action is undefined')
+
+  var actionElements = controller.__elements__[action]
+
+  if (actionElements) {
+    each(actionElements, (selector, name) => {
+      var element = controller['$' + name] = findInDOM(selector)
+
+      if (!element.length) {
+        throw new Error(`Controller.cacheElements: ${selector} is not in the DOM`)
       }
-    });
+    })
+  }
+}
+
+function decorateCacheElements(controller) {
+  controller.cacheElements = function(action) {
+    return cacheElements(controller, action)
+  }
+}
+
+function registerActionEvents(controller, action) {
+  each(controller.__events__[action], (events, element) => {
+    if (!controller[element]) cacheElements(controller, action)
+    registerElementEvents(controller, element, events)
+  })
+}
+
+function registerElementEvents(controller, element, events) {
+  var eventsBinder = eventsBinderFor(events).bind(controller)
+  var on = $.prototype.on.bind(controller[element])
+  eventsBinder(on)
+}
+
+function eventsBinderFor(events) {
+  if (events instanceof Function) {
+    return events
   }
 
-  function eventNameForAction(controller, action) {
-    return compact([
-      controller.namespace,
-      controller.channel,
-      controller.controllerEventName,
-      action
-    ]).join(controller.eventSeparator);
+  return function(on) {
+    var controller = this
+
+    each(events, function(handler, evnt) {
+      on(evnt, controller[handler])
+    })
   }
+}
 
-  function registerAllAction(controller) {
-    if (!includes(controller.actions, "all")) controller.actions.unshift("all");
+function decorateRegisterEvents(controller) {
+  controller.registerEvents = function(action) {
+    return registerActionEvents(controller, action)
   }
+}
 
-  function normalizeActions(controller) {
-    controller.__actions__ = flatten(map(controller.actions, function(action) {
-      return normalizeAction(action);
-    }));
+function registerCacheElementsForActions(controller) {
+  each(controller.__actions__, function(action) {
+    var eventName = eventNameForAction(controller, action.name)
+    controller.dispatcher.before(eventName, function() {
+      return cacheElements(controller, action.name)
+    })
+  })
+}
+
+function registerControllerElementEvents(controller) {
+  each(controller.__actions__, function(action) {
+    var eventName = eventNameForAction(controller, action.name)
+    controller.dispatcher.before(eventName, function() {
+      return registerActionEvents(controller, action.name)
+    })
+  })
+}
+
+export default {
+  create: function(attrs = {}) {
+    if (!attrs.name) throw new Error('Controller.create(attributes): attributes.name is undefined')
+    restrictKeywords(attrs)
+    var controller = Object.assign({
+      actions: [],
+      channel: 'controller',
+      controllerEventName: snakeCase(attrs.name),
+      dispatcher: new Dispatcher(),
+      elements: {},
+      eventSeparator: ':',
+      namespace: '',
+      initialize() {},
+      all() {},
+      eventNameForAction(action) {
+        return eventNameForAction(this, action)
+      }
+    }, attrs)
+
+    each(functions(controller), function(func) {
+      controller[func] = controller[func].bind(controller)
+    })
+
+    registerAllAction(controller)
+    normalizeActions(controller)
+    registerActions(controller)
+
+    normalizeControllerEvents(controller)
+    normalizeControllerElements(controller)
+
+    registerControllerElementEvents(controller)
+    registerCacheElementsForActions(controller)
+
+    decorateCacheElements(controller)
+    decorateRegisterEvents(controller)
+
+    controller.initialize()
+
+    return controller
   }
+}
 
-  function normalizeAction(action) {
-    return isObject(action) ? map(action, createActionObject) : [createActionObject(action, action)];
-  }
+// function restrictKeywords(attrs) {
+//   var keywords = [
+//     'registerEvents',
+//     'registerActions',
+//     'cacheElements',
+//     'eventNameForAction'
+//   ]
 
-  function createActionObject(method, name) {
-    return { name: name, method: method };
-  }
+//   Object.keys(attrs).forEach(keyword => {
+//     if (includes(keywords, keyword)) {
+//       throw new Error(`JSkit.Controller.create: ${keyword} is a restricted keyword`)
+//     }
+//   })
+// }
 
-  function ensureActionIsDefined(controller, action) {
-    if (!isFunction(controller[action.method])) {
-      throw new Error(controller.name + ' action "' + action.name + ":" + action.method + '" method is undefined');
-    }
-  }
+// function eventNameForAction(controller, action) {
+//   return compact([
+//     controller.namespace,
+//     controller.channel,
+//     controller.controllerEventName,
+//     action
+//   ]).join(controller.eventSeparator)
+// }
 
-  function registerActions(controller) {
-    each(controller.__actions__, function(action) {
-      ensureActionIsDefined(controller, action);
-      controller.dispatcher.on(eventNameForAction(controller, action.name), controller[action.method], controller);
-    });
-  }
+// function registerAllAction(controller) {
+//   if (!includes(controller.actions, 'all')) controller.actions.unshift('all')
+// }
 
-  function normalizeControllerElements(controller) {
-    controller.__elements__ = reduce(controller.elements, function(memo, elements, action) {
-      memo[action] = normalizeElements(elements);
-      return memo;
-    }, {});
-  }
+// function normalizeActions(controller) {
+//   debugger
+//   controller.__actions__ = flatten(controller.actions.map(action => {
+//     return normalizeAction(action)
+//   }))
+// }
 
-  function normalizeElements(elements) {
-    return reduce(elements, function(memo, selector, name) {
-      if (_.isArray(selector)) selector = first(selector);
-      memo[name] = selector;
-      return memo;
-    }, {});
-  }
+// function normalizeAction(action) {
+//   return isObject(action) ? action.map(createActionObject) : [createActionObject(action, action)]
+// }
 
-  function normalizeControllerEvents(controller) {
-    controller.__events__ = reduce(controller.elements, function(memo, elements, action) {
-      memo[action] = normalizeEvents(elements);
-      return memo;
-    }, {});
-  }
+// function createActionObject(method, name) {
+//   return { name: name, method: method }
+// }
 
-  function normalizeEvents(elements) {
-    return reduce(elements, function(memo, selector, name) {
-      if (_.isArray(selector)) memo["$" + name] = last(selector);
+// function ensureActionIsDefined(controller, action) {
+//   if (!isFunction(controller[action.method])) {
+//     throw new Error(`${controller.name} action "${action.name}.${action.method}" method is undefined`)
+//   }
+// }
 
-      return memo;
-    }, {});
-  }
+// function registerActions(controller) {
+//   each(controller.__actions__, function(action) {
+//     ensureActionIsDefined(controller, action)
+//     controller.dispatcher.on(eventNameForAction(controller, action.name), controller[action.method], controller)
+//   })
+// }
 
-  function nativeFind(selector) {
-    return document.querySelectorAll(selector);
-  }
+// function normalizeControllerElements(controller) {
+//   controller.__elements__ = reduce(controller.elements, function(memo, elements, action) {
+//     memo[action] = normalizeElements(elements)
+//     return memo
+//   }, {})
+// }
 
-  function findInDOM(selector) {
-    var finder = $ ? $ : nativeFind;
-    return finder(selector);
-  }
+// function normalizeElements(elements) {
+//   return reduce(elements, function(memo, selector, name) {
+//     isArray(selector) ? memo[name] = first(selector) : memo[name] = selector
+//   }, {})
+// }
 
-  function cacheElements(controller, action) {
-    if (!action) throw new Error("JSkit.Controller.cacheElements: action is undefined");
+// function normalizeControllerEvents(controller) {
+//   controller.__events__ = reduce(controller.elements, function(memo, elements, action) {
+//     memo[action] = normalizeEvents(elements)
+//     return memo
+//   }, {})
+// }
 
-    var actionElements = controller.__elements__[action];
+// function normalizeEvents(elements) {
+//   return reduce(elements, function(memo, selector, name) {
+//     if (_.isArray(selector)) memo['$' + name] = last(selector)
 
-    if (actionElements) {
-      each(actionElements, function(selector, name) {
-        var element = controller["$" + name] = findInDOM(selector);
+//     return memo
+//   }, {})
+// }
 
-        if (!element.length) {
-          throw new Error("JSkit.Controller.cacheElements: " + selector + " is not in the DOM");
-        }
-      });
-    }
-  }
+// function nativeFind(selector) {
+//   return document.querySelectorAll(selector)
+// }
 
-  function decorateCacheElements(controller) {
-    controller.cacheElements = function(action) {
-      return cacheElements(controller, action);
-    };
-  }
+// function findInDOM(selector) {
+//   var finder = $ ? $ : nativeFind
+//   return finder(selector)
+// }
 
-  function registerActionEvents(controller, action) {
-    each(controller.__events__[action], function(events, element) {
-      if (!controller[element]) cacheElements(controller, action);
-      registerElementEvents(controller, element, events);
-    });
-  }
+// function cacheElements(controller, action) {
+//   if (!action) throw new Error('JSkit.Controller.cacheElements: action is undefined')
 
-  function registerElementEvents(controller, element, events) {
-    var eventsBinder = bind(eventsBinderFor(events), controller);
-    var on = bind($.prototype.on, controller[element]);
-    eventsBinder(on);
-  }
+//   var actionElements = controller.__elements__[action]
 
-  function eventsBinderFor(events) {
-    if(events instanceof Function) {
-      return events;
-    }
+//   if (actionElements) {
+//     each(actionElements, function(selector, name) {
+//       var element = controller['$' + name] = findInDOM(selector)
 
-    return function(on) {
-      var controller = this;
-      each(events, function(handler, evnt) {
-        on(evnt, controller[handler]);
-      });
-    };
-  }
+//       if (!element.length) {
+//         throw new Error(`JSkit.Controller.cacheElements: ${selector} is not in the DOM`)
+//       }
+//     })
+//   }
+// }
 
-  function decorateRegisterEvents(controller) {
-    controller.registerEvents = function(action) {
-      return registerActionEvents(controller, action);
-    };
-  }
+// function decorateCacheElements(controller) {
+//   controller.cacheElements = function(action) {
+//     return cacheElements(controller, action)
+//   }
+// }
 
-  function registerCacheElementsForActions(controller) {
-    each(controller.__actions__, function(action) {
-      var eventName = eventNameForAction(controller, action.name);
-      controller.dispatcher.before(eventName, function() {
-        return cacheElements(controller, action.name);
-      });
-    });
-  }
+// function registerActionEvents(controller, action) {
+//   each(controller.__events__[action], function(events, element) {
+//     if (!controller[element]) cacheElements(controller, action)
+//     registerElementEvents(controller, element, events)
+//   })
+// }
 
-  function registerControllerElementEvents(controller) {
-    each(controller.__actions__, function(action) {
-      var eventName = eventNameForAction(controller, action.name);
-      controller.dispatcher.before(eventName, function() {
-        return registerActionEvents(controller, action.name);
-      });
-    });
-  }
+// function registerElementEvents(controller, element, events) {
+//   var eventsBinder = bind(eventsBinderFor(events), controller)
+//   var on = bind($.prototype.on, controller[element])
+//   eventsBinder(on)
+// }
 
-  return {
-    create: function(attrs) {
-      attrs = extend({}, attrs);
-      if (!attrs.name) throw new Error("JSkit.Controller: name is undefined");
-      restrictKeywords(attrs);
-      var controller = defaults(attrs, {
-        actions: [],
-        channel: "controller",
-        controllerEventName: underscore(attrs.name),
-        dispatcher: JSkit.Dispatcher.create(),
-        elements: {},
-        eventSeparator: ":",
-        namespace: "",
-        initialize: function() {},
-        all: function() {},
-        eventNameForAction: function(action) {
-          return eventNameForAction(this, action);
-        }
-      });
+// function eventsBinderFor(events) {
+//   if (events instanceof Function) {
+//     return events
+//   }
 
-      each(functions(controller), function(func) {
-        controller[func] = bind(controller[func], controller);
-      });
+//   return function(on) {
+//     let controller = this
+//     each(events, function(handler, evnt) {
+//       on(evnt, controller[handler])
+//     })
+//   }
+// }
 
-      registerAllAction(controller);
-      normalizeActions(controller);
-      registerActions(controller);
+// function decorateRegisterEvents(controller) {
+//   controller.registerEvents = function(action) {
+//     return registerActionEvents(controller, action)
+//   }
+// }
 
-      normalizeControllerEvents(controller);
-      normalizeControllerElements(controller);
+// function registerCacheElementsForActions(controller) {
+//   each(controller.__actions__, function(action) {
+//     var eventName = eventNameForAction(controller, action.name)
+//     controller.dispatcher.before(eventName, function() {
+//       return cacheElements(controller, action.name)
+//     })
+//   })
+// }
 
-      registerControllerElementEvents(controller);
-      registerCacheElementsForActions(controller);
+// function registerControllerElementEvents(controller) {
+//   each(controller.__actions__, function(action) {
+//     var eventName = eventNameForAction(controller, action.name)
+//     controller.dispatcher.before(eventName, function() {
+//       return registerActionEvents(controller, action.name)
+//     })
+//   })
+// }
 
-      decorateCacheElements(controller);
-      decorateRegisterEvents(controller);
+// export default {
+//   create(attrs = {}) {
+//     if (!attrs.name) throw new Error('Controller.create(attributes): attributes.name is undefined')
+//     restrictKeywords(attrs)
+//     var controller = Object.assign(attrs, {
+//       actions: [],
+//       channel: 'controller',
+//       controllerEventName: snakeCase(attrs.name),
+//       dispatcher: new Dispatcher(),
+//       elements: {},
+//       eventSeparator: ':',
+//       namespace: '',
+//       initialize: function() {},
+//       all: function() {},
+//       eventNameForAction: function(action) {
+//         return eventNameForAction(this, action)
+//       }
+//     })
 
-      controller.initialize();
+//     each(functions(controller), function(func) {
+//       controller[func] = controller[func] = controller[func].bind(controller)
+//     })
 
-      return controller;
-    }
-  };
-})();
+//     registerAllAction(controller)
+//     normalizeActions(controller)
+//     registerActions(controller)
+
+//     normalizeControllerEvents(controller)
+//     normalizeControllerElements(controller)
+
+//     registerControllerElementEvents(controller)
+//     registerCacheElementsForActions(controller)
+
+//     decorateCacheElements(controller)
+//     decorateRegisterEvents(controller)
+
+//     controller.initialize()
+
+//     return controller
+//   }
+// }

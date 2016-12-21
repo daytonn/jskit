@@ -1,22 +1,9 @@
-/**
- * JSkit global namespace object
- *
- * @module JSkit
- * @class JSkit
-*/
-var JSkit = (function() {
-  if (!_) throw new Error("JSkit: lodash or underscore is required");
+import Application from 'application'
 
-  return {
-    /**
-     * Returns a new Application object.
-     *
-     * @static
-     * @method createApplication
-     * @return {Application}
-    */
-    createApplication: function() {
-      return JSkit.Application.create();
-    }
-  };
-})();
+class JSKit {
+  createApplication() {
+    return new Application()
+  }
+}
+
+export default JSKit
