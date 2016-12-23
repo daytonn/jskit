@@ -49,10 +49,10 @@ export function requireCondition(condition, message) {
   if (!condition) throw new Error(message)
 }
 
-export function toArray(value) {
-  requireArgument(value, 'toArray(value): value is undefined')
+export function toArray(v) {
+  requireArgument(v, 'toArray(value): value is undefined')
 
-  return Array.prototype.slice.apply(value)
+  return Array.prototype.slice.apply(v)
 }
 
 export function objectsAreEqual(objectA, objectB) {
@@ -82,4 +82,20 @@ export function uniqueId() {
       .substring(1)
   }
   return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`
+}
+
+export function value(v) {
+  return isFunction(v) ? v() : v
+}
+
+export function identity(v) {
+  return v
+}
+
+export function clone(object) {
+  return JSON.parse(JSON.stringify(object))
+}
+
+export function extend(destination, ...sources) {
+  return Object.assign({}, ...[destination, ...sources])
 }

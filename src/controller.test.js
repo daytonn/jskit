@@ -4,95 +4,142 @@ import Dispatcher from 'dispatcher'
 describe('Controller', () => {
   let subject
   let dispatcher
-  let allCalled
-  let indexCalled
-  let actionCalled
-  let anotherActionCalled
+  let name
+  let sandbox
 
   beforeEach(() => {
+    sandbox = sinon.sandbox.create()
+    name = 'Test'
     dispatcher = new Dispatcher()
-    allCalled = false
-    indexCalled = false
-    actionCalled = false
-    anotherActionCalled = false
-    subject = Controller.create({
-      name: 'Test',
-      actions: ['index', { mapped: 'action', another: 'anotherAction' }],
-      dispatcher: dispatcher,
-      all() { allCalled = true },
-      index() { indexCalled = true },
-      action() { actionCalled = true },
-      anotherAction() { anotherActionCalled = true }
+    subject = new Controller({ name, dispatcher })
+  })
+
+  afterEach(() => {
+    sandbox.restore()
+  })
+
+  describe('constructor(props)', () => {
+    it('requires props.name', () => {
+      expect(() => new Controller()).to.throw('JSKit - new Controller(props): props.name is undefined but required')
+    })
+
+    it('requires props.dispatcher', () => {
+      expect(() => new Controller({ name })).to.throw('JSKit - new Controller(props): props.dispatcher is undefined but required')
     })
   })
 
-  it('requires a name', () => {
-    expect(() => Controller.create()).to.throw('Controller.create(attributes): attributes.name is undefined')
-  })
+  describe('attributes', () => {
+    it('has actions', () => {
+      expect(subject.attributes.actions).to.be.an('array')
+    })
 
-  it('has a default dispatcher', () => {
-    expect(subject.dispatcher).to.be.an.instanceof(Dispatcher)
-  })
+    it('has an all action', () => {
+      expect(subject.attributes.actions).to.contain('all')
+    })
 
-  it('has actions', () => {
-    expect(subject.actions).to.be.an('array')
-  })
+    it('has a default channel', () => {
+      expect(subject.attributes.channel).to.eq('controller')
+    })
 
-  it('has a default channel', () => {
-    expect(subject.channel).to.equal('controller')
-  })
+    it('has an eventName', () => {
+      expect(subject.attributes.eventName).to.equal('test')
+    })
 
-  it('has an initialize method', () => {
-    expect(subject.initialize).to.be.a('function')
-  })
+    it('translates the name to snake_case', () => {
+      subject = new Controller({ name: 'Some Weird-Controller', dispatcher })
+      expect(subject.attributes.eventName).to.equal('some_weird_controller')
+    })
 
-  it('has a default controllerEventName', () => {
-    expect(subject.controllerEventName).to.equal('test')
-  })
-
-  it('has an eventSeparator', () => {
-    expect(subject.eventSeparator).to.equal(':')
-  })
-
-  it('has an all function', () => {
-    expect(subject.all).to.be.a('Function')
-  })
-
-  it('has an elements object', () => {
-    expect(subject.elements).to.be.an('Object')
+    it('has an elements object', () => {
+      expect(subject.attributes.elements).to.be.an('object')
+    })
   })
 
   describe('actions', () => {
-    it('normalizes the actions', () => {
-      let expectedActions = subject.__actions__.reduce((memo, action) => {
-        memo[action.name] = action.method
-        return memo
-      }, {})
-
-      expect(expectedActions.all).to.equal('all')
-      expect(expectedActions.index).to.equal('index')
-      expect(expectedActions.mapped).to.equal('action')
-      expect(expectedActions.another).to.equal('anotherAction')
+    let index
+    let all
+    let mappedAction
+    beforeEach(() => {
+      index = sandbox.spy()
+      all = sandbox.spy()
+      mappedAction = sandbox.spy()
+      subject = new Controller({
+        name, dispatcher,
+        actions: ['index', { mapped: 'mappedAction' }],
+        all, index, mappedAction
+      })
     })
 
-    xit('registers action methods on the dispatcher', () => {
-      dispatcher.trigger('controller:test:index')
-      expect(indexCalled).to.be.true
+    it('normalizes the actions and stores them as __actions__', () => {
+      expect(subject.attributes.__actions__.all).to.equal(all)
+      expect(subject.attributes.__actions__.index).to.equal(index)
+      expect(subject.attributes.__actions__.mapped).to.equal(mappedAction)
+    })
+  })
+
+  describe('initialize(...)', () => {
+    it('has an initialize method', () => {
+      expect(subject.attributes.initialize).to.be.a('function')
     })
 
-    xit('automatically wires the all event', () => {
-      dispatcher.trigger('controller:test:all')
-      expect(allCalled).to.equal(true)
+    it('is an identity method', () => {
+      expect(subject.attributes.initialize('foo')).to.equal('foo')
+    })
+  })
+
+  describe('all(...)', () => {
+    it('has an all method', () => {
+      expect(subject.attributes.all).to.be.a('function')
     })
 
-    xit('wires up mapped actions', () => {
-      dispatcher.trigger('controller:test:mapped')
-      expect(actionCalled).to.equal(true)
+    it('is an identity method', () => {
+      expect(subject.attributes.all('foo')).to.equal('foo')
+    })
+  })
+
+  describe('options', () => {
+    beforeEach(() => {
+      subject = new Controller({
+        name, dispatcher,
+        actions: ['index', { mapped: 'mappedAction' }],
+        index: sandbox.spy(),
+        mappedAction: sandbox.spy(),
+      })
     })
 
-    xit('wires up mapped actions with multiple maps', () => {
-      dispatcher.trigger('controller:test:another')
-      expect(anotherActionCalled).to.equal(true)
+    it('accepts optional actions', () => {
+      expect(subject.attributes.actions).to.contain('index')
+    })
+
+    it('requires an action have a corresponding method', () => {
+      expect(() => {
+        new Controller({ // eslint-disable-line no-new
+          name, dispatcher,
+          actions: ['index'],
+        })
+      }).to.throw('JSKit - new Controller(props): there is no method "index" for action "index"')
+
+      expect(() => {
+        new Controller({ // eslint-disable-line no-new
+          name, dispatcher,
+          actions: [{ mapped: 'mappedAction' }],
+        })
+      }).to.throw('JSKit - new Controller(props): there is no method "mappedAction" for action "mapped"')
+    })
+
+    it('tags action methods with unique ids', () => {
+      let index = sandbox.spy()
+      let mappedAction = sandbox.spy()
+
+      subject = new Controller({
+        name, dispatcher,
+        index, mappedAction,
+        actions: ['index', { mapped: 'mappedAction' }],
+      })
+
+      expect(index.__jskitId__).to.be.a('string')
+      expect(mappedAction.__jskitId__).to.match(/^[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}/)
+      expect(index.__jskitId__).to.match(/^[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}/)
     })
   })
 })

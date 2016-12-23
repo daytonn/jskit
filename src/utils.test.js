@@ -1,6 +1,7 @@
 /* eslint max-nested-callbacks: 4 */
 import {
     createAttributePair,
+    extend,
     isArray,
     isDefined,
     isEmpty,
@@ -12,6 +13,7 @@ import {
     snakeCase,
     toArray,
     uniqueId,
+    value,
 } from 'utils'
 
 describe('utils', () => {
@@ -215,6 +217,69 @@ describe('utils', () => {
     it('creates a unique id string', () => {
       expect(uniqueId()).to.be.a('string')
       expect(uniqueId()).to.match(/^[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}/)
+    })
+  })
+
+  describe('value', () => {
+    it('returns the value passed to it', () => {
+      let nil = null
+      let undef
+      let string = 'foo'
+      let number = 1
+      let list = [1, 2, 3]
+      let object = {}
+      let regex = new RegExp()
+
+      expect(value(nil)).to.equal(nil)
+      expect(value(undef)).to.equal(undef)
+      expect(value(string)).to.equal(string)
+      expect(value(number)).to.equal(number)
+      expect(value(list)).to.equal(list)
+      expect(value(object)).to.equal(object)
+      expect(value(regex)).to.equal(regex)
+    })
+
+    it('returns the result of a function', () => {
+      let foo = () => 'foo'
+      expect(value(foo)).to.equal('foo')
+    })
+  })
+
+  describe('extend', () => {
+    it('copies object 1 level deep', () => {
+      let destination = { one: 1, two: 2 }
+      let source = { three: 3 }
+
+      expect(extend(destination, source).three).to.equal(3)
+    })
+
+    it('overwrites keys in argument order', () => {
+      let destination = { one: 1, two: 2 }
+      let source1 = { one: 5, three: 3 }
+      let source2 = { two: 7, three: 15 }
+
+      expect(extend(destination, source1, source2).one).to.equal(5)
+      expect(extend(destination, source1, source2).two).to.equal(7)
+      expect(extend(destination, source1, source2).three).to.equal(15)
+    })
+
+    it('does not mutate the destination object', () => {
+      let destination = { one: 1, two: 2 }
+      let source = { three: 3 }
+
+      let result = extend(destination, source)
+      expect(destination).to.not.have.key('three')
+      expect(destination).to.not.equal(result)
+    })
+
+    it('does not mutate the source object', () => {
+      let destination = { one: 1, two: 2 }
+      let source = { three: 3 }
+
+      let result = extend(destination, source)
+      expect(source).to.not.have.key('one')
+      expect(source).to.not.have.key('two')
+      expect(source).to.not.equal(result)
     })
   })
 })
