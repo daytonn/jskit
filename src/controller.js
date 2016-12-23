@@ -1,8 +1,8 @@
-// import Dispatcher from 'dispatcher'
+import Dispatcher from 'dispatcher'
 
 import {
   // compact,
-  // each,
+  each,
   first,
   // flatten,
   // functions,
@@ -28,6 +28,7 @@ const CONTROLLER_DEFAULTS = {
   all: identity,
   channel: 'controller',
   elements: {},
+  eventSeparator: ':',
   initialize: identity,
 }
 
@@ -38,22 +39,58 @@ function createAttributes(options) {
   return extend(options, {
     __actions__: normalizeActions(controllerActions, options),
     actions: controllerActions,
-    eventName: snakeCase(name)
+    eventNamespace: snakeCase(name)
   })
 }
 
 function ensureValidFunction(options, actionName, functionName) {
+  requireArgument(options, 'JSKit - Controller._ensureValidFunction(options, actionName, functionName) options is undefined but required')
+  requireArgument(actionName, 'JSKit - Controller._ensureValidFunction(options, actionName, functionName) actionName is undefined but required')
+  requireArgument(functionName, 'JSKit - Controller._ensureValidFunction(options, actionName, functionName) functionName is undefined but required')
   requireArgument(options[functionName], `JSKit - new Controller(props): there is no method "${functionName}" for action "${actionName}"`)
+
   return options[functionName]
 }
 
 function identifyFunction(fn) {
+  requireArgument(fn, 'JSKit - Controller._identifyFunction(fn): fn is undefined but required')
+
   fn.__jskitId__ = uniqueId()
   return fn
 }
 
+function isMultiMappedAction(action) {
+  requireArgument(action, 'JSKit - Controller._isMultiMappedAction(action): action is undefined but required')
+
+  return isObject(action) && Object.keys(action).length > 1
+}
+
+function flattenMultiMappedAction(action) {
+  requireArgument(action, 'JSKit - Controller._flattenMultiMappedAction(action): action is undefined but required')
+
+  return Object.keys(action).map(key => { return { [key]: action[key] } })
+}
+
+function flattenActions(actions) {
+  requireArgument(actions, 'JSKit - Controller._flattenActions(actions): actions is undefined but required')
+
+  const newActions = actions.reduce((memo, action) => {
+    if (isMultiMappedAction(action)) {
+      return memo.concat(flattenMultiMappedAction(action))
+    }
+    return [action].concat(memo)
+  }, [])
+
+  return newActions
+}
+
 function normalizeActions(actions, options) {
-  return actions.reduce((memo, action) => {
+  requireArgument(actions, 'JSKit - Controller._normalizeActions(actions, options): actions is undefined but required')
+  requireArgument(options, 'JSKit - Controller._normalizeActions(actions, options): options is undefined but required')
+
+  const flattenedActions = flattenActions(actions)
+
+  return flattenedActions.reduce((memo, action) => {
     let functionName = action
     let actionName = action
 
@@ -63,223 +100,33 @@ function normalizeActions(actions, options) {
     }
 
     const actionFunction = ensureValidFunction(options, actionName, functionName)
-
-    memo[actionName] = identifyFunction(actionFunction)
-    return memo
+    return extend(memo, { [actionName]: identifyFunction(actionFunction) })
   }, {})
+}
+
+function actionEventName(action, { channel, eventNamespace, eventSeparator }) {
+  const sep = eventSeparator
+  return `${channel}${sep}${eventNamespace}${sep}${action}`
+}
+
+function registerActions(dispatcher, { __actions__, channel, eventNamespace, eventSeparator }) {
+  requireArgument(dispatcher, 'JSKit - Controller._registerActions(dispatcher, attributes): dispatcher is undefined but required')
+  requireArgument(__actions__, 'JSKit - Controller._registerActions(dispatcher, attributes): attributes.__actions__ is undefined but required')
+
+  each(__actions__, (handler, action) => {
+    const eventName = actionEventName(action, { channel, eventNamespace, eventSeparator })
+    dispatcher.on(eventName, handler)
+  })
 }
 
 export default class Controller {
   constructor(props = {}) {
     requireArgument(props.name, 'JSKit - new Controller(props): props.name is undefined but required')
     requireArgument(props.dispatcher, 'JSKit - new Controller(props): props.dispatcher is undefined but required')
-
+    const { dispatcher } = props
+    delete props.dispatcher
     const options = extend(CONTROLLER_DEFAULTS, props)
     this.attributes = createAttributes(options)
+    registerActions(dispatcher, this.attributes)
   }
 }
-// function restrictKeywords(attrs) {
-//   var keywords = [
-//     'registerEvents',
-//     'registerActions',
-//     'cacheElements',
-//     'eventNameForAction'
-//   ]
-
-//   each(Object.keys(attrs), keyword => {
-//     if (includes(keywords, keyword)) {
-//       throw new Error(`Controller.create: ${keyword} is a restricted keyword`)
-//     }
-//   })
-// }
-
-// function eventNameForAction(controller, action) {
-//   return compact([
-//     controller.namespace,
-//     controller.channel,
-//     controller.controllerEventName,
-//     action
-//   ]).join(controller.eventSeparator)
-// }
-
-// function registerAllAction(controller) {
-//   if (!includes(controller.actions, 'all')) controller.actions.unshift('all')
-// }
-
-// function normalizeActions(controller) {
-//   controller.__actions__ = flatten(controller.actions.map(action => normalizeAction(action)))
-// }
-
-// function normalizeAction(action) {
-//   return isObject(action) ? mapObject(action, createActionObject) : [createActionObject(action, action)]
-// }
-
-// function createActionObject(method, name) {
-//   return { name: name, method: method }
-// }
-
-// function ensureActionIsDefined(controller, action) {
-//   if (!isFunction(controller[action.method])) {
-//     throw new Error(`${controller.name} action ${action.name}:${action.method} method is undefined`)
-//   }
-// }
-
-// function registerActions(controller) {
-//   each(controller.__actions__, action => {
-//     ensureActionIsDefined(controller, action)
-//     controller.dispatcher.on(eventNameForAction(controller, action.name), controller[action.method], controller)
-//   })
-// }
-
-// function normalizeControllerElements(controller) {
-//   controller.__elements__ = reduce(controller.elements, (memo, elements, action) => {
-//     memo[action] = normalizeElements(elements)
-//     return memo
-//   }, {})
-// }
-
-// function normalizeElements(elements) {
-//   return reduce(elements, (memo, selector, name) => {
-//     memo[name] = _.isArray(selector) ? first(selector) : selector
-//     return memo
-//   }, {})
-// }
-
-// function normalizeControllerEvents(controller) {
-//   controller.__events__ = reduce(controller.elements, (memo, elements, action) => {
-//     memo[action] = normalizeEvents(elements)
-//     return memo
-//   }, {})
-// }
-
-// function normalizeEvents(elements) {
-//   return reduce(elements, (memo, selector, name) => {
-//     if (_.isArray(selector)) memo[`$${name}`] = last(selector)
-
-//     return memo
-//   }, {})
-// }
-
-// function nativeFind(selector) {
-//   return document.querySelectorAll(selector)
-// }
-
-// function findInDOM(selector) {
-//   var finder = $ ? $ : nativeFind
-//   return finder(selector)
-// }
-
-// function cacheElements(controller, action) {
-//   if (!action) throw new Error('Controller.cacheElements: action is undefined')
-
-//   var actionElements = controller.__elements__[action]
-
-//   if (actionElements) {
-//     each(actionElements, (selector, name) => {
-//       var element = controller['$' + name] = findInDOM(selector)
-
-//       if (!element.length) {
-//         throw new Error(`Controller.cacheElements: ${selector} is not in the DOM`)
-//       }
-//     })
-//   }
-// }
-
-// function decorateCacheElements(controller) {
-//   controller.cacheElements = function(action) {
-//     return cacheElements(controller, action)
-//   }
-// }
-
-// function registerActionEvents(controller, action) {
-//   each(controller.__events__[action], (events, element) => {
-//     if (!controller[element]) cacheElements(controller, action)
-//     registerElementEvents(controller, element, events)
-//   })
-// }
-
-// function registerElementEvents(controller, element, events) {
-//   var eventsBinder = eventsBinderFor(events).bind(controller)
-//   var on = $.prototype.on.bind(controller[element])
-//   eventsBinder(on)
-// }
-
-// function eventsBinderFor(events) {
-//   if (events instanceof Function) {
-//     return events
-//   }
-
-//   return function(on) {
-//     var controller = this
-
-//     each(events, function(handler, evnt) {
-//       on(evnt, controller[handler])
-//     })
-//   }
-// }
-
-// function decorateRegisterEvents(controller) {
-//   controller.registerEvents = function(action) {
-//     return registerActionEvents(controller, action)
-//   }
-// }
-
-// function registerCacheElementsForActions(controller) {
-//   each(controller.__actions__, function(action) {
-//     var eventName = eventNameForAction(controller, action.name)
-//     controller.dispatcher.before(eventName, function() {
-//       return cacheElements(controller, action.name)
-//     })
-//   })
-// }
-
-// function registerControllerElementEvents(controller) {
-//   each(controller.__actions__, function(action) {
-//     var eventName = eventNameForAction(controller, action.name)
-//     controller.dispatcher.before(eventName, function() {
-//       return registerActionEvents(controller, action.name)
-//     })
-//   })
-// }
-
-// export default {
-//   create: function(attrs = {}) {
-//     if (!attrs.name) throw new Error('Controller.create(attributes): attributes.name is undefined')
-//     restrictKeywords(attrs)
-//     var controller = Object.assign({
-//       actions: [],
-//       channel: 'controller',
-//       controllerEventName: snakeCase(attrs.name),
-//       dispatcher: new Dispatcher(),
-//       elements: {},
-//       eventSeparator: ':',
-//       namespace: '',
-//       initialize() {},
-//       all() {},
-//       eventNameForAction(action) {
-//         return eventNameForAction(this, action)
-//       }
-//     }, attrs)
-
-//     each(functions(controller), function(func) {
-//       controller[func] = controller[func].bind(controller)
-//     })
-
-//     registerAllAction(controller)
-//     normalizeActions(controller)
-//     registerActions(controller)
-
-//     normalizeControllerEvents(controller)
-//     normalizeControllerElements(controller)
-
-//     registerControllerElementEvents(controller)
-//     registerCacheElementsForActions(controller)
-
-//     decorateCacheElements(controller)
-//     decorateRegisterEvents(controller)
-
-//     controller.initialize()
-
-//     return controller
-//   }
-// }

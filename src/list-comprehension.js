@@ -87,10 +87,17 @@ export function reject(list, iterator) {
   }, [])
 }
 
-export function tail(list) {
+export function head(list) {
   requireArgument(list, 'tail(list): list is undefined but required')
 
-  return list.slice(1)
+  return first(list)
+}
+
+export function tail(list) {
+  requireArgument(list, 'tail(list): list is undefined but required')
+  const [, ...rest] = list
+
+  return rest
 }
 
 export function some(list, iterator) {
@@ -151,6 +158,12 @@ export function includes(list, value) {
   requireArgument(list, 'includes(list, value): list is undefined but required')
 
   return some(list, item => item === value)
+}
+
+export function excludes(list, value) {
+  requireArgument(list, 'excludes(list, value): list is undefined but required')
+
+  return !includes(list, value)
 }
 
 export function flatten(list) {

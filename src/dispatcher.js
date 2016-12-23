@@ -1,9 +1,9 @@
-import { tail, reject, none } from 'list-comprehension'
-import { toArray, uniqueId } from 'utils'
+import { tail, reject, excludes } from 'list-comprehension'
+import { toArray, requireArgument, requireCondition } from 'utils'
 
-function getEventHandlers(dispatcher, eventName) {
-  dispatcher.__events__[eventName] = dispatcher.__events__[eventName] || []
-  return dispatcher.__events__[eventName]
+function getEventHandlers(dispatcher, event) {
+  dispatcher.__events__[event] = dispatcher.__events__[event] || []
+  return dispatcher.__events__[event]
 }
 
 function createHandlerObject(context, handler) {
@@ -20,7 +20,7 @@ function registerHandler(registeredHandlers, eventHandler, method = 'push') {
 
 function isUniqueEvent(registeredHandlers, handler, context) {
   return registeredHandlers.reduce((memo, registeredHandler) => {
-    if (memo) memo = registerHandler.id !== handler.__jskitId && registeredHandler.context !== context
+    if (memo) memo = registerHandler.id !== handler.__jskitId__ && registeredHandler.context !== context
     return memo
   }, true)
 }
@@ -30,9 +30,12 @@ export default class Dispatcher {
     this.__events__ = {}
   }
 
-  on(eventName, handler, context) {
-    if (!handler.__jskitId) handler.__jskitId = uniqueId()
-    var registeredHandlers = getEventHandlers(this, eventName)
+  on(event, handler, context = null) {
+    requireArgument(event, 'JSKit - Dispatcher.on(event, handler, context): event is undefined but required')
+    requireArgument(handler, 'JSKit - Dispatcher.on(event, handler, context): handler is undefined but required')
+    requireCondition(handler.__jskitId__, 'JSKit - Dispatcher.on(event, handler, context): handler.__jskitId__ is undefined but required')
+
+    var registeredHandlers = getEventHandlers(this, event)
 
     if (isUniqueEvent(registeredHandlers, handler, context)) {
       var eventHandler = createHandlerObject(context, handler)
@@ -41,25 +44,33 @@ export default class Dispatcher {
     }
   }
 
-  before(eventName, handler, context) {
+  before(event, handler, context) {
     var eventHandler = createHandlerObject(context, handler)
-    var registeredHandlers = getEventHandlers(this, eventName)
+    var registeredHandlers = getEventHandlers(this, event)
     registerHandler(registeredHandlers, eventHandler, 'unshift')
   }
 
-  off(eventName, handler) {
-    var registeredHandlers = this.__events__[eventName]
-    this.__events__[eventName] = handler ? reject(registeredHandlers, eh => eh.handler !== handler) : []
+  off(event, handler) {
+    requireArgument(event, 'JSKit - Dispatcher.off(event, handler): event is undefined but required')
+
+    var registeredHandlers = this.__events__[event]
+    this.__events__[event] = handler ? reject(registeredHandlers, eh => eh.handler !== handler) : []
   }
 
-  trigger(eventName) {
-    var eventHhandlers = this.__events__[eventName] || []
+  trigger(event) {
+    var eventHhandlers = this.__events__[event] || []
     var args = tail(toArray(arguments))
 
-    eventHhandlers.forEach(eventHandler => {
+    eventHhandlers.reduce((memo, eventHandler) => {
       var handler = eventHandler.handler
       var context = eventHandler.context
-      handler.apply(context, args)
-    })
+
+      if (excludes(memo, handler.__jskitId__)) {
+        handler.apply(context, args)
+        return memo.concat([handler.__jskitId__])
+      }
+
+      return memo
+    }, [])
   }
 }
