@@ -1,5 +1,5 @@
 export function isUndefined(suspect) {
-  return typeof suspect === 'undefined' || suspect === null
+  return typeof suspect === "undefined" || suspect === null
 }
 
 export function isDefined(suspect) {
@@ -11,53 +11,53 @@ export function isArray(suspect) {
 }
 
 export function isFunction(suspect) {
-  return typeof suspect === 'function'
+  return typeof suspect === "function"
 }
 
 export function isEmpty(suspect) {
-  requireArgument(suspect, 'isEmpty(suspect): suspect is undefined')
+  requireArgument(suspect, "isEmpty(suspect): suspect is undefined")
   let value = isObject(suspect) ? Object.keys(suspect) : suspect
 
   return !value.length
 }
 
 export function isNotEmpty(suspect) {
-  requireArgument(suspect, 'isNotEmpty(suspect): suspect is undefined')
+  requireArgument(suspect, "isNotEmpty(suspect): suspect is undefined")
 
   return !isEmpty(suspect)
 }
 
 export function isNumber(suspect) {
-  return typeof suspect === 'number'
+  return typeof suspect === "number"
 }
 
 export function isString(suspect) {
-  return typeof suspect === 'string'
+  return typeof suspect === "string"
 }
 
 export function isObject(suspect) {
-  return typeof suspect === 'object'
+  return typeof suspect === "object"
 }
 
 export function requireArgument(argument, message) {
-  if (isUndefined(message)) throw new Error('requireArgument(argument, message): message is undefined')
+  if (isUndefined(message)) throw new Error("requireArgument(argument, message): message is undefined")
   if (isUndefined(argument)) throw new Error(message)
 }
 
 export function requireCondition(condition, message) {
-  requireArgument(message, 'requireCondition(condition, message): message is undefined')
+  requireArgument(message, "requireCondition(condition, message): message is undefined")
   if (!condition) throw new Error(message)
 }
 
 export function toArray(v) {
-  requireArgument(v, 'toArray(value): value is undefined')
+  requireArgument(v, "toArray(value): value is undefined")
 
   return Array.prototype.slice.apply(v)
 }
 
 export function objectsAreEqual(objectA, objectB) {
-  requireArgument(objectA, 'objectsAreEqual(objectA, objectB): objectA is undefined')
-  requireArgument(objectB, 'objectsAreEqual(objectA, objectB): objectB is undefined')
+  requireArgument(objectA, "objectsAreEqual(objectA, objectB): objectA is undefined")
+  requireArgument(objectB, "objectsAreEqual(objectA, objectB): objectB is undefined")
 
   return Object.keys(objectA).reduce((accumulator, key) => {
     let objectIsEqual = accumulator
@@ -68,7 +68,7 @@ export function objectsAreEqual(objectA, objectB) {
 }
 
 export function snakeCase(string) {
-  return string.toLowerCase().replace(/(-|\s{1,})/g, '_')
+  return string.toLowerCase().replace(/(-|\s{1,})/g, "_")
 }
 
 export function isNull(suspect) {
